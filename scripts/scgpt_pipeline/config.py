@@ -8,8 +8,8 @@ from pathlib import Path
 # DATA PATHS
 # ============================================================================
 DATA_DIR = Path("../data")
-MOUSE_H5AD = DATA_DIR / "Mouse_V1_P38_All.h5ad"
-OPOSSUM_H5AD = DATA_DIR / "Opossum_V1_All_Labeled.h5ad"
+MOUSE_H5AD = DATA_DIR / "raw/Mouse_V1_P38_All.h5ad"
+OPOSSUM_H5AD = DATA_DIR / "raw/Opossum_V1_All_Labeled.h5ad"
 
 # Pre-trained model
 PRETRAINED_MODEL_DIR = Path("../save/scGPT_human")
@@ -23,7 +23,7 @@ SAVE_DIR = Path("./save")
 # Training
 SEED = 0
 DO_TRAIN = True
-EPOCHS = 10
+EPOCHS = 1
 BATCH_SIZE = 32
 LEARNING_RATE = 1e-4
 SCHEDULE_RATIO = 0.9  # Learning rate decay ratio

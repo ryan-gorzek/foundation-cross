@@ -1,9 +1,9 @@
 #!/bin/bash
 #$ -cwd
 #$ -j y
-#$ -l gpu,h_data=32G,h_rt=24:00:00
+#$ -l gpu,A100,cuda=1,h_data=32G,h_rt=2:00:00
 #$ -N scgpt_train
-#$ -M your_email@ucla.edu
+#$ -M rgorzek@ucla.edu
 #$ -m bea
 
 # UCLA UGE Cluster Job Script for scGPT Training
@@ -16,7 +16,8 @@ echo "Working directory: $(pwd)"
 # Activate conda environment
 # Replace 'scgpt' with your actual environment name
 source ~/.bashrc
-conda activate scgpt
+module load anaconda3
+conda activate scgpt_env
 
 # Display environment info
 echo "Python version:"
@@ -28,6 +29,6 @@ python -c "import torch; print(torch.cuda.is_available())"
 
 # Run the training pipeline
 echo "Starting training..."
-python train.py
+python scripts/scgpt_pipeline/train.py
 
 echo "Job completed at $(date)"
