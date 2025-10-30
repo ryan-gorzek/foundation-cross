@@ -1,1 +1,5 @@
 *.h5ad
+*.log
+*.pt
+**/wandb/
+**/__pycache__/

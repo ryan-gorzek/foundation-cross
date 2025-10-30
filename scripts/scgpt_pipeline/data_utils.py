@@ -38,6 +38,7 @@ def load_and_prepare_data(
     
     # Load data
     mouse = sc.read_h5ad(mouse_path)
+    mouse.obs['subclass'] = mouse.obs['Subclass']
     opossum = sc.read_h5ad(opossum_path)
     
     print(f"Mouse: {mouse.n_obs} cells, {mouse.n_vars} genes")
@@ -64,7 +65,7 @@ def load_and_prepare_data(
     # Create celltype mappings
     # Check for 'Subclass' or 'celltype' field
     celltype_key = None
-    for key in ['Subclass', 'celltype', 'cell_type']:
+    for key in ['subclass']:
         if key in adata_train.obs.columns:
             celltype_key = key
             break

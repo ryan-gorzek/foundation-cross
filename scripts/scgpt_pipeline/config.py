@@ -7,12 +7,12 @@ from pathlib import Path
 # ============================================================================
 # DATA PATHS
 # ============================================================================
-DATA_DIR = Path("../data")
+DATA_DIR = Path("data/")
 MOUSE_H5AD = DATA_DIR / "raw/Mouse_V1_P38_All.h5ad"
 OPOSSUM_H5AD = DATA_DIR / "raw/Opossum_V1_All_Labeled.h5ad"
 
 # Pre-trained model
-PRETRAINED_MODEL_DIR = Path("../save/scGPT_human")
+PRETRAINED_MODEL_DIR = Path("models/whole-human/")
 
 # Output directory
 SAVE_DIR = Path("./save")
@@ -59,6 +59,6 @@ LOG_INTERVAL = 100  # Log training stats every N batches
 # ============================================================================
 # WANDB (optional, set to None to disable)
 # ============================================================================
-WANDB_PROJECT = "scGPT_cross_species"
+WANDB_PROJECT = "scGPT_cross"
 WANDB_ENTITY = None  # Set to your wandb username/team
 DATASET_NAME = "mouse_opossum"
