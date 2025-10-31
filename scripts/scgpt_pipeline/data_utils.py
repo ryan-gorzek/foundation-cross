@@ -47,10 +47,36 @@ def load_and_prepare_data(
     # Find common genes (already in ortholog space)
     common_genes = mouse.var_names.intersection(opossum.var_names)
     print(f"Common orthologous genes: {len(common_genes)}")
-    
+
     # Subset to common genes
     mouse = mouse[:, common_genes].copy()
     opossum = opossum[:, common_genes].copy()
+
+    # Filter cells after ortholog subsetting
+    # Remove cells with fewer than min_counts genes expressed
+    min_genes = 8
+    
+    print(f"\nFiltering cells with < {min_genes} genes expressed after ortholog subsetting:")
+    
+    # Filter mouse
+    n_genes_mouse = (mouse.X > 0).sum(axis=1)
+    if hasattr(n_genes_mouse, 'A1'):  # sparse matrix
+        n_genes_mouse = n_genes_mouse.A1
+    
+    mouse_keep = n_genes_mouse >= min_genes
+    n_removed_mouse = (~mouse_keep).sum()
+    mouse = mouse[mouse_keep].copy()
+    print(f"  Mouse: removed {n_removed_mouse} cells, {mouse.n_obs} remaining")
+    
+    # Filter opossum
+    n_genes_opossum = (opossum.X > 0).sum(axis=1)
+    if hasattr(n_genes_opossum, 'A1'):  # sparse matrix
+        n_genes_opossum = n_genes_opossum.A1
+    
+    opossum_keep = n_genes_opossum >= min_genes
+    n_removed_opossum = (~opossum_keep).sum()
+    opossum = opossum[opossum_keep].copy()
+    print(f"  Opossum: removed {n_removed_opossum} cells, {opossum.n_obs} remaining")
     
     # Set up training and test based on direction
     if train_species == "mouse":
