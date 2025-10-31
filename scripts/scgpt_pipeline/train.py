@@ -175,11 +175,7 @@ def main():
         train_species="mouse"
     )
     
-    # Store test data for later
-    adata_test_raw = adata_test.copy()
-    
-    # Combine for preprocessing
-    adata = prepare_anndata(adata_train, adata_test)
+    # Keep species separate for preprocessing (no cross-species information leakage)
     
     # ========================================================================
     # 2. SETUP TOKENIZATION AND PREPROCESSING
@@ -194,26 +190,30 @@ def main():
     
     # Load pre-trained model if specified
     if config.PRETRAINED_MODEL_DIR and config.PRETRAINED_MODEL_DIR.exists():
-        vocab, adata, model_configs, model_file = load_pretrained_model(
-            config.PRETRAINED_MODEL_DIR, adata, special_tokens, logger
+        vocab, adata_train, model_configs, model_file = load_pretrained_model(
+            config.PRETRAINED_MODEL_DIR, adata_train, special_tokens, logger
         )
         # Copy vocab to save directory
         shutil.copy(config.PRETRAINED_MODEL_DIR / "vocab.json", save_dir / "vocab.json")
     else:
         logger.info("No pre-trained model specified. Building vocabulary from data.")
-        from scgpt.tokenizer.gene_tokenizer import Vocab, VocabPybind
-        genes = adata.var["gene_name"].tolist()
-        vocab = Vocab(VocabPybind(genes + special_tokens, None))
+        # Build vocabulary from genes (training data only)
+        genes = adata_train.var["gene_name"].tolist()
+        vocab = GeneVocab.from_default(genes + special_tokens)
+        # Save vocab
+        vocab.save_json(save_dir / "vocab.json")
         model_configs = None
         model_file = None
     
     vocab.set_default_index(vocab[pad_token])
     
-    # Preprocessing
+    # Preprocessing - IMPORTANT: Process train and test separately to avoid cross-species leakage
+    logger.info("Preprocessing training data (mouse) separately from test data (opossum)")
+    
     preprocessor = Preprocessor(
         use_key="X",
         filter_gene_by_counts=False,
-        filter_cell_by_counts=False,
+        filter_cell_by_counts=3,  # Filter cells with < 3 genes expressed
         normalize_total=1e4,
         result_normed_key="X_normed",
         log1p=False,
@@ -223,15 +223,35 @@ def main():
         result_binned_key="X_binned",
     )
     
-    # Split back into train and test
-    adata_test = adata[adata.obs["str_batch"] == "1"]
-    adata = adata[adata.obs["str_batch"] == "0"]
+    # Remove cells with all zeros BEFORE preprocessing (already done in data_utils, but double-check)
+    from scipy.sparse import issparse
+    if issparse(adata_train.X):
+        cell_counts = np.array(adata_train.X.sum(axis=1)).flatten()
+        test_cell_counts = np.array(adata_test.X.sum(axis=1)).flatten()
+    else:
+        cell_counts = adata_train.X.sum(axis=1)
+        test_cell_counts = adata_test.X.sum(axis=1)
     
-    # Preprocess
-    preprocessor(adata, batch_key=None)
+    n_before_train = adata_train.n_obs
+    n_before_test = adata_test.n_obs
+    
+    adata_train = adata_train[cell_counts > 0].copy()
+    adata_test = adata_test[test_cell_counts > 0].copy()
+    
+    logger.info(f"Filtered {n_before_train - adata_train.n_obs} zero-count cells from training data")
+    logger.info(f"Filtered {n_before_test - adata_test.n_obs} zero-count cells from test data")
+    
+    # Preprocess train and test SEPARATELY (no cross-species information leakage)
+    logger.info("Preprocessing training data...")
+    preprocessor(adata_train, batch_key=None)
+    
+    logger.info("Preprocessing test data...")
     preprocessor(adata_test, batch_key=None)
     
-    logger.info(f"Preprocessed {adata.n_obs} training cells and {adata_test.n_obs} test cells")
+    logger.info(f"Preprocessed {adata_train.n_obs} training cells and {adata_test.n_obs} test cells")
+    
+    # Store original adata_test for later (with predictions)
+    adata_test_raw = adata_test.copy()
     
     # ========================================================================
     # 3. PREPARE TRAINING DATA
@@ -243,16 +263,16 @@ def main():
     # Get counts from binned layer
     input_layer_key = "X_binned"
     all_counts = (
-        adata.layers[input_layer_key].A
-        if issparse(adata.layers[input_layer_key])
-        else adata.layers[input_layer_key]
+        adata_train.layers[input_layer_key].A
+        if issparse(adata_train.layers[input_layer_key])
+        else adata_train.layers[input_layer_key]
     )
     
-    genes = adata.var["gene_name"].tolist()
+    genes = adata_train.var["gene_name"].tolist()
     gene_ids = np.array(vocab(genes), dtype=int)
     
-    celltypes_labels = adata.obs["celltype_id"].values
-    batch_ids = adata.obs["batch_id"].values
+    celltypes_labels = adata_train.obs["celltype_id"].values
+    batch_ids = adata_train.obs["batch_id"].values
     
     # Train/validation split
     (
@@ -522,20 +542,47 @@ def main():
         best_model, test_loader, criterion_cls, device, vocab, pad_token, config, return_raw=True
     )
     
-    # Calculate metrics
+    # Calculate metrics only on cells with valid labels
     labels = celltypes_labels_test
-    accuracy = accuracy_score(labels, predictions)
-    precision = precision_score(labels, predictions, average="macro", zero_division=0)
-    recall = recall_score(labels, predictions, average="macro", zero_division=0)
-    macro_f1 = f1_score(labels, predictions, average="macro", zero_division=0)
     
-    logger.info(
-        f"Test Results:\n"
-        f"  Accuracy: {accuracy:.4f}\n"
-        f"  Precision: {precision:.4f}\n"
-        f"  Recall: {recall:.4f}\n"
-        f"  Macro F1: {macro_f1:.4f}"
-    )
+    # Check if we have the 'has_valid_label' column
+    if 'has_valid_label' in adata_test.obs.columns:
+        valid_mask = adata_test.obs['has_valid_label'].values
+        n_valid = valid_mask.sum()
+        n_total = len(valid_mask)
+        
+        logger.info(f"\nEvaluating on {n_valid}/{n_total} cells with matching labels")
+        
+        # Compute metrics only on valid cells
+        labels_valid = labels[valid_mask]
+        predictions_valid = predictions[valid_mask]
+        
+        accuracy = accuracy_score(labels_valid, predictions_valid)
+        precision = precision_score(labels_valid, predictions_valid, average="macro", zero_division=0)
+        recall = recall_score(labels_valid, predictions_valid, average="macro", zero_division=0)
+        macro_f1 = f1_score(labels_valid, predictions_valid, average="macro", zero_division=0)
+        
+        logger.info(
+            f"Test Results (on cells with matching labels):\n"
+            f"  Accuracy: {accuracy:.4f}\n"
+            f"  Precision: {precision:.4f}\n"
+            f"  Recall: {recall:.4f}\n"
+            f"  Macro F1: {macro_f1:.4f}"
+        )
+    else:
+        # All cells have valid labels (shouldn't happen with cross-species)
+        accuracy = accuracy_score(labels, predictions)
+        precision = precision_score(labels, predictions, average="macro", zero_division=0)
+        recall = recall_score(labels, predictions, average="macro", zero_division=0)
+        macro_f1 = f1_score(labels, predictions, average="macro", zero_division=0)
+        
+        logger.info(
+            f"Test Results:\n"
+            f"  Accuracy: {accuracy:.4f}\n"
+            f"  Precision: {precision:.4f}\n"
+            f"  Recall: {recall:.4f}\n"
+            f"  Macro F1: {macro_f1:.4f}"
+        )
     
     # Add predictions to test data
     id2type = metadata['id2type']
@@ -567,8 +614,17 @@ def main():
     logger.info("STEP 8: Generating visualizations")
     logger.info("=" * 89)
     
-    # Confusion matrix
-    cm = confusion_matrix(labels, predictions)
+    # Confusion matrix (only on cells with valid labels)
+    if 'has_valid_label' in adata_test.obs.columns:
+        valid_mask = adata_test.obs['has_valid_label'].values
+        labels_for_cm = labels[valid_mask]
+        predictions_for_cm = predictions[valid_mask]
+        logger.info(f"Generating confusion matrix for {valid_mask.sum()} cells with valid labels")
+    else:
+        labels_for_cm = labels
+        predictions_for_cm = predictions
+    
+    cm = confusion_matrix(labels_for_cm, predictions_for_cm)
     cm_normalized = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
     
     celltypes = [id2type[i] for i in range(len(id2type))]
@@ -580,7 +636,7 @@ def main():
     
     plt.figure(figsize=(12, 10))
     sns.heatmap(cm_df, annot=True, fmt=".2f", cmap="Blues", cbar_kws={"label": "Proportion"})
-    plt.title("Confusion Matrix (Row-Normalized)")
+    plt.title("Confusion Matrix (Row-Normalized, Valid Labels Only)")
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
     plt.tight_layout()

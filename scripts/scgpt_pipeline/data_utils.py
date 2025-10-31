@@ -105,17 +105,55 @@ def load_and_prepare_data(
     if celltype_key != 'celltype':
         adata_train.obs['celltype'] = adata_train.obs[celltype_key].astype('category')
         adata_test.obs['celltype'] = adata_test.obs[celltype_key].astype('category')
+    else:
+        # Already named 'celltype', just ensure it's categorical
+        adata_train.obs['celltype'] = adata_train.obs['celltype'].astype('category')
+        adata_test.obs['celltype'] = adata_test.obs['celltype'].astype('category')
     
-    # Create categorical IDs
-    adata_train.obs['celltype'] = adata_train.obs['celltype'].astype('category')
+    # Create categorical IDs for training data
     celltype_id_labels = adata_train.obs['celltype'].cat.codes.values
     adata_train.obs['celltype_id'] = celltype_id_labels
     
-    # Map test data to same categories
+    # Map test data to training categories
     train_categories = adata_train.obs['celltype'].cat.categories
-    adata_test.obs['celltype'] = adata_test.obs['celltype'].astype('category')
+    test_categories = adata_test.obs['celltype'].cat.categories
+
+    # Check for mismatched categories
+    missing_in_train = set(test_categories) - set(train_categories)
+    missing_in_test = set(train_categories) - set(test_categories)
+    
+    if missing_in_train:
+        print(f"\nINFO: Test data has {len(missing_in_train)} cell types not in training data:")
+        print(f"  {sorted(missing_in_train)}")
+        print(f"  Model will predict training categories for these cells.")
+    
+    if missing_in_test:
+        print(f"\nINFO: Training data has {len(missing_in_test)} cell types not in test data:")
+        print(f"  {sorted(missing_in_test)}")
+    
+    # Map test categories to training categories
+    # For cross-species, we keep all test cells even if their true labels don't match training labels
+    # The model will predict one of the training categories for each test cell
+    # We'll store the original labels for reference
+    adata_test.obs['celltype_original'] = adata_test.obs['celltype'].copy()
+    
+    # Set test categories to match training (this is for prediction space)
+    # True labels that don't exist in training will become NaN, which we'll handle
     adata_test.obs['celltype'] = adata_test.obs['celltype'].cat.set_categories(train_categories)
     adata_test.obs['celltype_id'] = adata_test.obs['celltype'].cat.codes.values
+    
+    # Store which cells have valid labels (for computing metrics only on overlapping cell types)
+    adata_test.obs['has_valid_label'] = adata_test.obs['celltype_id'] >= 0
+    n_valid = adata_test.obs['has_valid_label'].sum()
+    n_invalid = (~adata_test.obs['has_valid_label']).sum()
+    
+    print(f"\nLabel matching summary:")
+    print(f"  {n_valid} test cells have labels matching training categories")
+    print(f"  {n_invalid} test cells have labels NOT in training (will predict but not evaluate)")
+    
+    # For cells without valid labels, set a dummy ID (will not be used in loss calculation)
+    # Set to 0 to avoid index errors, but mark them so we skip them in evaluation
+    adata_test.obs.loc[~adata_test.obs['has_valid_label'], 'celltype_id'] = 0
     
     # Create ID to type mapping
     id2type = dict(enumerate(train_categories))
