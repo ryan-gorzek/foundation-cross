@@ -195,24 +195,44 @@ class CrossSpeciesLabelTransferPipeline:
             min_genes=preproc_config.get('min_genes', 8)
         )
         
+        # Create preprocessor and fit on reference data
         preprocessor = SingleCellPreprocessor(preproc_config, self.logger)
+        
+        # Important: Fit binning parameters on reference BEFORE preprocessing
+        # This must be done after normalization to get the right value range
+        # So we need to temporarily normalize to fit the bins
+        import anndata as ad
+        reference_temp = self.reference_data.copy()
+        
+        # Apply normalization to get the value range for binning
+        import scanpy as sc
+        sc.pp.normalize_total(reference_temp, target_sum=preproc_config.get('normalize_total', 1e4))
+        if preproc_config.get('log1p', False):
+            sc.pp.log1p(reference_temp)
+        
+        # Fit binning parameters on normalized reference data
+        self.logger.info("Fitting binning parameters on reference data...")
+        preprocessor.fit(reference_temp)
+        
+        # Now preprocess reference for real
         self.reference_data = preprocessor.preprocess(self.reference_data)
         
-        # Preprocess queries (separately to avoid information leakage)
+        # Preprocess queries using the SAME fitted preprocessor
+        # This ensures consistent bin boundaries across all datasets
         for i, query_dict in enumerate(self.query_datasets):
             self.logger.info(f"\nPreprocessing query data: {query_dict['name']}...")
             query_config = self.config['_query_dataset_configs'][i]
-            query_preproc_config = query_config.get('preprocessing', preproc_config)
             
             query_loader = DatasetLoader(query_config, self.logger)
             query_data = query_loader.filter_zero_count_cells(query_dict['data'])
             query_data = query_loader.filter_cells_by_genes(
                 query_data,
-                min_genes=query_preproc_config.get('min_genes', 8)
+                min_genes=preproc_config.get('min_genes', 8)
             )
             
-            query_preprocessor = SingleCellPreprocessor(query_preproc_config, self.logger)
-            query_data = query_preprocessor.preprocess(query_data)
+            # Use the SAME preprocessor that was fitted on reference data
+            # This is critical for consistent binning across species
+            query_data = preprocessor.preprocess(query_data)
             
             self.query_datasets[i]['data'] = query_data
     
@@ -223,10 +243,6 @@ class CrossSpeciesLabelTransferPipeline:
         # Create celltype_id for reference
         self.reference_data.obs['celltype_id'] = self.reference_data.obs['celltype'].cat.codes
         
-        # DEBUG: Print what categories we have
-        print(f"DEBUG: Reference categories: {self.reference_data.obs['celltype'].cat.categories.tolist()}")
-        print(f"DEBUG: Reference category codes: {np.unique(self.reference_data.obs['celltype_id'])}")
-
         # Add batch IDs
         self.reference_data.obs['batch_id'] = 0
         
@@ -291,10 +307,7 @@ class CrossSpeciesLabelTransferPipeline:
             
             # Predict
             predictions = self.model.predict(query_data, **self.config.get('training', {}))
-            print("--------PREDICTIONS---------")
-            print(predictions)
-            print("----------------------------")            
-
+            
             # Get true labels
             true_labels = query_data.obs['celltype_id'].values
             valid_mask = query_data.obs.get('has_valid_label', np.ones(len(true_labels), dtype=bool)).values

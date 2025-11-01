@@ -53,13 +53,11 @@ def plot_confusion_matrix(
         Colormap name
     fmt : str
         Format string for annotations
+
+    NOTE: valid_mask is NOT used to filter data. All cells are included in the
+    confusion matrix. This parameter exists for API compatibility but rows with
+    invalid labels will show the actual predictions made by the model.
     """
-    # Apply valid mask if provided
-    if valid_mask is not None:
-        predictions = predictions[valid_mask]
-        labels = labels[valid_mask]
-        # Also need to filter label names if they correspond to filtered data
-        # But since we're passing names separately, we keep them as is
     
     # Map integer labels to string labels
     true_labels_str = np.array([true_label_names[i] if i < len(true_label_names) else f"Unknown_{i}" 
