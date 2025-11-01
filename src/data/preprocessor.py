@@ -67,6 +67,11 @@ class SingleCellPreprocessor:
         # Normalize
         if self.logger:
             self.logger.info(f"  Normalizing to {self.normalize_total}")
+        # Ensure X is float type before normalization
+        if adata.X.dtype != np.float32 and adata.X.dtype != np.float64:
+            if self.logger:
+                self.logger.info(f"  Converting X from {adata.X.dtype} to float32")
+        adata.X = adata.X.astype(np.float32)
         sc.pp.normalize_total(adata, target_sum=self.normalize_total)
         adata.layers['X_normed'] = adata.X.copy()
         
