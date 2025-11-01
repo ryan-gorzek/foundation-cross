@@ -193,12 +193,21 @@ class ScGPTModel(BaseLabelTransferModel):
             if issparse(reference_data.layers[input_layer_key])
             else reference_data.layers[input_layer_key]
         )
-        
+
         genes = reference_data.var["gene_name"].tolist()
         self.gene_ids = np.array(self.vocab(genes), dtype=int)
-        
+
         celltypes_labels = reference_data.obs["celltype_id"].values
         batch_ids = reference_data.obs.get("batch_id", np.zeros(len(celltypes_labels))).values
+
+        print(f"DEBUG all_counts shape: {all_counts.shape}")
+        print(f"DEBUG all_counts dtype: {all_counts.dtype}")
+        print(f"DEBUG all_counts min/max: {all_counts.min()}/{all_counts.max()}")
+        print(f"DEBUG all_counts unique values: {np.unique(all_counts)[:20]}")  # First 20
+        print(f"DEBUG celltypes_labels unique: {np.unique(celltypes_labels)}")
+        print(f"DEBUG celltypes_labels distribution:")
+        for ct in np.unique(celltypes_labels):
+            print(f"  Class {ct}: {(celltypes_labels == ct).sum()} cells")
         
         # Train/validation split
         (
