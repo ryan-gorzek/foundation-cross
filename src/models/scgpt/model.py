@@ -282,7 +282,7 @@ class ScGPTModel(BaseLabelTransferModel):
         
         optimizer = torch.optim.Adam(
             self.model.parameters(),
-            lr=lr,
+            lr=float(lr),
             eps=1e-4 if amp else 1e-8
         )
         scheduler = torch.optim.lr_scheduler.StepLR(
