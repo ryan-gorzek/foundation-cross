@@ -1,0 +1,13 @@
+{
+  "git_commit": "c8a80e9064e3296a5436c9fde26739f38f0bc131",
+  "git_status": "dirty",
+  "config_hash": "b6dc0375",
+  "environment": {
+    "python_version": "3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]",
+    "torch_version": "2.1.2+cu121",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "cudnn_version": 8902,
+    "gpu_name": "NVIDIA RTX A6000"
+  }
+}
