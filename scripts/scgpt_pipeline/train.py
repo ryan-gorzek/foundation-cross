@@ -630,36 +630,64 @@ def main():
     logger.info("STEP 8: Generating visualizations")
     logger.info("=" * 89)
     
-    # Confusion matrix (only on cells with valid labels)
-    if 'has_valid_label' in adata_test.obs.columns:
-        valid_mask = adata_test.obs['has_valid_label'].values
-        labels_for_cm = labels[valid_mask]
-        predictions_for_cm = predictions[valid_mask]
-        logger.info(f"Generating confusion matrix for {valid_mask.sum()} cells with valid labels")
-    else:
-        labels_for_cm = labels
-        predictions_for_cm = predictions
+    # Confusion matrix: Opossum true labels (rows) vs Mouse predictions (columns)
+    logger.info("Generating confusion matrix with opossum labels (true) vs mouse labels (predicted)")
     
-    cm = confusion_matrix(labels_for_cm, predictions_for_cm)
+    # Get original opossum cell type labels (before recoding)
+    if 'celltype_original' in adata_test.obs.columns:
+        true_labels_str = adata_test_raw.obs['celltype_original'].values
+    else:
+        # Fallback: use current celltype
+        true_labels_str = adata_test_raw.obs['celltype'].values
+    
+    # Get predicted labels as strings (mouse cell types)
+    pred_labels_str = adata_test_raw.obs['predictions'].values
+    
+    # Create confusion matrix with string labels
+    from sklearn.preprocessing import LabelEncoder
+    
+    # Encode both to numeric for confusion_matrix
+    all_true_types = np.unique(true_labels_str)
+    all_pred_types = np.unique(pred_labels_str)
+    
+    # Create label encoders
+    true_encoder = LabelEncoder()
+    true_encoder.fit(all_true_types)
+    true_labels_encoded = true_encoder.transform(true_labels_str)
+    
+    pred_encoder = LabelEncoder()
+    pred_encoder.fit(all_pred_types)
+    pred_labels_encoded = pred_encoder.transform(pred_labels_str)
+    
+    # Generate confusion matrix
+    cm = confusion_matrix(true_labels_encoded, pred_labels_encoded)
     cm_normalized = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
     
-    celltypes = [id2type[i] for i in range(len(id2type))]
+    # Create DataFrame with proper labels
     cm_df = pd.DataFrame(
-        cm_normalized, 
-        index=celltypes[:cm.shape[0]], 
-        columns=celltypes[:cm.shape[1]]
+        cm_normalized,
+        index=true_encoder.classes_,  # Opossum cell types (rows = true)
+        columns=pred_encoder.classes_  # Mouse cell types (columns = predicted)
     )
     
-    plt.figure(figsize=(12, 10))
+    # Sort rows and columns for better visualization
+    cm_df = cm_df.sort_index()  # Sort opossum types
+    cm_df = cm_df[sorted(cm_df.columns)]  # Sort mouse types
+    
+    plt.figure(figsize=(14, 12))
     sns.heatmap(cm_df, annot=True, fmt=".2f", cmap="Blues", cbar_kws={"label": "Proportion"})
-    plt.title("Confusion Matrix (Row-Normalized, Valid Labels Only)")
-    plt.ylabel("True Label")
-    plt.xlabel("Predicted Label")
+    plt.title("Cross-Species Label Transfer: Opossum (True) → Mouse (Predicted)")
+    plt.ylabel("True Label (Opossum)")
+    plt.xlabel("Predicted Label (Mouse)")
+    plt.xticks(rotation=45, ha='right')
+    plt.yticks(rotation=0)
     plt.tight_layout()
     plt.savefig(save_dir / "confusion_matrix.png", dpi=300, bbox_inches='tight')
     plt.close()
     
     logger.info(f"Saved confusion matrix to {save_dir / 'confusion_matrix.png'}")
+    logger.info(f"  Rows (true labels): {len(true_encoder.classes_)} opossum cell types")
+    logger.info(f"  Columns (predicted): {len(pred_encoder.classes_)} mouse cell types")
     
     # Save model
     torch.save(best_model.state_dict(), save_dir / "best_model.pt")
