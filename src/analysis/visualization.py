@@ -111,24 +111,25 @@ def plot_confusion_matrix(
     
     # Apply custom ordering if specified
     if row_order is not None:
-        print(row_order)
-        # Filter to only include labels that exist in the data
-        row_order_filtered = [r for r in row_order if r in cm_df.index]
-        if row_order_filtered:
-            cm_df = cm_df.reindex(row_order_filtered)
+        # Add missing rows with zeros
+        for row_label in row_order:
+            if row_label not in cm_df.index:
+                cm_df.loc[row_label] = 0.0
+        cm_df.reindex(row_order)
     else:
         # Default: alphabetical
         cm_df = cm_df.sort_index()
     
     if col_order is not None:
-        # Filter to only include labels that exist in the data
-        col_order_filtered = [c for c in col_order if c in cm_df.columns]
-        if col_order_filtered:
-            cm_df = cm_df[col_order_filtered]
+        # Add missing rows with zeros
+        for col_label in col_order:
+            if col_label not in cm_df.columns:
+                cm_df[col_label] = 0.0
+        cm_df[col_order]
     else:
         # Default: alphabetical
         cm_df = cm_df[sorted(cm_df.columns)]
-    print(cm_df)
+
     # Plot
     plt.figure(figsize=figsize)
     sns.heatmap(

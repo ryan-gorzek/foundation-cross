@@ -21,6 +21,9 @@ valid_mask = predictions_df['has_valid_label'].values
 true_label_names = pd.Categorical(predictions_df['true_label']).categories
 pred_label_names = pd.Categorical(predictions_df['predicted_label']).categories
 
+print(true_label_names)
+print(pred_label_names)
+
 # This should reproduce the error
 plot_confusion_matrix(
     predictions=predictions,
