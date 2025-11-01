@@ -6,7 +6,7 @@ reference:
   labels: null  # null = use all available labels
 
 query:
-  - dataset: opossum
+  - dataset: opossum # item list
     labels: null
 
 model: scgpt
@@ -16,12 +16,50 @@ output:
   save_dir: results
   confusion_matrix:
     figsize: [14, 12]
-    row_order: null  # null = automatic (alphabetical)
-    col_order: null  # null = automatic (alphabetical)
+    row_order: # (true: opossum) null = automatic (alphabetical)
+      - IT_A
+      - IT_B
+      - IT_C
+      - L5NP
+      - IT_D
+      - L5PT
+      - L6CT
+      - L6b
+      - Pvalb
+      - Sst
+      - Vip
+      - Lamp5
+      - Frem1
+      - Astro
+      - Micro
+      - OD
+      - OPC
+      - Endo
+    col_order: # (predicted: mouse) null = automatic (alphabetical)
+      - L2/3
+      - L4
+      - L5IT
+      - L5NP
+      - L6IT
+      - L5PT
+      - L6CT
+      - L6b
+      - Pvalb
+      - Sst
+      - Vip
+      - Lamp5
+      - Frem1
+      - Stac
+      - Astro
+      - Micro
+      - OD
+      - OPC
+      - Endo
+      - VLMC
 
 training:
   seed: 0
-  epochs: 10
+  epochs: 1
   batch_size: 16
   validation_split: 0.1
   log_interval: 100

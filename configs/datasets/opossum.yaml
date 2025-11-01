@@ -1,7 +1,7 @@
 name: opossum
 species: Monodelphis domestica
-data_path: data/raw/Opossum_V1_All_Labeled.h5ad
-celltype_column: Subclass
+data_path: data/raw/Opossum_V1_All.h5ad
+celltype_column: subclass
 
 preprocessing:
   min_genes: 8
