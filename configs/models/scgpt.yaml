@@ -2,9 +2,9 @@ name: scgpt
 type: neural_network
 
 pretrained:
-  path: pretrained/scgpt/whole-human
-  vocab: pretrained/scgpt/whole-human/vocab.json
-  weights: pretrained/scgpt/whole-human/best_model.pt
+  path: models/scgpt/whole-human
+  vocab: models/scgpt/whole-human/vocab.json
+  weights: models/scgpt/whole-human/best_model.pt
 
 architecture:
   layer_size: 128
