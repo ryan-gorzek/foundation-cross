@@ -1,0 +1,14 @@
+name: mouse
+species: Mus musculus
+data_path: data/raw/Mouse_V1_P38_All.h5ad
+celltype_column: Subclass
+
+preprocessing:
+  min_genes: 8
+  min_counts: 3
+  normalize_total: 1e4
+  log1p: false
+  n_bins: 51
+
+# Optional: specify available labels (null = use all)
+available_labels: null

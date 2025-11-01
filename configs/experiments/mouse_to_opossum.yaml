@@ -1,0 +1,31 @@
+name: mouse_opossum_transfer
+description: "Cross-species label transfer from mouse to opossum V1"
+
+reference:
+  dataset: mouse
+  labels: null  # null = use all available labels
+
+query:
+  - dataset: opossum
+    labels: null
+
+model: scgpt
+model_config: configs/models/scgpt.yaml
+
+output:
+  save_dir: results
+  confusion_matrix:
+    figsize: [14, 12]
+    row_order: null  # null = automatic (alphabetical)
+    col_order: null  # null = automatic (alphabetical)
+
+training:
+  seed: 0
+  epochs: 10
+  batch_size: 16
+  validation_split: 0.1
+  log_interval: 100
+
+reproducibility:
+  git_commit: auto
+  config_hash: auto

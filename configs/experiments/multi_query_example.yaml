@@ -1,0 +1,35 @@
+name: mouse_multi_query
+description: "Cross-species label transfer from mouse to multiple species"
+
+reference:
+  dataset: mouse
+  labels: null
+
+# One-to-many: predict for multiple query species
+query:
+  - dataset: opossum
+    labels: null
+  # Uncomment to add more query species:
+  # - dataset: human
+  #   labels: null
+
+model: scgpt
+model_config: configs/models/scgpt.yaml
+
+output:
+  save_dir: results
+  confusion_matrix:
+    figsize: [14, 12]
+    row_order: null
+    col_order: null
+
+training:
+  seed: 0
+  epochs: 10
+  batch_size: 16
+  validation_split: 0.1
+  log_interval: 100
+
+reproducibility:
+  git_commit: auto
+  config_hash: auto
