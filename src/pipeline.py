@@ -223,6 +223,10 @@ class CrossSpeciesLabelTransferPipeline:
         # Create celltype_id for reference
         self.reference_data.obs['celltype_id'] = self.reference_data.obs['celltype'].cat.codes
         
+        # DEBUG: Print what categories we have
+        print(f"DEBUG: Reference categories: {self.reference_data.obs['celltype'].cat.categories.tolist()}")
+        print(f"DEBUG: Reference category codes: {np.unique(self.reference_data.obs['celltype_id'])}")
+
         # Add batch IDs
         self.reference_data.obs['batch_id'] = 0
         
@@ -287,7 +291,10 @@ class CrossSpeciesLabelTransferPipeline:
             
             # Predict
             predictions = self.model.predict(query_data, **self.config.get('training', {}))
-            
+            print("--------PREDICTIONS---------")
+            print(predictions)
+            print("----------------------------")            
+
             # Get true labels
             true_labels = query_data.obs['celltype_id'].values
             valid_mask = query_data.obs.get('has_valid_label', np.ones(len(true_labels), dtype=bool)).values

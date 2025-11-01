@@ -81,7 +81,7 @@ def train_epoch(
         target_values = batch_data["target_values"].to(device)
         batch_labels = batch_data["batch_labels"].to(device)
         celltype_labels = batch_data["celltype_labels"].to(device)
-        
+
         src_key_padding_mask = input_gene_ids.eq(vocab[pad_token])
         
         with torch.cuda.amp.autocast(enabled=amp):

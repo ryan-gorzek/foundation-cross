@@ -63,49 +63,47 @@ def plot_confusion_matrix(
     
     # Map integer labels to string labels
     true_labels_str = np.array([true_label_names[i] if i < len(true_label_names) else f"Unknown_{i}" 
-                                for i in labels])
+                            for i in labels])
     pred_labels_str = np.array([pred_label_names[i] if i < len(pred_label_names) else f"Unknown_{i}" 
-                                for i in predictions])
-    
-    # Get unique labels
-    unique_true = sorted(set(true_labels_str))
-    unique_pred = sorted(set(pred_labels_str))
-    
-    # Encode labels
+                            for i in predictions])
+
+    # Get ALL unique labels (union, not just what appears in data)
+    # This ensures we show all possible categories even if some aren't predicted/observed
+    all_true_labels = set(true_label_names)
+    all_pred_labels = set(pred_label_names)
+
+    # Also include what actually appears in the data
+    all_true_labels.update(true_labels_str)
+    all_pred_labels.update(pred_labels_str)
+
+    # Convert to sorted lists for consistent ordering
+    unique_true = sorted(all_true_labels)
+    unique_pred = sorted(all_pred_labels)
+
+    # Encode labels with full label space
     true_encoder = LabelEncoder()
     true_encoder.fit(unique_true)
     true_encoded = true_encoder.transform(true_labels_str)
-    
+
     pred_encoder = LabelEncoder()
     pred_encoder.fit(unique_pred)
     pred_encoded = pred_encoder.transform(pred_labels_str)
-    
+
     # Compute confusion matrix
     from sklearn.metrics import confusion_matrix
-    cm = confusion_matrix(true_encoded, pred_encoded)
-    
+    cm = confusion_matrix(true_encoded, pred_encoded, labels=range(len(unique_true)))
+
     # Normalize by row (true labels)
     cm_normalized = cm.astype('float')
-    row_sums = cm.sum(axis=1)
+    row_sums = cm.sum(axis=1, keepdims=True)
     row_sums[row_sums == 0] = 1  # Avoid division by zero
-    cm_normalized = cm_normalized / row_sums[:, np.newaxis]
-    
+    cm_normalized = cm_normalized / row_sums
+
     # Create DataFrame with proper labels
-    true_labels = list(true_encoder.classes_)
-    pred_labels = list(pred_encoder.classes_)
-    print(f"DEBUG: cm_normalized.shape = {cm_normalized.shape}")
-    print(f"DEBUG: true_encoder.classes_ type = {type(true_encoder.classes_)}")
-    print(f"DEBUG: true_encoder.classes_ shape = {true_encoder.classes_.shape if hasattr(true_encoder.classes_, 'shape') else 'no shape'}")
-    print(f"DEBUG: true_encoder.classes_ = {true_encoder.classes_}")
-    print(f"DEBUG: pred_encoder.classes_ type = {type(pred_encoder.classes_)}")
-    print(f"DEBUG: pred_encoder.classes_ shape = {pred_encoder.classes_.shape if hasattr(pred_encoder.classes_, 'shape') else 'no shape'}")
-    print(f"DEBUG: pred_encoder.classes_ = {pred_encoder.classes_}")
-    print(f"DEBUG: len(true_encoder.classes_) = {len(true_encoder.classes_)}")
-    print(f"DEBUG: len(pred_encoder.classes_) = {len(pred_encoder.classes_)}")
     cm_df = pd.DataFrame(
         cm_normalized,
-        index=true_labels,
-        columns=pred_labels
+        index=unique_true,
+        columns=unique_pred[:cm.shape[1]]  # Only use columns that exist
     )
     
     # Apply custom ordering if specified
