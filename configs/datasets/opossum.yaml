@@ -1,0 +1,13 @@
+name: opossum
+species: Monodelphis domestica
+data_path: data/raw/Opossum_V1_All_Labeled.h5ad
+celltype_column: Subclass
+
+preprocessing:
+  min_genes: 8
+  min_counts: 3
+  normalize_total: 1e4
+  log1p: false
+  n_bins: 51
+
+available_labels: null
