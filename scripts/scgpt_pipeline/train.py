@@ -90,6 +90,11 @@ def load_pretrained_model(model_dir: Path, adata, special_tokens, logger):
         if s not in vocab:
             vocab.append_token(s)
     
+    # Convert gene names to uppercase to match human vocabulary
+    logger.info("Converting gene names to uppercase to match pretrained vocabulary")
+    adata.var["gene_name_original"] = adata.var["gene_name"].copy()
+    adata.var["gene_name"] = adata.var["gene_name"].str.upper()
+    
     # Match genes to vocabulary
     adata.var["id_in_vocab"] = [
         1 if gene in vocab else -1 for gene in adata.var["gene_name"]
@@ -195,6 +200,17 @@ def main():
         )
         # Copy vocab to save directory
         shutil.copy(config.PRETRAINED_MODEL_DIR / "vocab.json", save_dir / "vocab.json")
+        
+        # Apply same gene name conversion to test data
+        logger.info("Applying same gene name conversion to test data")
+        adata_test.var["gene_name_original"] = adata_test.var["gene_name"].copy()
+        adata_test.var["gene_name"] = adata_test.var["gene_name"].str.upper()
+        
+        # Subset test data to same genes as training
+        common_genes = adata_train.var_names.intersection(adata_test.var_names)
+        logger.info(f"Test data: subsetting to {len(common_genes)} genes that matched vocabulary")
+        adata_test = adata_test[:, common_genes].copy()
+        adata_train = adata_train[:, common_genes].copy()  # Ensure train also has same genes
     else:
         logger.info("No pre-trained model specified. Building vocabulary from data.")
         # Build vocabulary from genes (training data only)
