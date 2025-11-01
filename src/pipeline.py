@@ -195,27 +195,10 @@ class CrossSpeciesLabelTransferPipeline:
             min_genes=preproc_config.get('min_genes', 8)
         )
         
-        # Create preprocessor and fit on reference data
+        # Create preprocessor and preprocess reference with fit=True
+        # This will fit binning parameters on the reference data after normalization
         preprocessor = SingleCellPreprocessor(preproc_config, self.logger)
-        
-        # Important: Fit binning parameters on reference BEFORE preprocessing
-        # This must be done after normalization to get the right value range
-        # So we need to temporarily normalize to fit the bins
-        import anndata as ad
-        reference_temp = self.reference_data.copy()
-        
-        # Apply normalization to get the value range for binning
-        import scanpy as sc
-        sc.pp.normalize_total(reference_temp, target_sum=preproc_config.get('normalize_total', 1e4))
-        if preproc_config.get('log1p', False):
-            sc.pp.log1p(reference_temp)
-        
-        # Fit binning parameters on normalized reference data
-        self.logger.info("Fitting binning parameters on reference data...")
-        preprocessor.fit(reference_temp)
-        
-        # Now preprocess reference for real
-        self.reference_data = preprocessor.preprocess(self.reference_data)
+        self.reference_data = preprocessor.preprocess(self.reference_data, fit=True)
         
         # Preprocess queries using the SAME fitted preprocessor
         # This ensures consistent bin boundaries across all datasets
@@ -230,7 +213,7 @@ class CrossSpeciesLabelTransferPipeline:
                 min_genes=preproc_config.get('min_genes', 8)
             )
             
-            # Use the SAME preprocessor that was fitted on reference data
+            # Use the SAME preprocessor (fit=False, which is default)
             # This is critical for consistent binning across species
             query_data = preprocessor.preprocess(query_data)
             

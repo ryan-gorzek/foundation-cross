@@ -60,7 +60,7 @@ class SingleCellPreprocessor:
         if self.n_bins > 0:
             X = adata.X
             if issparse(X):
-                X_dense = X.A
+                X_dense = X.toarray()
             else:
                 X_dense = X
             
@@ -91,7 +91,7 @@ class SingleCellPreprocessor:
         self.is_fitted = True
         return self
     
-    def preprocess(self, adata: ad.AnnData, batch_key: Optional[str] = None) -> ad.AnnData:
+    def preprocess(self, adata: ad.AnnData, batch_key: Optional[str] = None, fit: bool = False) -> ad.AnnData:
         """
         Apply preprocessing pipeline to data.
         
@@ -101,6 +101,8 @@ class SingleCellPreprocessor:
             Input data (will be modified in place)
         batch_key : Optional[str]
             Batch key for batch-aware processing
+        fit : bool
+            If True, fit binning parameters on this data after normalization
             
         Returns
         -------
@@ -123,7 +125,8 @@ class SingleCellPreprocessor:
         # Normalize
         if self.logger:
             self.logger.info(f"  Normalizing to {self.normalize_total}")
-        sc.pp.normalize_total(adata, target_sum=self.normalize_total)
+        
+        sc.pp.normalize_total(adata, target_sum=float(self.normalize_total))
         adata.layers['X_normed'] = adata.X.copy()
         
         # Log transform
@@ -133,6 +136,12 @@ class SingleCellPreprocessor:
             sc.pp.log1p(adata)
             adata.layers['X_log1p'] = adata.X.copy()
         
+        # Fit binning parameters if requested (on reference data after normalization)
+        if fit and self.n_bins > 0:
+            if self.logger:
+                self.logger.info("  Fitting binning parameters on normalized data")
+            self._fit_bins(adata.X)
+        
         # Bin expression values
         if self.n_bins > 0:
             if self.logger:
@@ -140,6 +149,42 @@ class SingleCellPreprocessor:
             adata.layers['X_binned'] = self._bin_expression(adata.X, self.n_bins)
         
         return adata
+    
+    def _fit_bins(self, X):
+        """
+        Fit binning parameters on data.
+        
+        Parameters
+        ----------
+        X : array-like
+            Expression matrix (should be normalized)
+        """
+        if issparse(X):
+            X_dense = X.A
+        else:
+            X_dense = X
+        
+        nonzero_vals = X_dense[X_dense > 0]
+        if len(nonzero_vals) > 0:
+            min_val = nonzero_vals.min()
+            max_val = nonzero_vals.max()
+            
+            if min_val < max_val:
+                self.bin_edges = np.linspace(min_val, max_val, self.n_bins)
+                if self.logger:
+                    self.logger.info(
+                        f"    Binning range: [{min_val:.4f}, {max_val:.4f}] -> {self.n_bins} bins"
+                    )
+            else:
+                self.bin_edges = None
+                if self.logger:
+                    self.logger.warning("    All non-zero values identical")
+        else:
+            self.bin_edges = None
+            if self.logger:
+                self.logger.warning("    No non-zero values found")
+        
+        self.is_fitted = True
     
     def _bin_expression(self, X, n_bins: int) -> np.ndarray:
         """
