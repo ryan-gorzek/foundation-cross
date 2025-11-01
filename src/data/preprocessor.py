@@ -160,7 +160,7 @@ class SingleCellPreprocessor:
             Expression matrix (should be normalized)
         """
         if issparse(X):
-            X_dense = X.A
+            X_dense = X.toarray()
         else:
             X_dense = X
         
@@ -212,7 +212,7 @@ class SingleCellPreprocessor:
             )
         
         if issparse(X):
-            X_dense = X.A
+            X_dense = X.toarray()
         else:
             X_dense = X
         
