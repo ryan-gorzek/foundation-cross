@@ -24,7 +24,7 @@ SAVE_DIR = Path("./save")
 SEED = 0
 DO_TRAIN = True
 EPOCHS = 1
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 LEARNING_RATE = 1e-4
 SCHEDULE_RATIO = 0.9  # Learning rate decay ratio
 
