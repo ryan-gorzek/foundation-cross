@@ -72,7 +72,8 @@ class SingleCellPreprocessor:
             if self.logger:
                 self.logger.info(f"  Converting X from {adata.X.dtype} to float32")
         adata.X = adata.X.astype(np.float32)
-        sc.pp.normalize_total(adata, target_sum=self.normalize_total)
+        target_sum = float(self.normalize_total)
+        sc.pp.normalize_total(adata, target_sum=target_sum)
         adata.layers['X_normed'] = adata.X.copy()
         
         # Log transform
@@ -107,7 +108,7 @@ class SingleCellPreprocessor:
             Binned expression values
         """
         if issparse(X):
-            X_dense = X.A
+            X_dense = X.toarray()
         else:
             X_dense = X
         
