@@ -91,10 +91,21 @@ def plot_confusion_matrix(
     cm_normalized = cm_normalized / row_sums[:, np.newaxis]
     
     # Create DataFrame with proper labels
+    true_labels = list(true_encoder.classes_)
+    pred_labels = list(pred_encoder.classes_)
+    print(f"DEBUG: cm_normalized.shape = {cm_normalized.shape}")
+    print(f"DEBUG: true_encoder.classes_ type = {type(true_encoder.classes_)}")
+    print(f"DEBUG: true_encoder.classes_ shape = {true_encoder.classes_.shape if hasattr(true_encoder.classes_, 'shape') else 'no shape'}")
+    print(f"DEBUG: true_encoder.classes_ = {true_encoder.classes_}")
+    print(f"DEBUG: pred_encoder.classes_ type = {type(pred_encoder.classes_)}")
+    print(f"DEBUG: pred_encoder.classes_ shape = {pred_encoder.classes_.shape if hasattr(pred_encoder.classes_, 'shape') else 'no shape'}")
+    print(f"DEBUG: pred_encoder.classes_ = {pred_encoder.classes_}")
+    print(f"DEBUG: len(true_encoder.classes_) = {len(true_encoder.classes_)}")
+    print(f"DEBUG: len(pred_encoder.classes_) = {len(pred_encoder.classes_)}")
     cm_df = pd.DataFrame(
         cm_normalized,
-        index=true_encoder.classes_,
-        columns=pred_encoder.classes_
+        index=true_labels,
+        columns=pred_labels
     )
     
     # Apply custom ordering if specified
