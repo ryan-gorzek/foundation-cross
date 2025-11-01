@@ -87,21 +87,22 @@ def plot_confusion_matrix(
     pred_encoder.fit(unique_pred)
     pred_encoded = pred_encoder.transform(pred_labels_str)
 
-    # Compute confusion matrix
+    # Compute confusion matrix without constraining labels
+    # This will create a matrix of shape (n_true_classes, n_pred_classes)
     from sklearn.metrics import confusion_matrix
-    cm = confusion_matrix(true_encoded, pred_encoded, labels=range(len(unique_true)))
+    cm = confusion_matrix(true_encoded, pred_encoded)
 
-    # Normalize by row (true labels)
+    # Normalize by row
     cm_normalized = cm.astype('float')
     row_sums = cm.sum(axis=1, keepdims=True)
-    row_sums[row_sums == 0] = 1  # Avoid division by zero
+    row_sums[row_sums == 0] = 1
     cm_normalized = cm_normalized / row_sums
 
     # Create DataFrame with proper labels
     cm_df = pd.DataFrame(
         cm_normalized,
-        index=unique_true,
-        columns=unique_pred[:cm.shape[1]]  # Only use columns that exist
+        index=true_encoder.classes_,
+        columns=pred_encoder.classes_
     )
     
     # Apply custom ordering if specified
