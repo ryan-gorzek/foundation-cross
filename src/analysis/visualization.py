@@ -111,6 +111,7 @@ def plot_confusion_matrix(
     
     # Apply custom ordering if specified
     if row_order is not None:
+        print(row_order)
         # Filter to only include labels that exist in the data
         row_order_filtered = [r for r in row_order if r in cm_df.index]
         if row_order_filtered:
@@ -127,7 +128,7 @@ def plot_confusion_matrix(
     else:
         # Default: alphabetical
         cm_df = cm_df[sorted(cm_df.columns)]
-    
+    print(cm_df)
     # Plot
     plt.figure(figsize=figsize)
     sns.heatmap(

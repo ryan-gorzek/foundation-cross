@@ -7,7 +7,7 @@ results_dir = Path("results/mouse_opossum")
 run_dirs = sorted(results_dir.glob("scgpt_*"))
 latest_run = run_dirs[-1]
 cfg = load_experiment_config(Path("configs/experiments/mouse_to_opossum.yaml"))
-cm_cfg = cfg.get('confusion_matrix', {})
+cm_cfg = cfg.get('output', {}).get('confusion_matrix', {})
 row_order = cm_cfg.get('row_order', None)
 col_order = cm_cfg.get('col_order', None)
 
