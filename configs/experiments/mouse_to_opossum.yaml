@@ -59,7 +59,7 @@ output:
 
 training:
   seed: 0
-  epochs: 1
+  epochs: 10
   batch_size: 16
   validation_split: 0.1
   log_interval: 100

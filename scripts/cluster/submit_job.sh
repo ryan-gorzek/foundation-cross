@@ -1,12 +1,14 @@
+#### submit_job.sh START ####
 #!/bin/bash
 #$ -cwd
+#$ -o jobs/joblog.$JOB_ID
 #$ -j y
-#$ -l gpu,A100,cuda=1,h_data=32G,h_rt=4:00:00
+#$ -l gpu,A6000,cuda=1,h_data=32G,h_rt=4:00:00
 #$ -N cross_species_transfer
-#$ -M your.email@example.com
+#$ -M rgorzek@ucla.edu
 #$ -m bea
 
-# UCLA UGE Cluster Job Script for Cross-Species Label Transfer
+# UCLA Hoffman2 Cluster Job Script for Cross-Species Label Transfer
 # Modify the email address above and resource requirements as needed
 
 echo "=========================================="
@@ -15,14 +17,10 @@ echo "Job ID: $JOB_ID"
 echo "Working directory: $(pwd)"
 echo "=========================================="
 
-# Load modules
+# Set up environment
 module load anaconda3
-module load gcc/10.2.0
-module load cmake/3.30.0
-
-# Activate conda environment
-source ~/.bashrc
-conda activate scgpt
+conda activate scgpt_env
+export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
 
 # Display environment info
 echo ""
@@ -45,24 +43,20 @@ echo ""
 
 # Parse command line arguments
 CONFIG_FILE=${1:-configs/experiments/mouse_to_opossum.yaml}
-GPU_ID=${2:-0}
 
 echo "Configuration file: $CONFIG_FILE"
-echo "GPU ID: $GPU_ID"
 echo ""
 
 # Run the experiment
 echo "Starting experiment..."
 echo "=========================================="
 python scripts/run_experiment.py \
-    --config "$CONFIG_FILE" \
-    --gpu "$GPU_ID"
+    --config "$CONFIG_FILE"
 
-EXIT_CODE=$?
-
+# echo job info on joblog:
 echo "=========================================="
-echo "Job completed at $(date)"
-echo "Exit code: $EXIT_CODE"
+echo "Job $JOB_ID ended on:   " `hostname -s`
+echo "Job $JOB_ID ended on:   " `date `
+echo " "
 echo "=========================================="
-
-exit $EXIT_CODE
+#### submit_job.sh STOP ####
