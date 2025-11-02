@@ -180,14 +180,14 @@ class CrossSpeciesLabelTransferPipeline:
         )
     
     def preprocess_datasets(self):
-        """Preprocess datasets."""
+        """Preprocess datasets - filtering only, scGPT does its own normalization/binning."""
         self.logger.section("STEP 2: Preprocessing Datasets")
         
         # Get preprocessing config
         preproc_config = self.config['_reference_dataset_config'].get('preprocessing', {})
         
-        # Preprocess reference
-        self.logger.info("Preprocessing reference data...")
+        # Filter reference (zero counts and low gene cells)
+        self.logger.info("Filtering reference data...")
         ref_loader = DatasetLoader(self.config['_reference_dataset_config'], self.logger)
         self.reference_data = ref_loader.filter_zero_count_cells(self.reference_data)
         self.reference_data = ref_loader.filter_cells_by_genes(
@@ -195,27 +195,23 @@ class CrossSpeciesLabelTransferPipeline:
             min_genes=preproc_config.get('min_genes', 8)
         )
         
-        # Create preprocessor and preprocess reference with fit=True
-        # This will fit binning parameters on the reference data after normalization
-        preprocessor = SingleCellPreprocessor(preproc_config, self.logger)
-        self.reference_data = preprocessor.preprocess(self.reference_data, fit=True)
+        # NOTE: No normalization/binning here - scGPT model handles this internally
+        # to avoid state leakage between reference and query datasets
         
-        # Preprocess queries using the SAME fitted preprocessor
-        # This ensures consistent bin boundaries across all datasets
+        # Filter queries (separately to avoid information leakage)
         for i, query_dict in enumerate(self.query_datasets):
-            self.logger.info(f"\nPreprocessing query data: {query_dict['name']}...")
+            self.logger.info(f"\nFiltering query data: {query_dict['name']}...")
             query_config = self.config['_query_dataset_configs'][i]
+            query_preproc_config = query_config.get('preprocessing', preproc_config)
             
             query_loader = DatasetLoader(query_config, self.logger)
             query_data = query_loader.filter_zero_count_cells(query_dict['data'])
             query_data = query_loader.filter_cells_by_genes(
                 query_data,
-                min_genes=preproc_config.get('min_genes', 8)
+                min_genes=query_preproc_config.get('min_genes', 8)
             )
             
-            # Use the SAME preprocessor (fit=False, which is default)
-            # This is critical for consistent binning across species
-            query_data = preprocessor.preprocess(query_data)
+            # NOTE: No normalization/binning here - scGPT model handles this internally
             
             self.query_datasets[i]['data'] = query_data
     
@@ -319,6 +315,7 @@ class CrossSpeciesLabelTransferPipeline:
                 'metrics': metrics,
                 'per_class_metrics': per_class_metrics,
                 'metadata': metadata,
+                'query_data': query_data,  # NEW: include query data for visualization
             }
             all_results.append(results)
             
@@ -370,6 +367,7 @@ class CrossSpeciesLabelTransferPipeline:
         true_labels = results['true_labels']
         valid_mask = results['valid_mask']
         metadata = results['metadata']
+        query_data = results['query_data']  # Get query data for original labels
         
         # Get label names
         true_label_names = metadata['celltypes']
@@ -382,7 +380,7 @@ class CrossSpeciesLabelTransferPipeline:
         row_order = cm_config.get('row_order', None)
         col_order = cm_config.get('col_order', None)
         
-        # Confusion matrix
+        # Confusion matrix - pass query_data to preserve ALL query labels
         cm_path = self.save_dir / f"confusion_matrix_{query_name}.png"
         plot_confusion_matrix(
             predictions=predictions,
@@ -394,11 +392,12 @@ class CrossSpeciesLabelTransferPipeline:
             figsize=figsize,
             row_order=row_order,
             col_order=col_order,
-            valid_mask=valid_mask,
+            valid_mask=None,  # Don't filter, show all cells
+            query_data=query_data,  # NEW: pass for original label preservation
         )
         self.logger.info(f"Confusion matrix saved to {cm_path}")
         
-        # Per-class F1 scores
+        # Per-class F1 scores (only on valid labels)
         per_class_f1_path = self.save_dir / f"per_class_f1_{query_name}.png"
         plot_per_class_f1(
             results['per_class_metrics'],

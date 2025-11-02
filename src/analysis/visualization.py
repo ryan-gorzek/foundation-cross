@@ -8,6 +8,7 @@ import seaborn as sns
 from pathlib import Path
 from typing import Optional, List, Tuple
 from sklearn.preprocessing import LabelEncoder
+import anndata as ad
 
 
 def plot_confusion_matrix(
@@ -22,10 +23,14 @@ def plot_confusion_matrix(
     col_order: Optional[List[str]] = None,
     valid_mask: Optional[np.ndarray] = None,
     cmap: str = "Blues",
-    fmt: str = ".2f"
+    fmt: str = ".2f",
+    query_data: Optional[ad.AnnData] = None
 ) -> None:
     """
     Plot confusion matrix with customizable ordering.
+    
+    If query_data is provided with 'celltype_original', uses ALL original query labels
+    for rows (true labels), not just those matching reference.
     
     Parameters
     ----------
@@ -34,9 +39,9 @@ def plot_confusion_matrix(
     labels : np.ndarray
         True label IDs
     true_label_names : List[str]
-        Names for true labels (rows)
+        Names for true labels (rows) - reference categories
     pred_label_names : List[str]
-        Names for predicted labels (columns)
+        Names for predicted labels (columns) - reference categories
     save_path : Path
         Path to save figure
     title : str
@@ -48,88 +53,86 @@ def plot_confusion_matrix(
     col_order : Optional[List[str]]
         Custom order for columns (predicted labels)
     valid_mask : Optional[np.ndarray]
-        Boolean mask for valid predictions
+        Boolean mask for valid predictions (not used for plotting, all cells shown)
     cmap : str
         Colormap name
     fmt : str
         Format string for annotations
-
-    NOTE: valid_mask is NOT used to filter data. All cells are included in the
-    confusion matrix. This parameter exists for API compatibility but rows with
-    invalid labels will show the actual predictions made by the model.
+    query_data : Optional[ad.AnnData]
+        Query data with celltype_original for full label preservation
     """
+    # Use original query labels if available, otherwise use the mapped labels
+    if query_data is not None and 'celltype_original' in query_data.obs.columns:
+        true_labels_str = query_data.obs['celltype_original'].values
+    else:
+        # Fallback: try to map label IDs to names
+        true_labels_str = np.array([true_label_names[i] if 0 <= i < len(true_label_names) else f"Unknown_{i}" 
+                                    for i in labels])
     
-    # Map integer labels to string labels
-    true_labels_str = np.array([true_label_names[i] if i < len(true_label_names) else f"Unknown_{i}" 
-                            for i in labels])
-    pred_labels_str = np.array([pred_label_names[i] if i < len(pred_label_names) else f"Unknown_{i}" 
-                            for i in predictions])
-
-    # Get ALL unique labels (union, not just what appears in data)
-    # This ensures we show all possible categories even if some aren't predicted/observed
-    all_true_labels = set(true_label_names)
-    all_pred_labels = set(pred_label_names)
-
-    # Also include what actually appears in the data
-    all_true_labels.update(true_labels_str)
-    all_pred_labels.update(pred_labels_str)
-
-    # Convert to sorted lists for consistent ordering
-    unique_true = sorted(all_true_labels)
-    unique_pred = sorted(all_pred_labels)
-
-    # Encode labels with full label space
+    # Map predicted IDs to names
+    pred_labels_str = np.array([pred_label_names[i] if 0 <= i < len(pred_label_names) else f"Unknown_{i}" 
+                                for i in predictions])
+    
+    # Get unique labels
+    # Rows: ALL query labels that appear in data
+    unique_true = sorted(set(true_labels_str))
+    # Columns: ALL reference labels (whether predicted or not)
+    unique_pred = pred_label_names  # Use all reference categories, not just predicted ones
+    
+    # Encode labels
     true_encoder = LabelEncoder()
     true_encoder.fit(unique_true)
     true_encoded = true_encoder.transform(true_labels_str)
-
+    
     pred_encoder = LabelEncoder()
     pred_encoder.fit(unique_pred)
     pred_encoded = pred_encoder.transform(pred_labels_str)
-
-    # Compute confusion matrix without constraining labels
-    n_true = len(unique_true)
-    n_pred = len(unique_pred)
-    cm = np.zeros((n_true, n_pred), dtype=int)
-
-    # Populate matrix
-    for t, p in zip(true_encoded, pred_encoded):
-        cm[t, p] += 1
-
-    # Normalize by row
+    
+    # Compute confusion matrix with explicit labels for non-square matrix
+    from sklearn.metrics import confusion_matrix
+    # Use labels parameter to force inclusion of all true and pred labels
+    true_labels_range = np.arange(len(unique_true))
+    pred_labels_range = np.arange(len(unique_pred))
+    
+    # Build confusion matrix manually to handle non-square case
+    cm = np.zeros((len(unique_true), len(unique_pred)), dtype=int)
+    for t_idx, p_idx in zip(true_encoded, pred_encoded):
+        cm[t_idx, p_idx] += 1
+    
+    # Normalize by row (true labels)
     cm_normalized = cm.astype('float')
-    row_sums = cm.sum(axis=1, keepdims=True)
-    row_sums[row_sums == 0] = 1
-    cm_normalized = cm_normalized / row_sums
-
+    row_sums = cm.sum(axis=1)
+    row_sums[row_sums == 0] = 1  # Avoid division by zero
+    cm_normalized = cm_normalized / row_sums[:, np.newaxis]
+    
     # Create DataFrame with proper labels
     cm_df = pd.DataFrame(
         cm_normalized,
-        index=unique_true,
-        columns=unique_pred
+        index=true_encoder.classes_,
+        columns=pred_encoder.classes_
     )
     
     # Apply custom ordering if specified
     if row_order is not None:
-        # Add missing rows with zeros
-        for row_label in row_order:
-            if row_label not in cm_df.index:
-                cm_df.loc[row_label] = 0.0
-        cm_df.reindex(row_order)
+        # Filter to only include labels that exist in the data
+        row_order_filtered = [r for r in row_order if r in cm_df.index]
+        if row_order_filtered:
+            cm_df = cm_df.reindex(row_order_filtered)
     else:
         # Default: alphabetical
         cm_df = cm_df.sort_index()
     
     if col_order is not None:
-        # Add missing rows with zeros
-        for col_label in col_order:
-            if col_label not in cm_df.columns:
-                cm_df[col_label] = 0.0
-        cm_df[col_order]
+        # Filter to only include labels that exist in the data
+        col_order_filtered = [c for c in col_order if c in cm_df.columns]
+        if col_order_filtered:
+            cm_df = cm_df[col_order_filtered]
     else:
         # Default: alphabetical
         cm_df = cm_df[sorted(cm_df.columns)]
-
+    print("====== Confusion Matrix ======")
+    print(cm_df)
+    print("==============================")
     # Plot
     plt.figure(figsize=figsize)
     sns.heatmap(
