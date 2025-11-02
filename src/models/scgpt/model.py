@@ -396,6 +396,7 @@ class ScGPTModel(BaseLabelTransferModel):
         
         # Match genes to vocab and preprocess
         query_data = self._match_genes_to_vocab(query_data)
+        query_data = self._preprocess_data(query_data)
         
         # CRITICAL: Ensure query has exact same genes as training (in same order)
         if hasattr(self, 'training_genes'):
@@ -424,8 +425,6 @@ class ScGPTModel(BaseLabelTransferModel):
             self.gene_ids = np.array(self.vocab(common_genes), dtype=int)
             
             self.log_info(f"Using {n_common} common genes for prediction")
-        
-        query_data = self._preprocess_data(query_data)
         
         # Prepare test data
         input_layer_key = "X_binned"
