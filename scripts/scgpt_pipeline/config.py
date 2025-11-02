@@ -9,7 +9,7 @@ from pathlib import Path
 # ============================================================================
 DATA_DIR = Path("data/")
 MOUSE_H5AD = DATA_DIR / "raw/Mouse_V1_P38_All.h5ad"
-OPOSSUM_H5AD = DATA_DIR / "raw/Opossum_V1_All_Labeled.h5ad"
+OPOSSUM_H5AD = DATA_DIR / "raw/Opossum_V1_All.h5ad"
 
 # Pre-trained model
 PRETRAINED_MODEL_DIR = Path("models/whole-human/")
