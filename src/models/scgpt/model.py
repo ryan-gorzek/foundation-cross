@@ -37,7 +37,6 @@ class ScGPTModel(BaseLabelTransferModel):
         # Model components (initialized during train)
         self.vocab = None
         self.model = None
-        self.preprocessor = None
         
         # Special tokens
         self.pad_token = "<pad>"
@@ -131,7 +130,7 @@ class ScGPTModel(BaseLabelTransferModel):
         return model
     
     def _preprocess_data(self, adata: ad.AnnData) -> ad.AnnData:
-        """Preprocess data for scGPT."""
+        """Preprocess data for scGPT - creates fresh preprocessor each time."""
         # Remove zero-count cells
         if issparse(adata.X):
             cell_counts = np.array(adata.X.sum(axis=1)).flatten()
@@ -145,22 +144,21 @@ class ScGPTModel(BaseLabelTransferModel):
         if n_removed > 0:
             self.log_info(f"Filtered {n_removed} zero-count cells")
         
-        # Preprocess
-        if self.preprocessor is None:
-            self.preprocessor = Preprocessor(
-                use_key="X",
-                filter_gene_by_counts=False,
-                filter_cell_by_counts=3,
-                normalize_total=1e4,
-                result_normed_key="X_normed",
-                log1p=False,
-                result_log1p_key="X_log1p",
-                subset_hvg=False,
-                binning=self.architecture.get('n_bins', 51),
-                result_binned_key="X_binned",
-            )
+        # Create a FRESH preprocessor each time to avoid state leakage between datasets
+        preprocessor = Preprocessor(
+            use_key="X",
+            filter_gene_by_counts=False,
+            filter_cell_by_counts=3,
+            normalize_total=1e4,
+            result_normed_key="X_normed",
+            log1p=False,
+            result_log1p_key="X_log1p",
+            subset_hvg=False,
+            binning=self.architecture.get('n_bins', 51),
+            result_binned_key="X_binned",
+        )
         
-        self.preprocessor(adata, batch_key=None)
+        preprocessor(adata, batch_key=None)
         return adata
     
     def train(self, reference_data: ad.AnnData, **kwargs) -> None:
@@ -193,21 +191,13 @@ class ScGPTModel(BaseLabelTransferModel):
             if issparse(reference_data.layers[input_layer_key])
             else reference_data.layers[input_layer_key]
         )
-
+        
         genes = reference_data.var["gene_name"].tolist()
         self.gene_ids = np.array(self.vocab(genes), dtype=int)
-
+        self.training_genes = genes  # Save for prediction matching
+        
         celltypes_labels = reference_data.obs["celltype_id"].values
         batch_ids = reference_data.obs.get("batch_id", np.zeros(len(celltypes_labels))).values
-
-        print(f"DEBUG all_counts shape: {all_counts.shape}")
-        print(f"DEBUG all_counts dtype: {all_counts.dtype}")
-        print(f"DEBUG all_counts min/max: {all_counts.min()}/{all_counts.max()}")
-        print(f"DEBUG all_counts unique values: {np.unique(all_counts)[:20]}")  # First 20
-        print(f"DEBUG celltypes_labels unique: {np.unique(celltypes_labels)}")
-        print(f"DEBUG celltypes_labels distribution:")
-        for ct in np.unique(celltypes_labels):
-            print(f"  Class {ct}: {(celltypes_labels == ct).sum()} cells")
         
         # Train/validation split
         (
@@ -406,6 +396,35 @@ class ScGPTModel(BaseLabelTransferModel):
         
         # Match genes to vocab and preprocess
         query_data = self._match_genes_to_vocab(query_data)
+        
+        # CRITICAL: Ensure query has exact same genes as training (in same order)
+        if hasattr(self, 'training_genes'):
+            training_gene_set = set(self.training_genes)
+            query_genes = query_data.var["gene_name"].values
+            
+            # Find common genes (intersection)
+            common_genes = [g for g in self.training_genes if g in query_genes]
+            n_common = len(common_genes)
+            n_missing = len(self.training_genes) - n_common
+            
+            if n_missing > 0:
+                self.log_warning(f"Query missing {n_missing}/{len(self.training_genes)} training genes")
+            
+            if n_common == 0:
+                raise ValueError("No common genes between training and query")
+            
+            # Subset query to common genes and reorder to match training
+            print("======= QUERY NAMES ========")
+            print(query_data.var_names)
+            print("======= COMMON GENES ========")
+            print(common_genes)
+            query_data = query_data[:, common_genes].copy()
+            
+            # Update gene_ids for the reduced gene set
+            self.gene_ids = np.array(self.vocab(common_genes), dtype=int)
+            
+            self.log_info(f"Using {n_common} common genes for prediction")
+        
         query_data = self._preprocess_data(query_data)
         
         # Prepare test data
@@ -416,7 +435,11 @@ class ScGPTModel(BaseLabelTransferModel):
             else query_data.layers[input_layer_key]
         )
         
-        celltypes_labels_test = query_data.obs["celltype_id"].values
+        # Use celltype_id_for_model if available (handles cells with labels not in reference)
+        if "celltype_id_for_model" in query_data.obs.columns:
+            celltypes_labels_test = query_data.obs["celltype_id_for_model"].values
+        else:
+            celltypes_labels_test = query_data.obs["celltype_id"].values
         batch_ids_test = query_data.obs.get("batch_id", np.ones(len(celltypes_labels_test))).values
         
         # Tokenize
