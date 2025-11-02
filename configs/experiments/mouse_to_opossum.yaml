@@ -36,7 +36,7 @@ output:
       - OPC
       - Endo
     col_order: # (predicted: mouse) null = automatic (alphabetical)
-      - "L2/3"
+      - L2/3
       - L4
       - L5IT
       - L5NP
@@ -59,7 +59,7 @@ output:
 
 training:
   seed: 0
-  epochs: 10
+  epochs: 3
   batch_size: 16
   validation_split: 0.1
   log_interval: 100
