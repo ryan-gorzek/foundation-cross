@@ -333,6 +333,37 @@ class ScGPTModel(BaseLabelTransferModel):
         dropout = self.architecture.get('dropout', 0.2)
         n_bins = self.architecture.get('n_bins', 51)
         fast_transformer = self.training_config.get('fast_transformer', True)
+
+        # Load architecture from pretrained args.json if available
+        if self.pretrained_path:
+            pretrained_dir = Path(self.pretrained_path)
+            args_file = pretrained_dir / "args.json"
+            if args_file.exists():
+                import json
+                with open(args_file, 'r') as f:
+                    pretrained_args = json.load(f)
+                embsize = pretrained_args.get("embsize", self.architecture.get('layer_size', 128))
+                nhead = pretrained_args.get("nheads", self.architecture.get('n_heads', 4))
+                d_hid = pretrained_args.get("d_hid", self.architecture.get('layer_size', 128))
+                nlayers = pretrained_args.get("nlayers", self.architecture.get('n_layers', 4))
+                self.log_info(f"Loaded pretrained architecture: embsize={embsize}, nhead={nhead}, d_hid={d_hid}, nlayers={nlayers}")
+                self.log_info(f"Loaded architecture from pretrained args.json")
+            else:
+                self.log_warning(f"args.json not found, using config values")
+                embsize = self.architecture.get('layer_size', 128)
+                nhead = self.architecture.get('n_heads', 4)
+                d_hid = self.architecture.get('layer_size', 128)
+                nlayers = self.architecture.get('n_layers', 4)
+        else:
+            # No pretrained model, use config
+            embsize = self.architecture.get('layer_size', 128)
+            nhead = self.architecture.get('n_heads', 4)
+            d_hid = self.architecture.get('layer_size', 128)
+            nlayers = self.architecture.get('n_layers', 4)
+        
+        dropout = self.architecture.get('dropout', 0.2)
+        n_bins = self.architecture.get('n_bins', 51)
+        fast_transformer = self.training_config.get('fast_transformer', True)
         
         self.model = TransformerModel(
             len(self.vocab),
