@@ -414,11 +414,11 @@ class ScGPTModel(BaseLabelTransferModel):
                 raise ValueError("No common genes between training and query")
             
             # Subset query to common genes and reorder to match training
-            print("======= QUERY NAMES ========")
-            print(query_data.var_names)
-            print("======= COMMON GENES ========")
-            print(common_genes)
+            query_data.var["__backup_var_names"] = query_data.var_names
+            query_data.var_names = query_data.var["gene_name"].astype(str).str.upper()
             query_data = query_data[:, common_genes].copy()
+            query_data.var_names = query_data.var["__backup_var_names"]
+            query_data.var.drop(columns="__backup_var_names", inplace=True)
             
             # Update gene_ids for the reduced gene set
             self.gene_ids = np.array(self.vocab(common_genes), dtype=int)
