@@ -1,0 +1,40 @@
+==========================================
+Job started on g14 at Sun Nov  2 08:58:12 PST 2025
+Job ID: 11222830
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+/work/UGE/8.6.4/g14/job_scripts/11222830: line 21: module: command not found
+/work/UGE/8.6.4/g14/job_scripts/11222830: line 22: conda: command not found
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 2.7.5
+
+PyTorch version:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ImportError: No module named torch
+
+CUDA available:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ImportError: No module named torch
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ImportError: No module named torch
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum.yaml
+
+Starting experiment...
+==========================================
+  File "scripts/run_experiment.py", line 53
+    print(f"Error: Config file not found: {config_path}")
+                                                       ^
+SyntaxError: invalid syntax
+==========================================
+Job 11222830 ended on:    g14
+Job 11222830 ended on:    Sun Nov 2 08:58:12 PST 2025
+ 
+==========================================

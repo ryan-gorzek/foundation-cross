@@ -17,6 +17,8 @@ echo "Job ID: $JOB_ID"
 echo "Working directory: $(pwd)"
 echo "=========================================="
 
+# Load the job environment
+. /u/local/Modules/default/init/modules.sh
 # Set up environment
 module load anaconda3
 conda activate scgpt_env
