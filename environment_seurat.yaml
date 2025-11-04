@@ -1,0 +1,71 @@
+# environment_seurat.yaml — seurat_env
+# NOTE: Loader/runtime + locale fixes are embedded below as comments so you have everything in one file.
+
+name: seurat_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # ---------- Python ----------
+  - python=3.11
+  - pip
+
+  # Data handling
+  - scanpy>=1.9
+  - anndata>=0.9
+  - pandas>=2.0
+  - numpy>=1.24
+  - scipy>=1.10
+
+  # Visualization
+  - matplotlib>=3.7
+  - seaborn>=0.12
+
+  # ML
+  - scikit-learn>=1.3
+
+  # Utilities
+  - pyyaml>=6.0
+
+  # ---------- R (from conda, not a module) ----------
+  # r-base 4.4.x + icu 75 are required to avoid GLIBCXX/CXXABI symbol errors.
+  - r-base=4.4.*
+  - icu=75.*
+
+  # Seurat stack and common deps
+  - r-seurat=5.*
+  - r-seuratobject=5.*
+  - r-sctransform
+  - r-reticulate
+  - r-data.table
+  - r-matrix
+  - r-matrixstats
+  - r-rcpp
+  - r-rtsne
+  - r-uwot
+  - r-ggplot2
+  - r-patchwork
+  - r-plotly
+  - r-devtools
+
+  # Conda compilers to keep R/C/C++ builds inside the env
+  - c-compiler
+  - cxx-compiler
+  - fortran-compiler
+
+  # Choose ONE BLAS family. OpenBLAS is safer on shared clusters.
+  - openblas
+  # If you prefer Intel MKL, replace the previous line with:
+  # - mkl
+  # - mkl-service
+
+  # ---------- Pin conda C/C++ runtimes ----------
+  - libstdcxx-ng=15.2.0
+  - libgcc-ng=15.2.0
+  - libgomp=15.2.0
+
+  # ---------- pip extras ----------
+  - pip:
+      - leidenalg
