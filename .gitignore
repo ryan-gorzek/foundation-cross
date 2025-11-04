@@ -1,4 +1,6 @@
 *.h5ad
+*.h5seurat
+*.rds
 *.log
 *.pt
 **/wandb/

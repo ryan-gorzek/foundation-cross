@@ -49,6 +49,7 @@ dependencies:
   - r-patchwork
   - r-plotly
   - r-devtools
+  - bioconductor-rhdf5
 
   # Conda compilers to keep R/C/C++ builds inside the env
   - c-compiler
