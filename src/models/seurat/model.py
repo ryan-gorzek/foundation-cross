@@ -41,6 +41,9 @@ class SeuratMapQuery(BaseLabelTransferModel):
         self.reference_rds = None
         self.query_h5ad = None
         self.query_rds = None
+        
+        # Store reference categories for prediction mapping
+        self.reference_categories = None
     
     def _write_h5ad(self, adata: ad.AnnData, name: str) -> Path:
         """Write AnnData to H5AD file."""
@@ -94,6 +97,13 @@ class SeuratMapQuery(BaseLabelTransferModel):
         """
         self.log_info("Preparing reference data for Seurat MapQuery")
         
+        # CRITICAL: Store reference categories for prediction mapping
+        if 'celltype' in reference_data.obs.columns:
+            self.reference_categories = reference_data.obs['celltype'].cat.categories.tolist()
+            self.log_info(f"Stored {len(self.reference_categories)} reference categories")
+        else:
+            raise ValueError("Reference data must have 'celltype' column")
+        
         # Write reference to H5AD
         self.reference_h5ad = self._write_h5ad(reference_data, "reference")
         
@@ -120,6 +130,9 @@ class SeuratMapQuery(BaseLabelTransferModel):
         
         if self.reference_rds is None:
             raise RuntimeError("Reference data not prepared. Call train() first.")
+        
+        if self.reference_categories is None:
+            raise RuntimeError("Reference categories not stored. Call train() first.")
         
         # Write query to H5AD
         self.query_h5ad = self._write_h5ad(query_data, "query")
@@ -172,22 +185,24 @@ class SeuratMapQuery(BaseLabelTransferModel):
         predictions_df = pd.read_csv(predictions_path)
         self.log_info(f"Loaded predictions for {len(predictions_df)} cells")
         
-        # Convert predicted labels to IDs matching reference categories
-        # Get reference categories from query_data (which has been aligned to reference)
-        if 'celltype' in query_data.obs.columns:
-            reference_categories = query_data.obs['celltype'].cat.categories
-        else:
-            # Fallback: extract from predictions
-            reference_categories = predictions_df['predicted_label'].unique()
+        # CRITICAL: Use stored reference categories, not query categories
+        # Create mapping from reference label names to IDs
+        label_to_id = {label: i for i, label in enumerate(self.reference_categories)}
         
-        # Create mapping
-        label_to_id = {label: i for i, label in enumerate(reference_categories)}
-        
-        # Convert predictions to IDs
+        # Convert predicted labels (strings from R) to IDs
         predicted_labels = predictions_df['predicted_label'].values
         predictions = np.array([
             label_to_id.get(label, -1) for label in predicted_labels
         ])
+        
+        # Check for unexpected predictions (shouldn't happen)
+        unknown_mask = predictions == -1
+        if unknown_mask.any():
+            unknown_labels = set(predicted_labels[unknown_mask])
+            self.log_warning(
+                f"Found {unknown_mask.sum()} predictions with labels not in reference: "
+                f"{unknown_labels}"
+            )
         
         # Store prediction scores for later analysis
         self.prediction_scores = predictions_df['prediction_score'].values
@@ -211,3 +226,10 @@ class SeuratMapQuery(BaseLabelTransferModel):
             scores_path = self.model_outputs_dir / "prediction_scores.npy"
             np.save(scores_path, self.prediction_scores)
             self.log_info(f"Prediction scores saved to {scores_path}")
+        
+        # Save reference categories for reproducibility
+        if self.reference_categories is not None:
+            categories_path = self.model_outputs_dir / "reference_categories.json"
+            with open(categories_path, 'w') as f:
+                json.dump({"categories": self.reference_categories}, f, indent=2)
+            self.log_info(f"Reference categories saved to {categories_path}")
