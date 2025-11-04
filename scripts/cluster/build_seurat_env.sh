@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 # seurat_env_setup.sh
 # Locale + runtime settings for the conda env "seurat_env". Safe to run multiple times.
 
