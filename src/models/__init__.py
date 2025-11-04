@@ -2,13 +2,11 @@
 Label transfer models.
 """
 from .base import BaseLabelTransferModel
-from .scgpt import ScGPTModel
-from .seurat import SeuratMapQuery
 
-# Model registry
+# Model registry (string references, not imported classes)
 MODEL_REGISTRY = {
-    'scgpt': ScGPTModel,
-    'seurat_mapquery': SeuratMapQuery,
+    'scgpt': 'scgpt',
+    'seurat_mapquery': 'seurat',
 }
 
 
@@ -38,14 +36,19 @@ def get_model(model_name: str, config: dict, save_dir, logger=None):
             f"Available models: {list(MODEL_REGISTRY.keys())}"
         )
     
-    model_class = MODEL_REGISTRY[model_name]
-    return model_class(config, save_dir, logger)
+    # Lazy import based on model name
+    if model_name == 'scgpt':
+        from .scgpt import ScGPTModel
+        return ScGPTModel(config, save_dir, logger)
+    elif model_name == 'seurat_mapquery':
+        from .seurat import SeuratMapQuery
+        return SeuratMapQuery(config, save_dir, logger)
+    else:
+        raise ValueError(f"Unknown model: {model_name}")
 
 
 __all__ = [
     'BaseLabelTransferModel',
-    'ScGPTModel',
-    'SeuratMapQuery',
     'MODEL_REGISTRY',
     'get_model',
 ]
