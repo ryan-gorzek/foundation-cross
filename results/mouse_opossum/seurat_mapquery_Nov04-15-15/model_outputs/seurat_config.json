@@ -1,7 +1,0 @@
-{
-  "dims": 30,
-  "k_anchor": 5,
-  "k_filter": 200,
-  "k_weight": 50,
-  "celltype_column": "celltype"
-}
