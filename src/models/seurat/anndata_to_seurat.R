@@ -132,7 +132,8 @@ if (file.exists(h5seurat_path)) {
   file.remove(h5seurat_path)
 }
 
-# Save as RDS
+# Ensure object contains Assay5 and save as RDS
+seurat_obj[["RNA"]] <- as(object = seurat_obj[["RNA"]], Class = "Assay5")
 saveRDS(seurat_obj, file = opt$output)
 
 cat("Conversion complete!\n")

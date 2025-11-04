@@ -1,0 +1,10 @@
+{
+  "git_commit": "ca13b2e31f35db8a4b5ca71a502c4e17a4f7ee9d",
+  "git_status": "dirty",
+  "config_hash": "14be155a",
+  "environment": {
+    "python_version": "3.11.14 | packaged by conda-forge | (main, Oct 22 2025, 22:46:25) [GCC 14.3.0]",
+    "torch_version": "not installed",
+    "cuda_available": false
+  }
+}
