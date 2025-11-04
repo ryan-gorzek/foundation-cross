@@ -71,13 +71,27 @@ if (!(opt$celltype_column %in% colnames(reference@meta.data))) {
 
 # Preprocessing reference
 cat("\nPreprocessing reference...\n")
+
+# Handle Seurat v5 assays - join layers if needed
+if (inherits(reference[["RNA"]], "Assay5")) {
+  cat("Detected Seurat v5 assay - joining layers...\n")
+  reference[["RNA"]] <- JoinLayers(reference[["RNA"]])
+}
+
 reference <- NormalizeData(reference, verbose = FALSE)
-reference <- FindVariableFeatures(reference, verbose = FALSE)
+reference <- FindVariableFeatures(reference, selection.method = "vst", nfeatures = 2000, verbose = FALSE)
 reference <- ScaleData(reference, verbose = FALSE)
 reference <- RunPCA(reference, npcs = opt$dims, verbose = FALSE)
 
 # Preprocessing query
 cat("Preprocessing query...\n")
+
+# Handle Seurat v5 assays - join layers if needed
+if (inherits(query[["RNA"]], "Assay5")) {
+  cat("Detected Seurat v5 assay - joining layers...\n")
+  query[["RNA"]] <- JoinLayers(query[["RNA"]])
+}
+
 query <- NormalizeData(query, verbose = FALSE)
 
 # Find transfer anchors
