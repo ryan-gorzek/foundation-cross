@@ -54,6 +54,21 @@ seurat_cell_names <- colnames(seurat_obj)
 cat("H5AD obs rows:", length(h5_obs_names), "\n")
 cat("Seurat cells:", length(seurat_cell_names), "\n")
 
+# Check column lengths
+cat("\nValidating obs column lengths...\n")
+for (col_name in names(obs)) {
+  col_data <- obs[[col_name]]
+  if (is.list(col_data) && "codes" %in% names(col_data)) {
+    col_len <- length(col_data$codes)
+  } else {
+    col_len <- length(col_data)
+  }
+  
+  if (col_len != length(h5_obs_names)) {
+    cat("WARNING:", col_name, "has", col_len, "values but expected", length(h5_obs_names), "\n")
+  }
+}
+
 # Find matching indices
 match_indices <- match(seurat_cell_names, h5_obs_names)
 
@@ -73,9 +88,28 @@ for (col_name in names(obs)) {
     categories <- col_data$categories
     codes <- col_data$codes
     
+    # CRITICAL: Force codes to be a simple vector (may have dimensions from HDF5)
+    if (!is.null(dim(codes))) {
+      cat("  ", col_name, ": codes has dimensions", dim(codes), "- converting to vector\n")
+      codes <- as.vector(codes)
+    }
+    
     # R uses 1-based indexing, codes are 0-based
-    # Only use codes for cells that match Seurat object
-    values <- categories[codes[match_indices] + 1]
+    # Extract codes for matched cells
+    matched_codes <- codes[match_indices]
+    
+    # Handle -1 (missing/NA values in categorical)
+    # -1 in codes means NA, don't try to index with it
+    values <- rep(NA_character_, length(matched_codes))
+    valid_mask <- matched_codes >= 0
+    
+    if (any(valid_mask)) {
+      values[valid_mask] <- categories[matched_codes[valid_mask] + 1]
+    }
+    
+    if (any(!valid_mask)) {
+      cat("  ", col_name, ": has", sum(!valid_mask), "NA values\n")
+    }
     
     # Convert to factor
     obs_df[[col_name]] <- factor(values, levels = categories)
