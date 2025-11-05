@@ -1,8 +1,6 @@
 # foundation-cross
 
-**Benchmarking single-cell foundation models for cross-species label transfer**
-
-A modular framework for benchmarking label transfer methods across species (easily adapted for cross-modality). Currently compares a transformer-based foundation model (scGPT) with a traditional reference mapping approach (Seurat MapQuery) for transferring cell type annotations between mouse and opossum primary visual cortex.
+This repository provides a modular framework for benchmarking label transfer methods across species (easily adapted for cross-modality experiments). Currently compares a transformer-based foundation model (scGPT) with a traditional reference mapping approach (Seurat MapQuery) for transferring cell type annotations between mouse and opossum primary visual cortex.
 
 ## Overview
 
@@ -11,7 +9,6 @@ This pipeline enables systematic comparison of different label transfer approach
 - **Modular architecture**: Easy to add new models, datasets, or species
 - **Reproducible experiments**: YAML-based configuration with version tracking
 - **Comprehensive evaluation**: Confusion matrices, per-class metrics, and cross-model comparison tools
-- **Production-ready**: Handles edge cases like mismatched labels, missing values, and format conversions
 
 ### Current Supported Models
 
