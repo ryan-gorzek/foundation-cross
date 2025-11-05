@@ -4,7 +4,7 @@ This repository provides a modular framework for benchmarking label transfer met
 
 ## Overview
 
-This pipeline enables systematic comparison of different label transfer approaches on the same cross-species dataset. Key features:
+This pipeline enables systematic comparison of different label transfer approaches across the same reference and query datasets. Key features:
 
 - **Modular architecture**: Easy to add new models, datasets, or species
 - **Reproducible experiments**: YAML-based configuration with version tracking
@@ -49,7 +49,7 @@ foundation-cross/
 
 ### Note
 
-These environments can be incredibly difficult to build and may not work straightforwardly with these instructions. Feel free to reach out with questions.
+These environments can be incredibly difficult to build and may not work straightforwardly on your system with these instructions. Feel free to reach out with questions.
 
 ### Requirements
 
