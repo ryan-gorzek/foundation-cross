@@ -1,0 +1,2 @@
+# Exclude Jupyter Notebooks (for generating my H5ADs) from language stats
+*.ipynb linguist-generated
