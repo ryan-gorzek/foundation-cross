@@ -1,0 +1,30 @@
+==========================================
+Job started on g14 at Tue Nov  4 21:30:09 PST 2025
+Job ID: 11279893
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+PyTorch version:
+2.1.2+cu121
+
+CUDA available:
+True
+GPU device:
+NVIDIA RTX A6000
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum.yaml
+
+Starting experiment...
+==========================================
+Error: Config file not found: configs/experiments/mouse_to_opossum.yaml
+==========================================
+Job 11279893 ended on:    g14
+Job 11279893 ended on:    Tue Nov 4 21:30:46 PST 2025
+ 
+==========================================

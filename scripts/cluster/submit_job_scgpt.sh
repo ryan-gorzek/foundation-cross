@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -o jobs/joblog.$JOB_ID
 #$ -j y
-#$ -l gpu,A6000,cuda=1,h_data=32G,h_rt=4:00:00
+#$ -l gpu,A6000,cuda=1,h_data=32G,h_rt=7:00:00
 #$ -N cross_species_transfer
 #$ -M rgorzek@ucla.edu
 #$ -m bea
@@ -44,7 +44,7 @@ echo "----------------------------------------"
 echo ""
 
 # Parse command line arguments
-CONFIG_FILE=${1:-configs/experiments/mouse_to_opossum.yaml}
+CONFIG_FILE=${1:-configs/experiments/mouse_to_opossum_scgpt.yaml}
 
 echo "Configuration file: $CONFIG_FILE"
 echo ""

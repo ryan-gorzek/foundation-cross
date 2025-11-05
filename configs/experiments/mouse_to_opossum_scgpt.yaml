@@ -10,7 +10,7 @@ query:
     labels: null
 
 model: scgpt
-model_config: configs/models/seurat_mapquery.yaml
+model_config: configs/models/scgpt.yaml
 
 output:
   save_dir: results
@@ -59,7 +59,7 @@ output:
 
 training:
   seed: 0
-  epochs: 10
+  epochs: 25
   batch_size: 16
   validation_split: 0.1
   log_interval: 100
