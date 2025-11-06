@@ -12,7 +12,7 @@ This pipeline enables systematic comparison of different label transfer approach
 
 ### Current Supported Models
 
-1. **scGPT** - Pretrained transformer model for single-cell genomics
+1. **scGPT** - Pretrained transformer model for single-cell transcriptomics
 2. **Seurat MapQuery** - Reference-based label transfer using CCA anchors
 
 ## Repository Structure
