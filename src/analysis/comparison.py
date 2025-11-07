@@ -96,6 +96,10 @@ def compare_model_runs(
         results = load_run_results(run_dir)
         all_results.append(results)
     
+    print("====== ALL_RESULTS ======")
+    print(all_results)
+    print("=========================")
+
     # Compare metrics
     metrics_comparison = {}
     for results in all_results:
