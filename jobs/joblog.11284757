@@ -1,0 +1,156 @@
+==========================================
+Job started on g14 at Wed Nov  5 21:31:39 PST 2025
+Job ID: 11284757
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+PyTorch version:
+2.1.2+cu121
+
+CUDA available:
+True
+GPU device:
+NVIDIA RTX A6000
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum_scgpt.yaml
+
+Starting experiment...
+==========================================
+Starting experiment from config: configs/experiments/mouse_to_opossum_scgpt.yaml
+2025-11-05 21:31:51 - pipeline - INFO - 
+=========================================================================================
+2025-11-05 21:31:51 - pipeline - INFO - Cross-Species Label Transfer Pipeline
+2025-11-05 21:31:51 - pipeline - INFO - =========================================================================================
+2025-11-05 21:31:51 - pipeline - INFO - Experiment: mouse_opossum_transfer
+2025-11-05 21:31:51 - pipeline - INFO - Output directory: results/mouse_opossum/scgpt_Nov05-21-31
+2025-11-05 21:31:51 - pipeline - INFO - Configuration saved to results/mouse_opossum/scgpt_Nov05-21-31/config.yaml
+2025-11-05 21:31:51 - pipeline - INFO - Git commit: 5e2ef04f79f248795c274412efd571fd5e797fc1
+2025-11-05 21:31:51 - pipeline - WARNING - Git repository has uncommitted changes
+2025-11-05 21:31:52 - pipeline - INFO - Python version: 3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]
+2025-11-05 21:31:52 - pipeline - INFO - PyTorch version: 2.1.2+cu121
+2025-11-05 21:31:52 - pipeline - INFO - CUDA available: True
+2025-11-05 21:31:52 - pipeline - INFO - Config hash: 73a2db97
+2025-11-05 21:31:52 - pipeline - INFO - 
+=========================================================================================
+2025-11-05 21:31:52 - pipeline - INFO - STEP 1: Loading Datasets
+2025-11-05 21:31:52 - pipeline - INFO - =========================================================================================
+2025-11-05 21:31:52 - pipeline - INFO - Loading mouse data from data/raw/Mouse_V1_P38_All.h5ad
+2025-11-05 21:32:48 - pipeline - INFO -   16997 cells, 24372 genes
+2025-11-05 21:32:49 - pipeline - WARNING - Reference has 57 genes with zero expression
+2025-11-05 21:32:49 - pipeline - INFO - Loading opossum data from data/raw/Opossum_V1_All.h5ad
+2025-11-05 21:33:01 - pipeline - INFO -   32764 cells, 30800 genes
+2025-11-05 21:33:01 - pipeline - WARNING - Query 0 has 1412 genes with zero expression
+2025-11-05 21:33:01 - pipeline - INFO - 
+Finding common genes across datasets...
+2025-11-05 21:33:01 - pipeline - INFO - Found 11730 common genes across all datasets
+2025-11-05 21:33:07 - pipeline - INFO - 
+=========================================================================================
+2025-11-05 21:33:07 - pipeline - INFO - STEP 2: Preprocessing Datasets
+2025-11-05 21:33:07 - pipeline - INFO - =========================================================================================
+2025-11-05 21:33:07 - pipeline - INFO - Filtering reference data...
+2025-11-05 21:33:13 - pipeline - INFO - 
+Filtering query data: opossum...
+2025-11-05 21:33:18 - pipeline - INFO - 
+=========================================================================================
+2025-11-05 21:33:18 - pipeline - INFO - STEP 3: Preparing Data for Training
+2025-11-05 21:33:18 - pipeline - INFO - =========================================================================================
+2025-11-05 21:33:18 - pipeline - INFO - Label matching summary:
+2025-11-05 21:33:18 - pipeline - INFO -   18305 query cells have labels matching reference categories
+2025-11-05 21:33:18 - pipeline - INFO -   14459 query cells have labels NOT in reference
+2025-11-05 21:33:18 - pipeline - INFO - 
+=========================================================================================
+2025-11-05 21:33:18 - pipeline - INFO - STEP 4: Initializing Model
+2025-11-05 21:33:18 - pipeline - INFO - =========================================================================================
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scgpt/model/model.py:21: UserWarning: flash_attn is not installed
+  warnings.warn("flash_attn is not installed")
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scgpt/model/multiomic_model.py:19: UserWarning: flash_attn is not installed
+  warnings.warn("flash_attn is not installed")
+2025-11-05 21:33:23 - pipeline - INFO - Initialized scgpt model
+2025-11-05 21:33:23 - pipeline - INFO -   Output directory: results/mouse_opossum/scgpt_Nov05-21-31
+2025-11-05 21:33:23 - pipeline - INFO - Using device: cuda
+2025-11-05 21:33:23 - pipeline - INFO - 
+=========================================================================================
+2025-11-05 21:33:23 - pipeline - INFO - STEP 5: Training Model
+2025-11-05 21:33:23 - pipeline - INFO - =========================================================================================
+2025-11-05 21:33:23 - pipeline - INFO - Random seed: 0
+2025-11-05 21:33:23 - pipeline - INFO - Training scGPT model
+2025-11-05 21:33:23 - pipeline - INFO - Loaded pre-trained vocabulary from models/scgpt/whole-human/vocab.json
+2025-11-05 21:33:23 - pipeline - INFO - Converting gene names to uppercase to match vocabulary
+2025-11-05 21:33:23 - pipeline - INFO - Matched 11204/11730 genes in vocabulary of size 60697
+scGPT - INFO - Filtering cells by counts ...
+scGPT - INFO - Normalizing total counts ...
+scGPT - INFO - Binning data ...
+2025-11-05 21:33:40 - pipeline - INFO - Training samples: 15297
+2025-11-05 21:33:40 - pipeline - INFO - Validation samples: 1700
+2025-11-05 21:34:07 - pipeline - INFO - Loaded pretrained architecture: embsize=512, nhead=8, d_hid=512, nlayers=12
+2025-11-05 21:34:07 - pipeline - INFO - Loaded architecture from pretrained args.json
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scgpt/model/model.py:77: UserWarning: flash-attn is not installed, using pytorch transformer instead. Set use_fast_transformer=False to avoid this warning. Installing flash-attn is highly recommended.
+  warnings.warn(
+2025-11-05 21:34:08 - pipeline - WARNING - Failed to load all weights. Loading compatible weights only.
+2025-11-05 21:34:08 - pipeline - ERROR - Pipeline failed: CUDA out of memory. Tried to allocate 120.00 MiB. GPU 0 has a total capacty of 47.54 GiB of which 94.94 MiB is free. Process 16607 has 46.98 GiB memory in use. Including non-PyTorch memory, this process has 464.00 MiB memory in use. Of the allocated memory 198.17 MiB is allocated by PyTorch, and 5.83 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Traceback (most recent call last):
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/scgpt/model.py", line 116, in _load_pretrained_weights
+    model.load_state_dict(torch.load(model_file, map_location=self.device))
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 2152, in load_state_dict
+    raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+RuntimeError: Error(s) in loading state_dict for TransformerModel:
+	Missing key(s) in state_dict: "transformer_encoder.layers.0.self_attn.in_proj_weight", "transformer_encoder.layers.0.self_attn.in_proj_bias", "transformer_encoder.layers.1.self_attn.in_proj_weight", "transformer_encoder.layers.1.self_attn.in_proj_bias", "transformer_encoder.layers.2.self_attn.in_proj_weight", "transformer_encoder.layers.2.self_attn.in_proj_bias", "transformer_encoder.layers.3.self_attn.in_proj_weight", "transformer_encoder.layers.3.self_attn.in_proj_bias", "transformer_encoder.layers.4.self_attn.in_proj_weight", "transformer_encoder.layers.4.self_attn.in_proj_bias", "transformer_encoder.layers.5.self_attn.in_proj_weight", "transformer_encoder.layers.5.self_attn.in_proj_bias", "transformer_encoder.layers.6.self_attn.in_proj_weight", "transformer_encoder.layers.6.self_attn.in_proj_bias", "transformer_encoder.layers.7.self_attn.in_proj_weight", "transformer_encoder.layers.7.self_attn.in_proj_bias", "transformer_encoder.layers.8.self_attn.in_proj_weight", "transformer_encoder.layers.8.self_attn.in_proj_bias", "transformer_encoder.layers.9.self_attn.in_proj_weight", "transformer_encoder.layers.9.self_attn.in_proj_bias", "transformer_encoder.layers.10.self_attn.in_proj_weight", "transformer_encoder.layers.10.self_attn.in_proj_bias", "transformer_encoder.layers.11.self_attn.in_proj_weight", "transformer_encoder.layers.11.self_attn.in_proj_bias". 
+	Unexpected key(s) in state_dict: "flag_encoder.weight", "mvc_decoder.gene2query.weight", "mvc_decoder.gene2query.bias", "mvc_decoder.W.weight", "transformer_encoder.layers.0.self_attn.Wqkv.weight", "transformer_encoder.layers.0.self_attn.Wqkv.bias", "transformer_encoder.layers.1.self_attn.Wqkv.weight", "transformer_encoder.layers.1.self_attn.Wqkv.bias", "transformer_encoder.layers.2.self_attn.Wqkv.weight", "transformer_encoder.layers.2.self_attn.Wqkv.bias", "transformer_encoder.layers.3.self_attn.Wqkv.weight", "transformer_encoder.layers.3.self_attn.Wqkv.bias", "transformer_encoder.layers.4.self_attn.Wqkv.weight", "transformer_encoder.layers.4.self_attn.Wqkv.bias", "transformer_encoder.layers.5.self_attn.Wqkv.weight", "transformer_encoder.layers.5.self_attn.Wqkv.bias", "transformer_encoder.layers.6.self_attn.Wqkv.weight", "transformer_encoder.layers.6.self_attn.Wqkv.bias", "transformer_encoder.layers.7.self_attn.Wqkv.weight", "transformer_encoder.layers.7.self_attn.Wqkv.bias", "transformer_encoder.layers.8.self_attn.Wqkv.weight", "transformer_encoder.layers.8.self_attn.Wqkv.bias", "transformer_encoder.layers.9.self_attn.Wqkv.weight", "transformer_encoder.layers.9.self_attn.Wqkv.bias", "transformer_encoder.layers.10.self_attn.Wqkv.weight", "transformer_encoder.layers.10.self_attn.Wqkv.bias", "transformer_encoder.layers.11.self_attn.Wqkv.weight", "transformer_encoder.layers.11.self_attn.Wqkv.bias". 
+	size mismatch for cls_decoder.out_layer.weight: copying a param with shape torch.Size([177, 512]) from checkpoint, the shape in current model is torch.Size([20, 512]).
+	size mismatch for cls_decoder.out_layer.bias: copying a param with shape torch.Size([177]) from checkpoint, the shape in current model is torch.Size([20]).
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/u/scratch/r/rgorzek/foundation-cross/scripts/run_experiment.py", line 65, in <module>
+    main()
+  File "/u/scratch/r/rgorzek/foundation-cross/scripts/run_experiment.py", line 59, in main
+    pipeline.run()
+  File "/u/scratch/r/rgorzek/foundation-cross/src/pipeline.py", line 418, in run
+    self.train_model()
+  File "/u/scratch/r/rgorzek/foundation-cross/src/pipeline.py", line 266, in train_model
+    self.model.train(
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/scgpt/model.py", line 275, in train
+    self._initialize_model(num_types, kwargs)
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/scgpt/model.py", line 397, in _initialize_model
+    self.model = self._load_pretrained_weights(self.model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/scgpt/model.py", line 121, in _load_pretrained_weights
+    pretrained_dict = torch.load(model_file, map_location=self.device)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 1014, in load
+    return _load(opened_zipfile,
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 1422, in _load
+    result = unpickler.load()
+             ^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 1392, in persistent_load
+    typed_storage = load_tensor(dtype, nbytes, key, _maybe_decode_ascii(location))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 1366, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 1299, in restore_location
+    return default_restore_location(storage, str(map_location))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 381, in default_restore_location
+    result = fn(storage, location)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/serialization.py", line 279, in _cuda_deserialize
+    return obj.cuda(device)
+           ^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/_utils.py", line 114, in _cuda
+    untyped_storage = torch.UntypedStorage(
+                      ^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 120.00 MiB. GPU 0 has a total capacty of 47.54 GiB of which 94.94 MiB is free. Process 16607 has 46.98 GiB memory in use. Including non-PyTorch memory, this process has 464.00 MiB memory in use. Of the allocated memory 198.17 MiB is allocated by PyTorch, and 5.83 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+==========================================
+Job 11284757 ended on:    g14
+Job 11284757 ended on:    Wed Nov 5 21:34:09 PST 2025
+ 
+==========================================
