@@ -1,9 +1,0 @@
-{
-  "experiment_name": "mouse_opossum_comparison",
-  "n_models": 2,
-  "models": [
-    "scgpt_Nov02-09-02",
-    "seurat_mapquery_Nov04-15-27"
-  ],
-  "metrics_comparison": {}
-}
