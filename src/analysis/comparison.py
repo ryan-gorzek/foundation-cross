@@ -196,6 +196,7 @@ def plot_side_by_side_confusion_matrices(
     axes = axes.flatten()
     
     for idx, results in enumerate(results_list):
+        print(results.keys())
         if 'true_labels' not in results or 'predicted_labels' not in results:
             continue
 
@@ -233,7 +234,7 @@ def plot_side_by_side_confusion_matrices(
             index=true_encoder.classes_,
             columns=pred_encoder.classes_
         )
-        
+        print(cm_df)
         # Apply custom ordering if specified
         if row_order in results['config']:
             # Filter to only include labels that exist in the data
