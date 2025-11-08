@@ -112,6 +112,7 @@ def compare_model_runs(
     if metrics_comparison:
         if logger:
             logger.info("Generating metrics comparison plot...")
+        print(metrics_comparison)
         plot_metrics_comparison(
             metrics_comparison,
             output_dir / f"{experiment_name}_metrics_comparison.png",
