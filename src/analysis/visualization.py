@@ -173,7 +173,7 @@ def plot_metrics_comparison(
     """
     # Extract metrics to compare
     metric_names = ['accuracy', 'precision_macro', 'recall_macro', 'f1_macro']
-    
+    # Use 'overall' metrics
     data = []
     for run_name, metrics in metrics_dict.items():
         for metric_name in metric_names:
@@ -181,7 +181,7 @@ def plot_metrics_comparison(
                 data.append({
                     'Run': run_name,
                     'Metric': metric_name,
-                    'Value': metrics[metric_name]
+                    'Value': metrics['overall'][metric_name]
                 })
     
     df = pd.DataFrame(data)

@@ -112,7 +112,6 @@ def compare_model_runs(
     if metrics_comparison:
         if logger:
             logger.info("Generating metrics comparison plot...")
-        print(metrics_comparison)
         plot_metrics_comparison(
             metrics_comparison,
             output_dir / f"{experiment_name}_metrics_comparison.png",
@@ -125,7 +124,7 @@ def compare_model_runs(
         model_name = results['run_name'].split('_')[0]
         if 'metrics' in results:
             row = {'model': model_name}
-            row.update(results['metrics'])
+            row.update(results['metrics']['overall'])
             comparison_data.append(row)
     
     if comparison_data:
@@ -351,7 +350,7 @@ def generate_comparison_report(
         for results in all_results:
             model_name = results['run_name'].split('_')[0]
             if 'metrics' in results:
-                m = results['metrics']
+                m = results['metrics']['overall']
                 f.write(
                     f"| {model_name} | "
                     f"{m.get('accuracy', 0):.4f} | "
@@ -368,7 +367,7 @@ def generate_comparison_report(
         best_f1 = -1
         for results in all_results:
             if 'metrics' in results:
-                f1 = results['metrics'].get('f1_macro', 0)
+                f1 = results['metrics']['overall'].get('f1_macro', 0)
                 if f1 > best_f1:
                     best_f1 = f1
                     best_model = results['run_name'].split('_')[0]
@@ -395,7 +394,7 @@ def generate_comparison_report(
             
             if 'metrics' in results:
                 f.write("**Metrics:**\n\n")
-                for key, value in results['metrics'].items():
+                for key, value in results['metrics']['overall'].items():
                     if isinstance(value, float):
                         f.write(f"- {key}: {value:.4f}\n")
                     else:
