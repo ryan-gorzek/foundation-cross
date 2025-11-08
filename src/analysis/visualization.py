@@ -136,7 +136,7 @@ def plot_confusion_matrix(
         cmap=cmap,
         cbar_kws={"label": "Percentage"},
         vmin=0,
-        vmax=1
+        vmax=100
     )
     plt.title(title, fontsize=14, pad=20)
     plt.ylabel("True Label", fontsize=12)

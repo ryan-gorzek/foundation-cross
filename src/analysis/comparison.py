@@ -269,9 +269,9 @@ def plot_side_by_side_confusion_matrices(
             cmap='Blues',
             ax=ax,
             vmin=0,
-            vmax=1,
+            vmax=100,
             cbar_kws={"label": "Percentage"},
-            annot_kws={"fontsize": 8}
+            annot_kws={"fontsize": 6}
         )
         
         # Get accuracy if available
