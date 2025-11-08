@@ -177,7 +177,7 @@ def plot_metrics_comparison(
     data = []
     for run_name, metrics in metrics_dict.items():
         for metric_name in metric_names:
-            if metric_name in metrics:
+            if metric_name in metrics['overall']:
                 data.append({
                     'Run': run_name,
                     'Metric': metric_name,
