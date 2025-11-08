@@ -77,7 +77,7 @@ def plot_confusion_matrix(
     # Rows: ALL query labels that appear in data
     unique_true = sorted(set(true_labels_str))
     # Columns: ALL reference labels (whether predicted or not)
-    unique_pred = pred_label_names  # Use all reference categories, not just predicted ones
+    unique_pred = pred_label_names
     
     # Encode labels
     true_encoder = LabelEncoder()
@@ -87,12 +87,6 @@ def plot_confusion_matrix(
     pred_encoder = LabelEncoder()
     pred_encoder.fit(unique_pred)
     pred_encoded = pred_encoder.transform(pred_labels_str)
-    
-    # Compute confusion matrix with explicit labels for non-square matrix
-    from sklearn.metrics import confusion_matrix
-    # Use labels parameter to force inclusion of all true and pred labels
-    true_labels_range = np.arange(len(unique_true))
-    pred_labels_range = np.arange(len(unique_pred))
     
     # Build confusion matrix manually to handle non-square case
     cm = np.zeros((len(unique_true), len(unique_pred)), dtype=int)

@@ -134,7 +134,7 @@ def compare_model_runs(
             logger.info(f"Saved metrics table to {comparison_csv}")
     
     # Generate side-by-side confusion matrices
-    if len(all_results) <= 4:  # Only if we have a reasonable number
+    if len(all_results) <= 3:  # Only if we have a reasonable number
         if logger:
             logger.info("Generating side-by-side confusion matrices...")
         plot_side_by_side_confusion_matrices(
@@ -142,6 +142,9 @@ def compare_model_runs(
             output_dir / f"{experiment_name}_confusion_matrices.png",
             experiment_name
         )
+    else:
+        if logger:
+            logger.info(f"Skipped side-by-side confusion matrices: too many results...")
     
     # Save comparison summary
     comparison_summary = {
@@ -181,8 +184,7 @@ def plot_side_by_side_confusion_matrices(
     figsize_per_plot : tuple
         Size of each subplot
     """
-    from sklearn.metrics import confusion_matrix
-    
+
     n_models = len(results_list)
     ncols = min(n_models, 2)
     nrows = (n_models + ncols - 1) // ncols
@@ -200,21 +202,72 @@ def plot_side_by_side_confusion_matrices(
         if 'predictions' not in results or 'true_labels' not in results:
             continue
         
+        print("====== RESULTS ======")
+        print(results)
+        print("=====================")
+
         predictions = results['predictions']
         labels = results['true_labels']
         model_name = results['run_name'].split('_')[0]
         
-        # Compute normalized confusion matrix
-        cm = confusion_matrix(labels, predictions)
+        # Get unique true and predicted labels
+        unique_true = sorted(set(labels))
+        unique_pred = sorted(set(predictions))
+
+        # Encode labels
+        true_encoder = LabelEncoder()
+        true_encoder.fit(unique_true)
+        true_encoded = true_encoder.transform(true_labels_str)
+        
+        pred_encoder = LabelEncoder()
+        pred_encoder.fit(unique_pred)
+        pred_encoded = pred_encoder.transform(pred_labels_str)
+        
+        # Include all true and pred labels
+        true_labels_range = np.arange(len(unique_true))
+        pred_labels_range = np.arange(len(unique_pred))
+        
+        # Build confusion matrix manually to handle non-square case
+        cm = np.zeros((len(unique_true), len(unique_pred)), dtype=int)
+        for t_idx, p_idx in zip(true_encoded, pred_encoded):
+            cm[t_idx, p_idx] += 1
+        
+        # Normalize by row (true labels)
         cm_normalized = cm.astype('float')
         row_sums = cm.sum(axis=1)
-        row_sums[row_sums == 0] = 1
+        row_sums[row_sums == 0] = 1  # Avoid division by zero
         cm_normalized = cm_normalized / row_sums[:, np.newaxis]
+        
+        # Create DataFrame with proper labels
+        cm_df = pd.DataFrame(
+            cm_normalized,
+            index=true_encoder.classes_,
+            columns=pred_encoder.classes_
+        )
+        
+        # Apply custom ordering if specified
+        if row_order is not None:
+            # Filter to only include labels that exist in the data
+            row_order_filtered = [r for r in row_order if r in cm_df.index]
+            if row_order_filtered:
+                cm_df = cm_df.reindex(row_order_filtered)
+        else:
+            # Default: alphabetical
+            cm_df = cm_df.sort_index()
+        
+        if col_order is not None:
+            # Filter to only include labels that exist in the data
+            col_order_filtered = [c for c in col_order if c in cm_df.columns]
+            if col_order_filtered:
+                cm_df = cm_df[col_order_filtered]
+        else:
+            # Default: alphabetical
+            cm_df = cm_df[sorted(cm_df.columns)]
         
         # Plot
         ax = axes[idx]
         sns.heatmap(
-            cm_normalized,
+            cm_df,
             annot=True,
             fmt='.2f',
             cmap='Blues',
