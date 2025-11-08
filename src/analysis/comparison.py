@@ -197,11 +197,11 @@ def plot_side_by_side_confusion_matrices(
     
     for idx, results in enumerate(results_list):
         print(results.keys())
-        if 'true_labels' not in results or 'predicted_labels' not in results:
+        if 'true_label' not in results or 'predicted_label' not in results:
             continue
 
-        predictions = results['predicted_labels']
-        labels = results['true_labels']
+        predictions = results['predicted_label']
+        labels = results['true_label']
         model_name = results['run_name'].split('_')[0]
         
         # Get unique true and predicted labels
