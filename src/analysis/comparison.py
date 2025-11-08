@@ -265,12 +265,13 @@ def plot_side_by_side_confusion_matrices(
         sns.heatmap(
             cm_df * 100,
             annot=True,
-            fmt='.1f%%',
+            fmt='.1f',
             cmap='Blues',
             ax=ax,
             vmin=0,
             vmax=1,
-            cbar_kws={"label": "Percentage", "fontsize": 8}
+            cbar_kws={"label": "Percentage"},
+            annot_kws={"fontsize": 8}
         )
         
         # Get accuracy if available

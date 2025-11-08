@@ -23,7 +23,7 @@ def plot_confusion_matrix(
     col_order: Optional[List[str]] = None,
     valid_mask: Optional[np.ndarray] = None,
     cmap: str = "Blues",
-    fmt: str = ".1f%%",
+    fmt: str = ".1f",
     query_data: Optional[ad.AnnData] = None
 ) -> None:
     """
