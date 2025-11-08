@@ -46,7 +46,10 @@ def load_run_results(run_dir: Path) -> Dict[str, Any]:
         results['true_label_id'] = predictions_df['true_label_id'].values
     
     # Load metrics
-    metrics_path = run_dir / "metrics.json"
+    matches = list(run_dir.glob("metrics_*.json"))
+    if len(matches) != 1:
+        raise FileExistsError(f"Expected 1 metrics_*.json, found {len(matches)}: {matches}")
+    metrics_path = matches[0]
     if metrics_path.exists():
         with open(metrics_path, 'r') as f:
             results['metrics'] = json.load(f)
@@ -235,11 +238,13 @@ def plot_side_by_side_confusion_matrices(
             index=true_encoder.classes_,
             columns=pred_encoder.classes_
         )
-        print(cm_df)
+
         # Apply custom ordering if specified
         if 'row_order' in results['config']:
             # Filter to only include labels that exist in the data
             row_order = results['config']['row_order']
+            print(row_order)
+            print(cm_df.index)
             row_order_filtered = [r for r in row_order if r in cm_df.index]
             if row_order_filtered:
                 cm_df = cm_df.reindex(row_order_filtered)
