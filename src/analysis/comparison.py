@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
 
 from .metrics import compute_metrics, compute_per_class_metrics
 from .visualization import plot_confusion_matrix, plot_metrics_comparison
