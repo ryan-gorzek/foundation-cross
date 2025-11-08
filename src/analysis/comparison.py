@@ -239,11 +239,10 @@ def plot_side_by_side_confusion_matrices(
         )
 
         # Apply custom ordering if specified
-        if 'row_order' in results['config']['output']:
+        cm_config = results['config']['output']['confusion_matrix']
+        if 'row_order' in cm_config:
             # Filter to only include labels that exist in the data
-            row_order = results['config']['output']['row_order']
-            print(row_order)
-            print(cm_df.index)
+            row_order = cm_config['row_order']
             row_order_filtered = [r for r in row_order if r in cm_df.index]
             if row_order_filtered:
                 cm_df = cm_df.reindex(row_order_filtered)
@@ -251,9 +250,9 @@ def plot_side_by_side_confusion_matrices(
             # Default: alphabetical
             cm_df = cm_df.sort_index()
         
-        if 'col_order' in results['config']['output']:
+        if 'col_order' in cm_config:
             # Filter to only include labels that exist in the data
-            col_order = results['config']['output']['col_order']
+            col_order = cm_config['col_order']
             col_order_filtered = [c for c in col_order if c in cm_df.columns]
             if col_order_filtered:
                 cm_df = cm_df[col_order_filtered]
