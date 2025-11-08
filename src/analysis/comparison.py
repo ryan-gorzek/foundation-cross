@@ -197,8 +197,6 @@ def plot_side_by_side_confusion_matrices(
     
     for idx, results in enumerate(results_list):
         if 'true_labels' not in results or 'predicted_labels' not in results:
-            if logger:
-                logger.info(f"Skipped side-by-side confusion matrices: data not available")
             continue
 
         predictions = results['predicted_labels']
