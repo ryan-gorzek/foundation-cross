@@ -33,15 +33,16 @@ def load_run_results(run_dir: Path) -> Dict[str, Any]:
     }
     
     # Load predictions
-    predictions_path = run_dir / "predictions.csv"
+    matches = list(run_dir.glob("predictions_*.csv"))
+    if len(matches) != 1:
+        raise FileExistsError(f"Expected 1 predictions_*.csv, found {len(matches)}: {matches}")
+    predictions_path = matches[0]
     if predictions_path.exists():
         predictions_df = pd.read_csv(predictions_path)
-        results['predictions'] = predictions_df['predicted_label_id'].values
-        results['true_labels'] = predictions_df['true_label_id'].values
-        if 'predicted_label' in predictions_df.columns:
-            results['predicted_label_names'] = predictions_df['predicted_label'].values
-        if 'true_label' in predictions_df.columns:
-            results['true_label_names'] = predictions_df['true_label'].values
+        results['predicted_label'] = predictions_df['predicted_label'].values
+        results['true_label'] = predictions_df['true_label'].values
+        results['predicted_label_id'] = predictions_df['predicted_label_id'].values
+        results['true_label_id'] = predictions_df['true_label_id'].values
     
     # Load metrics
     metrics_path = run_dir / "metrics.json"
@@ -95,10 +96,6 @@ def compare_model_runs(
             logger.info(f"  Loading: {run_dir.name}")
         results = load_run_results(run_dir)
         all_results.append(results)
-    
-    print("====== ALL_RESULTS ======")
-    print(all_results)
-    print("=========================")
 
     # Compare metrics
     metrics_comparison = {}
@@ -199,13 +196,12 @@ def plot_side_by_side_confusion_matrices(
     axes = axes.flatten()
     
     for idx, results in enumerate(results_list):
-        print("====== RESULTS ======")
-        print(results)
-        print("=====================")
-        if 'predictions' not in results or 'true_labels' not in results:
+        if 'true_labels' not in results or 'predicted_labels' not in results:
+            if logger:
+                logger.info(f"Skipped side-by-side confusion matrices: data not available")
             continue
 
-        predictions = results['predictions']
+        predictions = results['predicted_labels']
         labels = results['true_labels']
         model_name = results['run_name'].split('_')[0]
         
@@ -216,15 +212,11 @@ def plot_side_by_side_confusion_matrices(
         # Encode labels
         true_encoder = LabelEncoder()
         true_encoder.fit(unique_true)
-        true_encoded = true_encoder.transform(true_labels_str)
+        true_encoded = true_encoder.transform(labels)
         
         pred_encoder = LabelEncoder()
         pred_encoder.fit(unique_pred)
-        pred_encoded = pred_encoder.transform(pred_labels_str)
-        
-        # Include all true and pred labels
-        true_labels_range = np.arange(len(unique_true))
-        pred_labels_range = np.arange(len(unique_pred))
+        pred_encoded = pred_encoder.transform(predictions)
         
         # Build confusion matrix manually to handle non-square case
         cm = np.zeros((len(unique_true), len(unique_pred)), dtype=int)
@@ -245,8 +237,9 @@ def plot_side_by_side_confusion_matrices(
         )
         
         # Apply custom ordering if specified
-        if row_order is not None:
+        if row_order in results['config']:
             # Filter to only include labels that exist in the data
+            row_order = results['config']['row_order']
             row_order_filtered = [r for r in row_order if r in cm_df.index]
             if row_order_filtered:
                 cm_df = cm_df.reindex(row_order_filtered)
@@ -254,8 +247,9 @@ def plot_side_by_side_confusion_matrices(
             # Default: alphabetical
             cm_df = cm_df.sort_index()
         
-        if col_order is not None:
+        if col_order in results['config']:
             # Filter to only include labels that exist in the data
+            col_order = results['config']['col_order']
             col_order_filtered = [c for c in col_order if c in cm_df.columns]
             if col_order_filtered:
                 cm_df = cm_df[col_order_filtered]
