@@ -199,12 +199,11 @@ def plot_side_by_side_confusion_matrices(
     axes = axes.flatten()
     
     for idx, results in enumerate(results_list):
-        if 'predictions' not in results or 'true_labels' not in results:
-            continue
-        
         print("====== RESULTS ======")
         print(results)
         print("=====================")
+        if 'predictions' not in results or 'true_labels' not in results:
+            continue
 
         predictions = results['predictions']
         labels = results['true_labels']
