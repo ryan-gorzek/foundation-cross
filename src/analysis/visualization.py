@@ -23,7 +23,7 @@ def plot_confusion_matrix(
     col_order: Optional[List[str]] = None,
     valid_mask: Optional[np.ndarray] = None,
     cmap: str = "Blues",
-    fmt: str = ".2f",
+    fmt: str = ".1f%%",
     query_data: Optional[ad.AnnData] = None
 ) -> None:
     """
@@ -130,11 +130,11 @@ def plot_confusion_matrix(
     # Plot
     plt.figure(figsize=figsize)
     sns.heatmap(
-        cm_df,
+        cm_df * 100,
         annot=True,
         fmt=fmt,
         cmap=cmap,
-        cbar_kws={"label": "Proportion"},
+        cbar_kws={"label": "Percentage"},
         vmin=0,
         vmax=1
     )
