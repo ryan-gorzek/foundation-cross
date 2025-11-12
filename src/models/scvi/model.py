@@ -86,8 +86,8 @@ class ScVIModel(BaseLabelTransferModel):
         # Prepare and train the scANVI model, store the embeddings
         self.log_info("Training scANVI model")
         self.merged_data.obs['celltype_scanvi'] = -1
-        query_mask = self.merged_data.obs['dataset'] == 'query'
-        self.merged_data.obs['celltype_scanvi'][ss2_mask] = self.merged_data.obs['celltype_id'][query_mask].values
+        reference_mask = self.merged_data.obs['dataset'] == 'reference'
+        self.merged_data.obs['celltype_scanvi'][reference_mask] = self.merged_data.obs['celltype_id'][reference_mask].values
         self.scanvi_model = scvi.model.SCANVI.from_scvi_model(
             self.scvi_model,
             adata=self.merged_data,
@@ -114,8 +114,8 @@ class ScVIModel(BaseLabelTransferModel):
         self.log_info("Predicting labels for query data")
         
         # Predict labels with scANVI
-        self.merge_data.obsm['X_scANVI'] = scanvi_model.get_latent_representation(self.merge_data)
-        self.merge_data.obs['C_scANVI'] = scanvi_model.predict(self.merge_data)
+        self.merge_data.obsm['X_scANVI'] = self.scanvi_model.get_latent_representation(self.merge_data)
+        self.merge_data.obs['C_scANVI'] = self.scanvi_model.predict(self.merge_data)
         query_mask = self.merged_data.obs['dataset'] == 'query'
         predictions = np.array(self.merge_data.obs['C_scANVI'][query_mask]).astype(int)
         # IMPORTANT: Verify query cells match input, in case something happened internally
