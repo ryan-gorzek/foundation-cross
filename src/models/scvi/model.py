@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import anndata as ad
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import scanpy as sc
 import scvi
 import torch
@@ -62,11 +62,11 @@ class ScVIModel(BaseLabelTransferModel):
         # Merge and process objects
         reference_data.obs['dataset'] = 'reference'
         query_data.obs['dataset'] = 'query'
-        self.merged_data = anndata.concat([reference_data, query_data])
-        self.merged_data.layers['counts'] = adata.X.copy()
+        self.merged_data = ad.concat([reference_data, query_data])
+        self.merged_data.layers['counts'] = self.merged_data.X.copy()
         sc.pp.normalize_total(self.merged_data, target_sum=1e4)
         sc.pp.log1p(self.merged_data)
-        adata.raw = self.merged_data  # keep full dimension safe
+        self.merged_data.raw = self.merged_data  # keep full dimension safe
         sc.pp.highly_variable_genes(
             self.merged_data,
             flavor='seurat_v3',
