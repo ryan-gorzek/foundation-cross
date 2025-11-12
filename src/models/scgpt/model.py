@@ -211,7 +211,7 @@ class ScGPTModel(BaseLabelTransferModel):
             all_counts, 
             celltypes_labels, 
             batch_ids, 
-            test_size=0.1,
+            test_size=kwargs.get('validation_split', 0.1),
             random_state=kwargs.get('seed', 0)
         )
         
