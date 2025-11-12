@@ -3,7 +3,7 @@ type: integration_and_reference_mapping
 
 # scVI-specific parameters
 scvi:
-  batch_key: 'dataset' # set as 'reference' or 'query' by ScVIModel train method
+  n_top_genes: 3000
   n_layers: 2
   n_latent: 30
 # scANVI-specific parameters
