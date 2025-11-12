@@ -1,0 +1,12 @@
+name: scvi
+type: integration_and_reference_mapping
+
+# scVI-specific parameters
+scvi:
+  batch_key: 'dataset' # set as 'reference' or 'query' by ScVIModel train method
+  n_layers: 2
+  n_latent: 30
+# scANVI-specific parameters
+scanvi:
+  max_epochs: 20
+  n_samples_per_label: 100

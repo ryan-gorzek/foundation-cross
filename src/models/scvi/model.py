@@ -19,15 +19,15 @@ class ScVIModel(BaseLabelTransferModel):
     def __init__(self, config: Dict[str, Any], save_dir: Path, logger=None):
         super().__init__(config, save_dir, logger)
 
-        # Pipeline-specific config
+        # scVI-specific config
         self.scvi_config = config.get('scvi', {})
-        # scVI model
-        self.batch_key = self.scvi_config.get('batch_key', 30)
+        self.batch_key = self.scvi_config.get('batch_key', 'dataset')
         self.n_layers = self.scvi_config.get('n_layers', 2)
         self.n_latent = self.scvi_config.get('n_latent', 30)
-        # scANVI model
-        self.max_epochs = self.scvi_config.get('max_epochs', 20)
-        self.n_samples_per_label = self.scvi_config.get('n_samples_per_label', 100)
+        # scANVI-specific config
+        self.scanvi_config = config.get('scanvi', {})
+        self.max_epochs = self.scanvi_config.get('max_epochs', 20)
+        self.n_samples_per_label = self.scanvi_config.get('n_samples_per_label', 100)
 
     def train(self, reference_data: ad.AnnData, **kwargs) -> None:
         """
