@@ -114,10 +114,10 @@ class ScVIModel(BaseLabelTransferModel):
         self.log_info("Predicting labels for query data")
         
         # Predict labels with scANVI
-        self.merge_data.obsm['X_scANVI'] = self.scanvi_model.get_latent_representation(self.merge_data)
-        self.merge_data.obs['C_scANVI'] = self.scanvi_model.predict(self.merge_data)
+        self.merged_data.obsm['X_scANVI'] = self.scanvi_model.get_latent_representation(self.merged_data)
+        self.merged_data.obs['C_scANVI'] = self.scanvi_model.predict(self.merged_data)
         query_mask = self.merged_data.obs['dataset'] == 'query'
-        predictions = np.array(self.merge_data.obs['C_scANVI'][query_mask]).astype(int)
+        predictions = np.array(self.merged_data.obs['C_scANVI'][query_mask]).astype(int)
         # IMPORTANT: Verify query cells match input, in case something happened internally
         query_cells_merged = self.merged_data.obs_names[query_mask]
         query_cells_input = query_data.obs_names

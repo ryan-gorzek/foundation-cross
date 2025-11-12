@@ -1,0 +1,10 @@
+{
+  "git_commit": "f47abf908f83ebae31823af421ecaa739f0a6d6f",
+  "git_status": "dirty",
+  "config_hash": "5f13133b",
+  "environment": {
+    "python_version": "3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]",
+    "torch_version": "2.1.2+cu121",
+    "cuda_available": false
+  }
+}

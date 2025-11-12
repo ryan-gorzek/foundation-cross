@@ -1,0 +1,907 @@
+==========================================
+Job started on n1154 at Wed Nov 12 11:42:52 PST 2025
+Job ID: 11389705
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum_scvi.yaml
+
+Starting experiment...
+==========================================
+Starting experiment from config: configs/experiments/mouse_to_opossum_scvi.yaml
+2025-11-12 11:44:30 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 11:44:30 - pipeline - INFO - Cross-Species Label Transfer Pipeline
+2025-11-12 11:44:30 - pipeline - INFO - =========================================================================================
+2025-11-12 11:44:30 - pipeline - INFO - Experiment: mouse_opossum_transfer
+2025-11-12 11:44:30 - pipeline - INFO - Output directory: results/mouse_opossum/scvi_Nov12-11-44
+2025-11-12 11:44:30 - pipeline - INFO - Configuration saved to results/mouse_opossum/scvi_Nov12-11-44/config.yaml
+2025-11-12 11:44:30 - pipeline - INFO - Git commit: f47abf908f83ebae31823af421ecaa739f0a6d6f
+2025-11-12 11:44:30 - pipeline - WARNING - Git repository has uncommitted changes
+2025-11-12 11:44:30 - pipeline - INFO - Python version: 3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]
+2025-11-12 11:44:30 - pipeline - INFO - PyTorch version: 2.1.2+cu121
+2025-11-12 11:44:30 - pipeline - INFO - CUDA available: False
+2025-11-12 11:44:30 - pipeline - INFO - Config hash: 5f13133b
+2025-11-12 11:44:30 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 11:44:30 - pipeline - INFO - STEP 1: Loading Datasets
+2025-11-12 11:44:30 - pipeline - INFO - =========================================================================================
+2025-11-12 11:44:30 - pipeline - INFO - Loading mouse data from data/raw/Mouse_V1_P38_All.h5ad
+2025-11-12 11:45:28 - pipeline - INFO -   16997 cells, 24372 genes
+2025-11-12 11:45:29 - pipeline - WARNING - Reference has 57 genes with zero expression
+2025-11-12 11:45:29 - pipeline - INFO - Loading opossum data from data/raw/Opossum_V1_All.h5ad
+2025-11-12 11:45:41 - pipeline - INFO -   32764 cells, 30800 genes
+2025-11-12 11:45:42 - pipeline - WARNING - Query 0 has 1412 genes with zero expression
+2025-11-12 11:45:42 - pipeline - INFO - 
+Finding common genes across datasets...
+2025-11-12 11:45:42 - pipeline - INFO - Found 11730 common genes across all datasets
+2025-11-12 11:46:55 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 11:46:55 - pipeline - INFO - STEP 2: Preprocessing Datasets
+2025-11-12 11:46:55 - pipeline - INFO - =========================================================================================
+2025-11-12 11:46:55 - pipeline - INFO - Filtering reference data...
+2025-11-12 11:47:25 - pipeline - INFO - 
+Filtering query data: opossum...
+2025-11-12 11:47:57 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 11:47:57 - pipeline - INFO - STEP 3: Preparing Data for Training
+2025-11-12 11:47:57 - pipeline - INFO - =========================================================================================
+2025-11-12 11:47:57 - pipeline - INFO - Label matching summary:
+2025-11-12 11:47:57 - pipeline - INFO -   18305 query cells have labels matching reference categories
+2025-11-12 11:47:57 - pipeline - INFO -   14459 query cells have labels NOT in reference
+2025-11-12 11:47:57 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 11:47:57 - pipeline - INFO - STEP 4: Initializing Model
+2025-11-12 11:47:57 - pipeline - INFO - =========================================================================================
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/lightning_fabric/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+Global seed set to 0
+2025-11-12 11:50:10 - pipeline - INFO - Initialized scvi model
+2025-11-12 11:50:10 - pipeline - INFO -   Output directory: results/mouse_opossum/scvi_Nov12-11-44
+2025-11-12 11:50:10 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 11:50:10 - pipeline - INFO - STEP 5: Training Model
+2025-11-12 11:50:10 - pipeline - INFO - =========================================================================================
+2025-11-12 11:50:10 - pipeline - INFO - Random seed: 0
+2025-11-12 11:50:10 - pipeline - INFO - Merging and processing reference and query objects for scVI integration
+2025-11-12 11:50:10 - pipeline - INFO - Stored 20 reference categories
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/legacy_api_wrap/__init__.py:82: UserWarning: `flavor='seurat_v3'` expects raw count data, but non-integers were found.
+  return fn(*args_all, **kw)
+2025-11-12 11:51:53 - pipeline - INFO - Training scVI model
+<frozen abc>:119: FutureWarning: SparseDataset is deprecated and will be removed in late 2024. It has been replaced by the public classes CSRDataset and CSCDataset.
+
+For instance checks, use `isinstance(X, (anndata.experimental.CSRDataset, anndata.experimental.CSCDataset))` instead.
+
+For creation, use `anndata.experimental.sparse_dataset(X)` instead.
+
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/data/fields/_layer_field.py:90: UserWarning: adata.layers[counts] does not contain unnormalized count data. Are you sure this is what you want?
+  warnings.warn(
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+Training:   0%|          | 0/161 [00:00<?, ?it/s]Epoch 1/161:   0%|          | 0/161 [00:00<?, ?it/s]<frozen abc>:119: FutureWarning: SparseDataset is deprecated and will be removed in late 2024. It has been replaced by the public classes CSRDataset and CSCDataset.
+
+For instance checks, use `isinstance(X, (anndata.experimental.CSRDataset, anndata.experimental.CSCDataset))` instead.
+
+For creation, use `anndata.experimental.sparse_dataset(X)` instead.
+
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 1/161:   1%|          | 1/161 [01:26<3:49:46, 86.16s/it]Epoch 1/161:   1%|          | 1/161 [01:26<3:49:46, 86.16s/it, loss=844, v_num=1]Epoch 2/161:   1%|          | 1/161 [01:26<3:49:46, 86.16s/it, loss=844, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 2/161:   1%|          | 2/161 [02:56<3:54:30, 88.50s/it, loss=844, v_num=1]Epoch 2/161:   1%|          | 2/161 [02:56<3:54:30, 88.50s/it, loss=811, v_num=1]Epoch 3/161:   1%|          | 2/161 [02:56<3:54:30, 88.50s/it, loss=811, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 3/161:   2%|▏         | 3/161 [04:32<4:01:49, 91.83s/it, loss=811, v_num=1]Epoch 3/161:   2%|▏         | 3/161 [04:32<4:01:49, 91.83s/it, loss=794, v_num=1]Epoch 4/161:   2%|▏         | 3/161 [04:32<4:01:49, 91.83s/it, loss=794, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 4/161:   2%|▏         | 4/161 [06:11<4:07:41, 94.66s/it, loss=794, v_num=1]Epoch 4/161:   2%|▏         | 4/161 [06:11<4:07:41, 94.66s/it, loss=777, v_num=1]Epoch 5/161:   2%|▏         | 4/161 [06:11<4:07:41, 94.66s/it, loss=777, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 5/161:   3%|▎         | 5/161 [08:02<4:21:50, 100.71s/it, loss=777, v_num=1]Epoch 5/161:   3%|▎         | 5/161 [08:02<4:21:50, 100.71s/it, loss=765, v_num=1]Epoch 6/161:   3%|▎         | 5/161 [08:02<4:21:50, 100.71s/it, loss=765, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 6/161:   4%|▎         | 6/161 [09:51<4:27:10, 103.42s/it, loss=765, v_num=1]Epoch 6/161:   4%|▎         | 6/161 [09:51<4:27:10, 103.42s/it, loss=759, v_num=1]Epoch 7/161:   4%|▎         | 6/161 [09:51<4:27:10, 103.42s/it, loss=759, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 7/161:   4%|▍         | 7/161 [11:12<4:06:42, 96.12s/it, loss=759, v_num=1] Epoch 7/161:   4%|▍         | 7/161 [11:12<4:06:42, 96.12s/it, loss=751, v_num=1]Epoch 8/161:   4%|▍         | 7/161 [11:12<4:06:42, 96.12s/it, loss=751, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 8/161:   5%|▍         | 8/161 [12:54<4:09:54, 98.00s/it, loss=751, v_num=1]Epoch 8/161:   5%|▍         | 8/161 [12:54<4:09:54, 98.00s/it, loss=745, v_num=1]Epoch 9/161:   5%|▍         | 8/161 [12:54<4:09:54, 98.00s/it, loss=745, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 9/161:   6%|▌         | 9/161 [14:27<4:04:46, 96.62s/it, loss=745, v_num=1]Epoch 9/161:   6%|▌         | 9/161 [14:27<4:04:46, 96.62s/it, loss=740, v_num=1]Epoch 10/161:   6%|▌         | 9/161 [14:27<4:04:46, 96.62s/it, loss=740, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 10/161:   6%|▌         | 10/161 [15:56<3:56:46, 94.08s/it, loss=740, v_num=1]Epoch 10/161:   6%|▌         | 10/161 [15:56<3:56:46, 94.08s/it, loss=738, v_num=1]Epoch 11/161:   6%|▌         | 10/161 [15:56<3:56:46, 94.08s/it, loss=738, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 11/161:   7%|▋         | 11/161 [17:35<3:59:02, 95.62s/it, loss=738, v_num=1]Epoch 11/161:   7%|▋         | 11/161 [17:35<3:59:02, 95.62s/it, loss=731, v_num=1]Epoch 12/161:   7%|▋         | 11/161 [17:35<3:59:02, 95.62s/it, loss=731, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 12/161:   7%|▋         | 12/161 [19:39<4:18:59, 104.29s/it, loss=731, v_num=1]Epoch 12/161:   7%|▋         | 12/161 [19:39<4:18:59, 104.29s/it, loss=732, v_num=1]Epoch 13/161:   7%|▋         | 12/161 [19:39<4:18:59, 104.29s/it, loss=732, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 13/161:   8%|▊         | 13/161 [21:18<4:13:17, 102.69s/it, loss=732, v_num=1]Epoch 13/161:   8%|▊         | 13/161 [21:18<4:13:17, 102.69s/it, loss=728, v_num=1]Epoch 14/161:   8%|▊         | 13/161 [21:18<4:13:17, 102.69s/it, loss=728, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 14/161:   9%|▊         | 14/161 [22:50<4:03:57, 99.58s/it, loss=728, v_num=1] Epoch 14/161:   9%|▊         | 14/161 [22:50<4:03:57, 99.58s/it, loss=727, v_num=1]Epoch 15/161:   9%|▊         | 14/161 [22:50<4:03:57, 99.58s/it, loss=727, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 15/161:   9%|▉         | 15/161 [24:21<3:55:45, 96.89s/it, loss=727, v_num=1]Epoch 15/161:   9%|▉         | 15/161 [24:21<3:55:45, 96.89s/it, loss=726, v_num=1]Epoch 16/161:   9%|▉         | 15/161 [24:21<3:55:45, 96.89s/it, loss=726, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 16/161:  10%|▉         | 16/161 [25:45<3:44:45, 93.01s/it, loss=726, v_num=1]Epoch 16/161:  10%|▉         | 16/161 [25:45<3:44:45, 93.01s/it, loss=725, v_num=1]Epoch 17/161:  10%|▉         | 16/161 [25:45<3:44:45, 93.01s/it, loss=725, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 17/161:  11%|█         | 17/161 [27:02<3:31:47, 88.25s/it, loss=725, v_num=1]Epoch 17/161:  11%|█         | 17/161 [27:02<3:31:47, 88.25s/it, loss=723, v_num=1]Epoch 18/161:  11%|█         | 17/161 [27:02<3:31:47, 88.25s/it, loss=723, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 18/161:  11%|█         | 18/161 [28:30<3:30:01, 88.12s/it, loss=723, v_num=1]Epoch 18/161:  11%|█         | 18/161 [28:30<3:30:01, 88.12s/it, loss=721, v_num=1]Epoch 19/161:  11%|█         | 18/161 [28:30<3:30:01, 88.12s/it, loss=721, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 19/161:  12%|█▏        | 19/161 [30:07<3:34:46, 90.75s/it, loss=721, v_num=1]Epoch 19/161:  12%|█▏        | 19/161 [30:07<3:34:46, 90.75s/it, loss=721, v_num=1]Epoch 20/161:  12%|█▏        | 19/161 [30:07<3:34:46, 90.75s/it, loss=721, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 20/161:  12%|█▏        | 20/161 [31:54<3:44:56, 95.72s/it, loss=721, v_num=1]Epoch 20/161:  12%|█▏        | 20/161 [31:54<3:44:56, 95.72s/it, loss=721, v_num=1]Epoch 21/161:  12%|█▏        | 20/161 [31:54<3:44:56, 95.72s/it, loss=721, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 21/161:  13%|█▎        | 21/161 [33:33<3:45:34, 96.68s/it, loss=721, v_num=1]Epoch 21/161:  13%|█▎        | 21/161 [33:33<3:45:34, 96.68s/it, loss=720, v_num=1]Epoch 22/161:  13%|█▎        | 21/161 [33:33<3:45:34, 96.68s/it, loss=720, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 22/161:  14%|█▎        | 22/161 [35:20<3:51:20, 99.86s/it, loss=720, v_num=1]Epoch 22/161:  14%|█▎        | 22/161 [35:20<3:51:20, 99.86s/it, loss=717, v_num=1]Epoch 23/161:  14%|█▎        | 22/161 [35:20<3:51:20, 99.86s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 23/161:  14%|█▍        | 23/161 [36:42<3:37:07, 94.40s/it, loss=717, v_num=1]Epoch 23/161:  14%|█▍        | 23/161 [36:42<3:37:07, 94.40s/it, loss=721, v_num=1]Epoch 24/161:  14%|█▍        | 23/161 [36:42<3:37:07, 94.40s/it, loss=721, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 24/161:  15%|█▍        | 24/161 [38:00<3:24:24, 89.52s/it, loss=721, v_num=1]Epoch 24/161:  15%|█▍        | 24/161 [38:00<3:24:24, 89.52s/it, loss=717, v_num=1]Epoch 25/161:  15%|█▍        | 24/161 [38:00<3:24:24, 89.52s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 25/161:  16%|█▌        | 25/161 [39:43<3:31:35, 93.35s/it, loss=717, v_num=1]Epoch 25/161:  16%|█▌        | 25/161 [39:43<3:31:35, 93.35s/it, loss=716, v_num=1]Epoch 26/161:  16%|█▌        | 25/161 [39:43<3:31:35, 93.35s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 26/161:  16%|█▌        | 26/161 [41:13<3:27:50, 92.38s/it, loss=716, v_num=1]Epoch 26/161:  16%|█▌        | 26/161 [41:13<3:27:50, 92.38s/it, loss=715, v_num=1]Epoch 27/161:  16%|█▌        | 26/161 [41:13<3:27:50, 92.38s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 27/161:  17%|█▋        | 27/161 [42:34<3:18:45, 89.00s/it, loss=715, v_num=1]Epoch 27/161:  17%|█▋        | 27/161 [42:34<3:18:45, 89.00s/it, loss=713, v_num=1]Epoch 28/161:  17%|█▋        | 27/161 [42:34<3:18:45, 89.00s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 28/161:  17%|█▋        | 28/161 [44:23<3:30:30, 94.96s/it, loss=713, v_num=1]Epoch 28/161:  17%|█▋        | 28/161 [44:23<3:30:30, 94.96s/it, loss=716, v_num=1]Epoch 29/161:  17%|█▋        | 28/161 [44:23<3:30:30, 94.96s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 29/161:  18%|█▊        | 29/161 [46:04<3:33:06, 96.87s/it, loss=716, v_num=1]Epoch 29/161:  18%|█▊        | 29/161 [46:04<3:33:06, 96.87s/it, loss=714, v_num=1]Epoch 30/161:  18%|█▊        | 29/161 [46:04<3:33:06, 96.87s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 30/161:  19%|█▊        | 30/161 [47:11<3:11:55, 87.91s/it, loss=714, v_num=1]Epoch 30/161:  19%|█▊        | 30/161 [47:11<3:11:55, 87.91s/it, loss=714, v_num=1]Epoch 31/161:  19%|█▊        | 30/161 [47:11<3:11:55, 87.91s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 31/161:  19%|█▉        | 31/161 [48:28<3:03:08, 84.52s/it, loss=714, v_num=1]Epoch 31/161:  19%|█▉        | 31/161 [48:28<3:03:08, 84.52s/it, loss=716, v_num=1]Epoch 32/161:  19%|█▉        | 31/161 [48:28<3:03:08, 84.52s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 32/161:  20%|█▉        | 32/161 [49:56<3:04:04, 85.61s/it, loss=716, v_num=1]Epoch 32/161:  20%|█▉        | 32/161 [49:56<3:04:04, 85.61s/it, loss=716, v_num=1]Epoch 33/161:  20%|█▉        | 32/161 [49:56<3:04:04, 85.61s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 33/161:  20%|██        | 33/161 [51:16<2:59:22, 84.08s/it, loss=716, v_num=1]Epoch 33/161:  20%|██        | 33/161 [51:16<2:59:22, 84.08s/it, loss=715, v_num=1]Epoch 34/161:  20%|██        | 33/161 [51:16<2:59:22, 84.08s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 34/161:  21%|██        | 34/161 [52:41<2:58:25, 84.29s/it, loss=715, v_num=1]Epoch 34/161:  21%|██        | 34/161 [52:41<2:58:25, 84.29s/it, loss=713, v_num=1]Epoch 35/161:  21%|██        | 34/161 [52:41<2:58:25, 84.29s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 35/161:  22%|██▏       | 35/161 [54:10<2:59:57, 85.69s/it, loss=713, v_num=1]Epoch 35/161:  22%|██▏       | 35/161 [54:10<2:59:57, 85.69s/it, loss=714, v_num=1]Epoch 36/161:  22%|██▏       | 35/161 [54:10<2:59:57, 85.69s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 36/161:  22%|██▏       | 36/161 [56:16<3:23:27, 97.66s/it, loss=714, v_num=1]Epoch 36/161:  22%|██▏       | 36/161 [56:16<3:23:27, 97.66s/it, loss=712, v_num=1]Epoch 37/161:  22%|██▏       | 36/161 [56:16<3:23:27, 97.66s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 37/161:  23%|██▎       | 37/161 [57:48<3:18:42, 96.15s/it, loss=712, v_num=1]Epoch 37/161:  23%|██▎       | 37/161 [57:48<3:18:42, 96.15s/it, loss=714, v_num=1]Epoch 38/161:  23%|██▎       | 37/161 [57:48<3:18:42, 96.15s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 38/161:  24%|██▎       | 38/161 [59:15<3:11:13, 93.28s/it, loss=714, v_num=1]Epoch 38/161:  24%|██▎       | 38/161 [59:15<3:11:13, 93.28s/it, loss=715, v_num=1]Epoch 39/161:  24%|██▎       | 38/161 [59:15<3:11:13, 93.28s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 39/161:  24%|██▍       | 39/161 [1:00:45<3:07:51, 92.39s/it, loss=715, v_num=1]Epoch 39/161:  24%|██▍       | 39/161 [1:00:45<3:07:51, 92.39s/it, loss=712, v_num=1]Epoch 40/161:  24%|██▍       | 39/161 [1:00:45<3:07:51, 92.39s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 40/161:  25%|██▍       | 40/161 [1:02:08<3:00:29, 89.50s/it, loss=712, v_num=1]Epoch 40/161:  25%|██▍       | 40/161 [1:02:08<3:00:29, 89.50s/it, loss=715, v_num=1]Epoch 41/161:  25%|██▍       | 40/161 [1:02:08<3:00:29, 89.50s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 41/161:  25%|██▌       | 41/161 [1:03:42<3:01:34, 90.78s/it, loss=715, v_num=1]Epoch 41/161:  25%|██▌       | 41/161 [1:03:42<3:01:34, 90.78s/it, loss=712, v_num=1]Epoch 42/161:  25%|██▌       | 41/161 [1:03:42<3:01:34, 90.78s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 42/161:  26%|██▌       | 42/161 [1:05:17<3:02:31, 92.03s/it, loss=712, v_num=1]Epoch 42/161:  26%|██▌       | 42/161 [1:05:17<3:02:31, 92.03s/it, loss=710, v_num=1]Epoch 43/161:  26%|██▌       | 42/161 [1:05:17<3:02:31, 92.03s/it, loss=710, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 43/161:  27%|██▋       | 43/161 [1:06:35<2:52:52, 87.90s/it, loss=710, v_num=1]Epoch 43/161:  27%|██▋       | 43/161 [1:06:35<2:52:52, 87.90s/it, loss=712, v_num=1]Epoch 44/161:  27%|██▋       | 43/161 [1:06:35<2:52:52, 87.90s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 44/161:  27%|██▋       | 44/161 [1:08:11<2:56:23, 90.45s/it, loss=712, v_num=1]Epoch 44/161:  27%|██▋       | 44/161 [1:08:11<2:56:23, 90.45s/it, loss=713, v_num=1]Epoch 45/161:  27%|██▋       | 44/161 [1:08:11<2:56:23, 90.45s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 45/161:  28%|██▊       | 45/161 [1:08:52<2:26:03, 75.55s/it, loss=713, v_num=1]Epoch 45/161:  28%|██▊       | 45/161 [1:08:52<2:26:03, 75.55s/it, loss=711, v_num=1]Epoch 46/161:  28%|██▊       | 45/161 [1:08:52<2:26:03, 75.55s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 46/161:  29%|██▊       | 46/161 [1:09:17<1:55:46, 60.41s/it, loss=711, v_num=1]Epoch 46/161:  29%|██▊       | 46/161 [1:09:17<1:55:46, 60.41s/it, loss=713, v_num=1]Epoch 47/161:  29%|██▊       | 46/161 [1:09:17<1:55:46, 60.41s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 47/161:  29%|██▉       | 47/161 [1:09:47<1:37:18, 51.22s/it, loss=713, v_num=1]Epoch 47/161:  29%|██▉       | 47/161 [1:09:47<1:37:18, 51.22s/it, loss=713, v_num=1]Epoch 48/161:  29%|██▉       | 47/161 [1:09:47<1:37:18, 51.22s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 48/161:  30%|██▉       | 48/161 [1:10:11<1:21:22, 43.21s/it, loss=713, v_num=1]Epoch 48/161:  30%|██▉       | 48/161 [1:10:11<1:21:22, 43.21s/it, loss=713, v_num=1]Epoch 49/161:  30%|██▉       | 48/161 [1:10:11<1:21:22, 43.21s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 49/161:  30%|███       | 49/161 [1:10:34<1:09:15, 37.10s/it, loss=713, v_num=1]Epoch 49/161:  30%|███       | 49/161 [1:10:34<1:09:15, 37.10s/it, loss=710, v_num=1]Epoch 50/161:  30%|███       | 49/161 [1:10:34<1:09:15, 37.10s/it, loss=710, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 50/161:  31%|███       | 50/161 [1:10:57<1:00:50, 32.89s/it, loss=710, v_num=1]Epoch 50/161:  31%|███       | 50/161 [1:10:57<1:00:50, 32.89s/it, loss=717, v_num=1]Epoch 51/161:  31%|███       | 50/161 [1:10:57<1:00:50, 32.89s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 51/161:  32%|███▏      | 51/161 [1:11:21<55:18, 30.17s/it, loss=717, v_num=1]  Epoch 51/161:  32%|███▏      | 51/161 [1:11:21<55:18, 30.17s/it, loss=717, v_num=1]Epoch 52/161:  32%|███▏      | 51/161 [1:11:21<55:18, 30.17s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 52/161:  32%|███▏      | 52/161 [1:11:45<51:34, 28.39s/it, loss=717, v_num=1]Epoch 52/161:  32%|███▏      | 52/161 [1:11:45<51:34, 28.39s/it, loss=711, v_num=1]Epoch 53/161:  32%|███▏      | 52/161 [1:11:45<51:34, 28.39s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 53/161:  33%|███▎      | 53/161 [1:12:11<49:44, 27.63s/it, loss=711, v_num=1]Epoch 53/161:  33%|███▎      | 53/161 [1:12:11<49:44, 27.63s/it, loss=713, v_num=1]Epoch 54/161:  33%|███▎      | 53/161 [1:12:11<49:44, 27.63s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 54/161:  34%|███▎      | 54/161 [1:12:38<48:48, 27.37s/it, loss=713, v_num=1]Epoch 54/161:  34%|███▎      | 54/161 [1:12:38<48:48, 27.37s/it, loss=714, v_num=1]Epoch 55/161:  34%|███▎      | 54/161 [1:12:38<48:48, 27.37s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 55/161:  34%|███▍      | 55/161 [1:13:00<45:27, 25.73s/it, loss=714, v_num=1]Epoch 55/161:  34%|███▍      | 55/161 [1:13:00<45:27, 25.73s/it, loss=712, v_num=1]Epoch 56/161:  34%|███▍      | 55/161 [1:13:00<45:27, 25.73s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 56/161:  35%|███▍      | 56/161 [1:13:27<45:57, 26.26s/it, loss=712, v_num=1]Epoch 56/161:  35%|███▍      | 56/161 [1:13:27<45:57, 26.26s/it, loss=713, v_num=1]Epoch 57/161:  35%|███▍      | 56/161 [1:13:27<45:57, 26.26s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 57/161:  35%|███▌      | 57/161 [1:13:51<44:15, 25.54s/it, loss=713, v_num=1]Epoch 57/161:  35%|███▌      | 57/161 [1:13:51<44:15, 25.54s/it, loss=714, v_num=1]Epoch 58/161:  35%|███▌      | 57/161 [1:13:51<44:15, 25.54s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 58/161:  36%|███▌      | 58/161 [1:14:11<40:46, 23.75s/it, loss=714, v_num=1]Epoch 58/161:  36%|███▌      | 58/161 [1:14:11<40:46, 23.75s/it, loss=711, v_num=1]Epoch 59/161:  36%|███▌      | 58/161 [1:14:11<40:46, 23.75s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 59/161:  37%|███▋      | 59/161 [1:14:36<41:03, 24.15s/it, loss=711, v_num=1]Epoch 59/161:  37%|███▋      | 59/161 [1:14:36<41:03, 24.15s/it, loss=719, v_num=1]Epoch 60/161:  37%|███▋      | 59/161 [1:14:36<41:03, 24.15s/it, loss=719, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 60/161:  37%|███▋      | 60/161 [1:15:03<41:56, 24.92s/it, loss=719, v_num=1]Epoch 60/161:  37%|███▋      | 60/161 [1:15:03<41:56, 24.92s/it, loss=715, v_num=1]Epoch 61/161:  37%|███▋      | 60/161 [1:15:03<41:56, 24.92s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 61/161:  38%|███▊      | 61/161 [1:15:31<43:04, 25.85s/it, loss=715, v_num=1]Epoch 61/161:  38%|███▊      | 61/161 [1:15:31<43:04, 25.85s/it, loss=713, v_num=1]Epoch 62/161:  38%|███▊      | 61/161 [1:15:31<43:04, 25.85s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 62/161:  39%|███▊      | 62/161 [1:15:59<43:44, 26.51s/it, loss=713, v_num=1]Epoch 62/161:  39%|███▊      | 62/161 [1:15:59<43:44, 26.51s/it, loss=713, v_num=1]Epoch 63/161:  39%|███▊      | 62/161 [1:15:59<43:44, 26.51s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 63/161:  39%|███▉      | 63/161 [1:16:20<40:53, 25.04s/it, loss=713, v_num=1]Epoch 63/161:  39%|███▉      | 63/161 [1:16:20<40:53, 25.04s/it, loss=714, v_num=1]Epoch 64/161:  39%|███▉      | 63/161 [1:16:20<40:53, 25.04s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 64/161:  40%|███▉      | 64/161 [1:16:41<38:33, 23.85s/it, loss=714, v_num=1]Epoch 64/161:  40%|███▉      | 64/161 [1:16:41<38:33, 23.85s/it, loss=714, v_num=1]Epoch 65/161:  40%|███▉      | 64/161 [1:16:41<38:33, 23.85s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 65/161:  40%|████      | 65/161 [1:17:03<37:18, 23.31s/it, loss=714, v_num=1]Epoch 65/161:  40%|████      | 65/161 [1:17:03<37:18, 23.31s/it, loss=715, v_num=1]Epoch 66/161:  40%|████      | 65/161 [1:17:03<37:18, 23.31s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 66/161:  41%|████      | 66/161 [1:17:27<37:00, 23.38s/it, loss=715, v_num=1]Epoch 66/161:  41%|████      | 66/161 [1:17:27<37:00, 23.38s/it, loss=714, v_num=1]Epoch 67/161:  41%|████      | 66/161 [1:17:27<37:00, 23.38s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 67/161:  42%|████▏     | 67/161 [1:17:52<37:21, 23.85s/it, loss=714, v_num=1]Epoch 67/161:  42%|████▏     | 67/161 [1:17:52<37:21, 23.85s/it, loss=713, v_num=1]Epoch 68/161:  42%|████▏     | 67/161 [1:17:52<37:21, 23.85s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 68/161:  42%|████▏     | 68/161 [1:18:20<38:55, 25.11s/it, loss=713, v_num=1]Epoch 68/161:  42%|████▏     | 68/161 [1:18:20<38:55, 25.11s/it, loss=712, v_num=1]Epoch 69/161:  42%|████▏     | 68/161 [1:18:20<38:55, 25.11s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 69/161:  43%|████▎     | 69/161 [1:18:42<36:56, 24.09s/it, loss=712, v_num=1]Epoch 69/161:  43%|████▎     | 69/161 [1:18:42<36:56, 24.09s/it, loss=712, v_num=1]Epoch 70/161:  43%|████▎     | 69/161 [1:18:42<36:56, 24.09s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 70/161:  43%|████▎     | 70/161 [1:19:02<34:55, 23.02s/it, loss=712, v_num=1]Epoch 70/161:  43%|████▎     | 70/161 [1:19:02<34:55, 23.02s/it, loss=712, v_num=1]Epoch 71/161:  43%|████▎     | 70/161 [1:19:02<34:55, 23.02s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 71/161:  44%|████▍     | 71/161 [1:19:26<35:03, 23.37s/it, loss=712, v_num=1]Epoch 71/161:  44%|████▍     | 71/161 [1:19:26<35:03, 23.37s/it, loss=713, v_num=1]Epoch 72/161:  44%|████▍     | 71/161 [1:19:26<35:03, 23.37s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 72/161:  45%|████▍     | 72/161 [1:19:51<35:00, 23.60s/it, loss=713, v_num=1]Epoch 72/161:  45%|████▍     | 72/161 [1:19:51<35:00, 23.60s/it, loss=716, v_num=1]Epoch 73/161:  45%|████▍     | 72/161 [1:19:51<35:00, 23.60s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 73/161:  45%|████▌     | 73/161 [1:20:17<35:51, 24.45s/it, loss=716, v_num=1]Epoch 73/161:  45%|████▌     | 73/161 [1:20:17<35:51, 24.45s/it, loss=712, v_num=1]Epoch 74/161:  45%|████▌     | 73/161 [1:20:17<35:51, 24.45s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 74/161:  46%|████▌     | 74/161 [1:20:41<35:21, 24.39s/it, loss=712, v_num=1]Epoch 74/161:  46%|████▌     | 74/161 [1:20:41<35:21, 24.39s/it, loss=713, v_num=1]Epoch 75/161:  46%|████▌     | 74/161 [1:20:41<35:21, 24.39s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 75/161:  47%|████▋     | 75/161 [1:21:09<36:37, 25.55s/it, loss=713, v_num=1]Epoch 75/161:  47%|████▋     | 75/161 [1:21:09<36:37, 25.55s/it, loss=711, v_num=1]Epoch 76/161:  47%|████▋     | 75/161 [1:21:09<36:37, 25.55s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 76/161:  47%|████▋     | 76/161 [1:21:38<37:35, 26.53s/it, loss=711, v_num=1]Epoch 76/161:  47%|████▋     | 76/161 [1:21:38<37:35, 26.53s/it, loss=716, v_num=1]Epoch 77/161:  47%|████▋     | 76/161 [1:21:38<37:35, 26.53s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 77/161:  48%|████▊     | 77/161 [1:22:03<36:28, 26.05s/it, loss=716, v_num=1]Epoch 77/161:  48%|████▊     | 77/161 [1:22:03<36:28, 26.05s/it, loss=716, v_num=1]Epoch 78/161:  48%|████▊     | 77/161 [1:22:03<36:28, 26.05s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 78/161:  48%|████▊     | 78/161 [1:22:27<35:12, 25.45s/it, loss=716, v_num=1]Epoch 78/161:  48%|████▊     | 78/161 [1:22:27<35:12, 25.45s/it, loss=716, v_num=1]Epoch 79/161:  48%|████▊     | 78/161 [1:22:27<35:12, 25.45s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 79/161:  49%|████▉     | 79/161 [1:22:49<33:11, 24.28s/it, loss=716, v_num=1]Epoch 79/161:  49%|████▉     | 79/161 [1:22:49<33:11, 24.28s/it, loss=713, v_num=1]Epoch 80/161:  49%|████▉     | 79/161 [1:22:49<33:11, 24.28s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 80/161:  50%|████▉     | 80/161 [1:23:13<32:33, 24.12s/it, loss=713, v_num=1]Epoch 80/161:  50%|████▉     | 80/161 [1:23:13<32:33, 24.12s/it, loss=711, v_num=1]Epoch 81/161:  50%|████▉     | 80/161 [1:23:13<32:33, 24.12s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 81/161:  50%|█████     | 81/161 [1:23:34<31:03, 23.29s/it, loss=711, v_num=1]Epoch 81/161:  50%|█████     | 81/161 [1:23:34<31:03, 23.29s/it, loss=714, v_num=1]Epoch 82/161:  50%|█████     | 81/161 [1:23:34<31:03, 23.29s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 82/161:  51%|█████     | 82/161 [1:24:00<31:43, 24.09s/it, loss=714, v_num=1]Epoch 82/161:  51%|█████     | 82/161 [1:24:00<31:43, 24.09s/it, loss=715, v_num=1]Epoch 83/161:  51%|█████     | 82/161 [1:24:00<31:43, 24.09s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 83/161:  52%|█████▏    | 83/161 [1:24:22<30:32, 23.50s/it, loss=715, v_num=1]Epoch 83/161:  52%|█████▏    | 83/161 [1:24:22<30:32, 23.50s/it, loss=712, v_num=1]Epoch 84/161:  52%|█████▏    | 83/161 [1:24:22<30:32, 23.50s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 84/161:  52%|█████▏    | 84/161 [1:24:50<31:57, 24.90s/it, loss=712, v_num=1]Epoch 84/161:  52%|█████▏    | 84/161 [1:24:50<31:57, 24.90s/it, loss=711, v_num=1]Epoch 85/161:  52%|█████▏    | 84/161 [1:24:50<31:57, 24.90s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 85/161:  53%|█████▎    | 85/161 [1:25:16<31:52, 25.17s/it, loss=711, v_num=1]Epoch 85/161:  53%|█████▎    | 85/161 [1:25:16<31:52, 25.17s/it, loss=716, v_num=1]Epoch 86/161:  53%|█████▎    | 85/161 [1:25:16<31:52, 25.17s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 86/161:  53%|█████▎    | 86/161 [1:25:36<29:42, 23.77s/it, loss=716, v_num=1]Epoch 86/161:  53%|█████▎    | 86/161 [1:25:36<29:42, 23.77s/it, loss=714, v_num=1]Epoch 87/161:  53%|█████▎    | 86/161 [1:25:36<29:42, 23.77s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 87/161:  54%|█████▍    | 87/161 [1:26:04<30:51, 25.02s/it, loss=714, v_num=1]Epoch 87/161:  54%|█████▍    | 87/161 [1:26:04<30:51, 25.02s/it, loss=712, v_num=1]Epoch 88/161:  54%|█████▍    | 87/161 [1:26:04<30:51, 25.02s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 88/161:  55%|█████▍    | 88/161 [1:26:32<31:28, 25.87s/it, loss=712, v_num=1]Epoch 88/161:  55%|█████▍    | 88/161 [1:26:32<31:28, 25.87s/it, loss=714, v_num=1]Epoch 89/161:  55%|█████▍    | 88/161 [1:26:32<31:28, 25.87s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 89/161:  55%|█████▌    | 89/161 [1:26:51<28:35, 23.82s/it, loss=714, v_num=1]Epoch 89/161:  55%|█████▌    | 89/161 [1:26:51<28:35, 23.82s/it, loss=716, v_num=1]Epoch 90/161:  55%|█████▌    | 89/161 [1:26:51<28:35, 23.82s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 90/161:  56%|█████▌    | 90/161 [1:27:10<26:12, 22.14s/it, loss=716, v_num=1]Epoch 90/161:  56%|█████▌    | 90/161 [1:27:10<26:12, 22.14s/it, loss=713, v_num=1]Epoch 91/161:  56%|█████▌    | 90/161 [1:27:10<26:12, 22.14s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 91/161:  57%|█████▋    | 91/161 [1:27:37<27:46, 23.80s/it, loss=713, v_num=1]Epoch 91/161:  57%|█████▋    | 91/161 [1:27:37<27:46, 23.80s/it, loss=712, v_num=1]Epoch 92/161:  57%|█████▋    | 91/161 [1:27:37<27:46, 23.80s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 92/161:  57%|█████▋    | 92/161 [1:28:01<27:12, 23.66s/it, loss=712, v_num=1]Epoch 92/161:  57%|█████▋    | 92/161 [1:28:01<27:12, 23.66s/it, loss=715, v_num=1]Epoch 93/161:  57%|█████▋    | 92/161 [1:28:01<27:12, 23.66s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 93/161:  58%|█████▊    | 93/161 [1:28:26<27:20, 24.13s/it, loss=715, v_num=1]Epoch 93/161:  58%|█████▊    | 93/161 [1:28:26<27:20, 24.13s/it, loss=718, v_num=1]Epoch 94/161:  58%|█████▊    | 93/161 [1:28:26<27:20, 24.13s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 94/161:  58%|█████▊    | 94/161 [1:28:45<25:10, 22.55s/it, loss=718, v_num=1]Epoch 94/161:  58%|█████▊    | 94/161 [1:28:45<25:10, 22.55s/it, loss=712, v_num=1]Epoch 95/161:  58%|█████▊    | 94/161 [1:28:45<25:10, 22.55s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 95/161:  59%|█████▉    | 95/161 [1:29:03<23:21, 21.23s/it, loss=712, v_num=1]Epoch 95/161:  59%|█████▉    | 95/161 [1:29:03<23:21, 21.23s/it, loss=713, v_num=1]Epoch 96/161:  59%|█████▉    | 95/161 [1:29:03<23:21, 21.23s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 96/161:  60%|█████▉    | 96/161 [1:29:24<22:55, 21.16s/it, loss=713, v_num=1]Epoch 96/161:  60%|█████▉    | 96/161 [1:29:24<22:55, 21.16s/it, loss=713, v_num=1]Epoch 97/161:  60%|█████▉    | 96/161 [1:29:24<22:55, 21.16s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 97/161:  60%|██████    | 97/161 [1:29:44<22:22, 20.98s/it, loss=713, v_num=1]Epoch 97/161:  60%|██████    | 97/161 [1:29:44<22:22, 20.98s/it, loss=718, v_num=1]Epoch 98/161:  60%|██████    | 97/161 [1:29:44<22:22, 20.98s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 98/161:  61%|██████    | 98/161 [1:30:06<22:23, 21.32s/it, loss=718, v_num=1]Epoch 98/161:  61%|██████    | 98/161 [1:30:06<22:23, 21.32s/it, loss=711, v_num=1]Epoch 99/161:  61%|██████    | 98/161 [1:30:06<22:23, 21.32s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 99/161:  61%|██████▏   | 99/161 [1:30:31<22:56, 22.20s/it, loss=711, v_num=1]Epoch 99/161:  61%|██████▏   | 99/161 [1:30:31<22:56, 22.20s/it, loss=716, v_num=1]Epoch 100/161:  61%|██████▏   | 99/161 [1:30:31<22:56, 22.20s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 100/161:  62%|██████▏   | 100/161 [1:30:53<22:42, 22.33s/it, loss=716, v_num=1]Epoch 100/161:  62%|██████▏   | 100/161 [1:30:53<22:42, 22.33s/it, loss=710, v_num=1]Epoch 101/161:  62%|██████▏   | 100/161 [1:30:53<22:42, 22.33s/it, loss=710, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 101/161:  63%|██████▎   | 101/161 [1:31:13<21:34, 21.57s/it, loss=710, v_num=1]Epoch 101/161:  63%|██████▎   | 101/161 [1:31:13<21:34, 21.57s/it, loss=714, v_num=1]Epoch 102/161:  63%|██████▎   | 101/161 [1:31:13<21:34, 21.57s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 102/161:  63%|██████▎   | 102/161 [1:31:35<21:24, 21.76s/it, loss=714, v_num=1]Epoch 102/161:  63%|██████▎   | 102/161 [1:31:35<21:24, 21.76s/it, loss=714, v_num=1]Epoch 103/161:  63%|██████▎   | 102/161 [1:31:35<21:24, 21.76s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 103/161:  64%|██████▍   | 103/161 [1:31:55<20:24, 21.11s/it, loss=714, v_num=1]Epoch 103/161:  64%|██████▍   | 103/161 [1:31:55<20:24, 21.11s/it, loss=718, v_num=1]Epoch 104/161:  64%|██████▍   | 103/161 [1:31:55<20:24, 21.11s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 104/161:  65%|██████▍   | 104/161 [1:32:18<20:40, 21.76s/it, loss=718, v_num=1]Epoch 104/161:  65%|██████▍   | 104/161 [1:32:18<20:40, 21.76s/it, loss=717, v_num=1]Epoch 105/161:  65%|██████▍   | 104/161 [1:32:18<20:40, 21.76s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 105/161:  65%|██████▌   | 105/161 [1:32:41<20:27, 21.92s/it, loss=717, v_num=1]Epoch 105/161:  65%|██████▌   | 105/161 [1:32:41<20:27, 21.92s/it, loss=716, v_num=1]Epoch 106/161:  65%|██████▌   | 105/161 [1:32:41<20:27, 21.92s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 106/161:  66%|██████▌   | 106/161 [1:33:03<20:22, 22.22s/it, loss=716, v_num=1]Epoch 106/161:  66%|██████▌   | 106/161 [1:33:03<20:22, 22.22s/it, loss=715, v_num=1]Epoch 107/161:  66%|██████▌   | 106/161 [1:33:03<20:22, 22.22s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 107/161:  66%|██████▋   | 107/161 [1:33:24<19:31, 21.69s/it, loss=715, v_num=1]Epoch 107/161:  66%|██████▋   | 107/161 [1:33:24<19:31, 21.69s/it, loss=715, v_num=1]Epoch 108/161:  66%|██████▋   | 107/161 [1:33:24<19:31, 21.69s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 108/161:  67%|██████▋   | 108/161 [1:33:53<21:04, 23.86s/it, loss=715, v_num=1]Epoch 108/161:  67%|██████▋   | 108/161 [1:33:53<21:04, 23.86s/it, loss=719, v_num=1]Epoch 109/161:  67%|██████▋   | 108/161 [1:33:53<21:04, 23.86s/it, loss=719, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 109/161:  68%|██████▊   | 109/161 [1:34:14<20:05, 23.19s/it, loss=719, v_num=1]Epoch 109/161:  68%|██████▊   | 109/161 [1:34:14<20:05, 23.19s/it, loss=713, v_num=1]Epoch 110/161:  68%|██████▊   | 109/161 [1:34:14<20:05, 23.19s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 110/161:  68%|██████▊   | 110/161 [1:34:39<20:00, 23.53s/it, loss=713, v_num=1]Epoch 110/161:  68%|██████▊   | 110/161 [1:34:39<20:00, 23.53s/it, loss=714, v_num=1]Epoch 111/161:  68%|██████▊   | 110/161 [1:34:39<20:00, 23.53s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 111/161:  69%|██████▉   | 111/161 [1:35:09<21:11, 25.43s/it, loss=714, v_num=1]Epoch 111/161:  69%|██████▉   | 111/161 [1:35:09<21:11, 25.43s/it, loss=718, v_num=1]Epoch 112/161:  69%|██████▉   | 111/161 [1:35:09<21:11, 25.43s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 112/161:  70%|██████▉   | 112/161 [1:35:31<20:06, 24.63s/it, loss=718, v_num=1]Epoch 112/161:  70%|██████▉   | 112/161 [1:35:31<20:06, 24.63s/it, loss=713, v_num=1]Epoch 113/161:  70%|██████▉   | 112/161 [1:35:31<20:06, 24.63s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 113/161:  70%|███████   | 113/161 [1:35:59<20:27, 25.58s/it, loss=713, v_num=1]Epoch 113/161:  70%|███████   | 113/161 [1:35:59<20:27, 25.58s/it, loss=714, v_num=1]Epoch 114/161:  70%|███████   | 113/161 [1:35:59<20:27, 25.58s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 114/161:  71%|███████   | 114/161 [1:36:24<19:46, 25.24s/it, loss=714, v_num=1]Epoch 114/161:  71%|███████   | 114/161 [1:36:24<19:46, 25.24s/it, loss=714, v_num=1]Epoch 115/161:  71%|███████   | 114/161 [1:36:24<19:46, 25.24s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 115/161:  71%|███████▏  | 115/161 [1:36:50<19:41, 25.68s/it, loss=714, v_num=1]Epoch 115/161:  71%|███████▏  | 115/161 [1:36:50<19:41, 25.68s/it, loss=719, v_num=1]Epoch 116/161:  71%|███████▏  | 115/161 [1:36:50<19:41, 25.68s/it, loss=719, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 116/161:  72%|███████▏  | 116/161 [1:37:14<18:49, 25.11s/it, loss=719, v_num=1]Epoch 116/161:  72%|███████▏  | 116/161 [1:37:14<18:49, 25.11s/it, loss=713, v_num=1]Epoch 117/161:  72%|███████▏  | 116/161 [1:37:14<18:49, 25.11s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 117/161:  73%|███████▎  | 117/161 [1:37:40<18:29, 25.23s/it, loss=713, v_num=1]Epoch 117/161:  73%|███████▎  | 117/161 [1:37:40<18:29, 25.23s/it, loss=715, v_num=1]Epoch 118/161:  73%|███████▎  | 117/161 [1:37:40<18:29, 25.23s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 118/161:  73%|███████▎  | 118/161 [1:37:58<16:43, 23.33s/it, loss=715, v_num=1]Epoch 118/161:  73%|███████▎  | 118/161 [1:37:58<16:43, 23.33s/it, loss=718, v_num=1]Epoch 119/161:  73%|███████▎  | 118/161 [1:37:58<16:43, 23.33s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 119/161:  74%|███████▍  | 119/161 [1:38:23<16:32, 23.62s/it, loss=718, v_num=1]Epoch 119/161:  74%|███████▍  | 119/161 [1:38:23<16:32, 23.62s/it, loss=715, v_num=1]Epoch 120/161:  74%|███████▍  | 119/161 [1:38:23<16:32, 23.62s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 120/161:  75%|███████▍  | 120/161 [1:38:42<15:10, 22.20s/it, loss=715, v_num=1]Epoch 120/161:  75%|███████▍  | 120/161 [1:38:42<15:10, 22.20s/it, loss=713, v_num=1]Epoch 121/161:  75%|███████▍  | 120/161 [1:38:42<15:10, 22.20s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 121/161:  75%|███████▌  | 121/161 [1:39:04<14:51, 22.29s/it, loss=713, v_num=1]Epoch 121/161:  75%|███████▌  | 121/161 [1:39:04<14:51, 22.29s/it, loss=719, v_num=1]Epoch 122/161:  75%|███████▌  | 121/161 [1:39:04<14:51, 22.29s/it, loss=719, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 122/161:  76%|███████▌  | 122/161 [1:39:32<15:37, 24.03s/it, loss=719, v_num=1]Epoch 122/161:  76%|███████▌  | 122/161 [1:39:32<15:37, 24.03s/it, loss=712, v_num=1]Epoch 123/161:  76%|███████▌  | 122/161 [1:39:32<15:37, 24.03s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 123/161:  76%|███████▋  | 123/161 [1:39:53<14:32, 22.97s/it, loss=712, v_num=1]Epoch 123/161:  76%|███████▋  | 123/161 [1:39:53<14:32, 22.97s/it, loss=715, v_num=1]Epoch 124/161:  76%|███████▋  | 123/161 [1:39:53<14:32, 22.97s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 124/161:  77%|███████▋  | 124/161 [1:40:15<14:05, 22.85s/it, loss=715, v_num=1]Epoch 124/161:  77%|███████▋  | 124/161 [1:40:15<14:05, 22.85s/it, loss=711, v_num=1]Epoch 125/161:  77%|███████▋  | 124/161 [1:40:15<14:05, 22.85s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 125/161:  78%|███████▊  | 125/161 [1:40:33<12:49, 21.38s/it, loss=711, v_num=1]Epoch 125/161:  78%|███████▊  | 125/161 [1:40:33<12:49, 21.38s/it, loss=712, v_num=1]Epoch 126/161:  78%|███████▊  | 125/161 [1:40:33<12:49, 21.38s/it, loss=712, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 126/161:  78%|███████▊  | 126/161 [1:40:49<11:32, 19.80s/it, loss=712, v_num=1]Epoch 126/161:  78%|███████▊  | 126/161 [1:40:49<11:32, 19.80s/it, loss=713, v_num=1]Epoch 127/161:  78%|███████▊  | 126/161 [1:40:49<11:32, 19.80s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 127/161:  79%|███████▉  | 127/161 [1:41:06<10:36, 18.71s/it, loss=713, v_num=1]Epoch 127/161:  79%|███████▉  | 127/161 [1:41:06<10:36, 18.71s/it, loss=718, v_num=1]Epoch 128/161:  79%|███████▉  | 127/161 [1:41:06<10:36, 18.71s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 128/161:  80%|███████▉  | 128/161 [1:41:22<09:51, 17.92s/it, loss=718, v_num=1]Epoch 128/161:  80%|███████▉  | 128/161 [1:41:22<09:51, 17.92s/it, loss=715, v_num=1]Epoch 129/161:  80%|███████▉  | 128/161 [1:41:22<09:51, 17.92s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 129/161:  80%|████████  | 129/161 [1:41:39<09:31, 17.85s/it, loss=715, v_num=1]Epoch 129/161:  80%|████████  | 129/161 [1:41:39<09:31, 17.85s/it, loss=713, v_num=1]Epoch 130/161:  80%|████████  | 129/161 [1:41:39<09:31, 17.85s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 130/161:  81%|████████  | 130/161 [1:41:56<09:02, 17.51s/it, loss=713, v_num=1]Epoch 130/161:  81%|████████  | 130/161 [1:41:56<09:02, 17.51s/it, loss=717, v_num=1]Epoch 131/161:  81%|████████  | 130/161 [1:41:56<09:02, 17.51s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 131/161:  81%|████████▏ | 131/161 [1:42:13<08:39, 17.30s/it, loss=717, v_num=1]Epoch 131/161:  81%|████████▏ | 131/161 [1:42:13<08:39, 17.30s/it, loss=716, v_num=1]Epoch 132/161:  81%|████████▏ | 131/161 [1:42:13<08:39, 17.30s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 132/161:  82%|████████▏ | 132/161 [1:42:30<08:22, 17.34s/it, loss=716, v_num=1]Epoch 132/161:  82%|████████▏ | 132/161 [1:42:30<08:22, 17.34s/it, loss=715, v_num=1]Epoch 133/161:  82%|████████▏ | 132/161 [1:42:30<08:22, 17.34s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 133/161:  83%|████████▎ | 133/161 [1:42:47<08:01, 17.20s/it, loss=715, v_num=1]Epoch 133/161:  83%|████████▎ | 133/161 [1:42:47<08:01, 17.20s/it, loss=711, v_num=1]Epoch 134/161:  83%|████████▎ | 133/161 [1:42:47<08:01, 17.20s/it, loss=711, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 134/161:  83%|████████▎ | 134/161 [1:43:04<07:39, 17.01s/it, loss=711, v_num=1]Epoch 134/161:  83%|████████▎ | 134/161 [1:43:04<07:39, 17.01s/it, loss=714, v_num=1]Epoch 135/161:  83%|████████▎ | 134/161 [1:43:04<07:39, 17.01s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 135/161:  84%|████████▍ | 135/161 [1:43:20<07:18, 16.86s/it, loss=714, v_num=1]Epoch 135/161:  84%|████████▍ | 135/161 [1:43:20<07:18, 16.86s/it, loss=714, v_num=1]Epoch 136/161:  84%|████████▍ | 135/161 [1:43:20<07:18, 16.86s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 136/161:  84%|████████▍ | 136/161 [1:43:36<06:56, 16.67s/it, loss=714, v_num=1]Epoch 136/161:  84%|████████▍ | 136/161 [1:43:36<06:56, 16.67s/it, loss=717, v_num=1]Epoch 137/161:  84%|████████▍ | 136/161 [1:43:36<06:56, 16.67s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 137/161:  85%|████████▌ | 137/161 [1:43:54<06:46, 16.96s/it, loss=717, v_num=1]Epoch 137/161:  85%|████████▌ | 137/161 [1:43:54<06:46, 16.96s/it, loss=715, v_num=1]Epoch 138/161:  85%|████████▌ | 137/161 [1:43:54<06:46, 16.96s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 138/161:  86%|████████▌ | 138/161 [1:44:11<06:27, 16.84s/it, loss=715, v_num=1]Epoch 138/161:  86%|████████▌ | 138/161 [1:44:11<06:27, 16.84s/it, loss=715, v_num=1]Epoch 139/161:  86%|████████▌ | 138/161 [1:44:11<06:27, 16.84s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 139/161:  86%|████████▋ | 139/161 [1:44:27<06:08, 16.77s/it, loss=715, v_num=1]Epoch 139/161:  86%|████████▋ | 139/161 [1:44:27<06:08, 16.77s/it, loss=717, v_num=1]Epoch 140/161:  86%|████████▋ | 139/161 [1:44:27<06:08, 16.77s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 140/161:  87%|████████▋ | 140/161 [1:44:43<05:48, 16.60s/it, loss=717, v_num=1]Epoch 140/161:  87%|████████▋ | 140/161 [1:44:43<05:48, 16.60s/it, loss=716, v_num=1]Epoch 141/161:  87%|████████▋ | 140/161 [1:44:43<05:48, 16.60s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 141/161:  88%|████████▊ | 141/161 [1:45:00<05:32, 16.64s/it, loss=716, v_num=1]Epoch 141/161:  88%|████████▊ | 141/161 [1:45:00<05:32, 16.64s/it, loss=719, v_num=1]Epoch 142/161:  88%|████████▊ | 141/161 [1:45:00<05:32, 16.64s/it, loss=719, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 142/161:  88%|████████▊ | 142/161 [1:45:17<05:16, 16.68s/it, loss=719, v_num=1]Epoch 142/161:  88%|████████▊ | 142/161 [1:45:17<05:16, 16.68s/it, loss=717, v_num=1]Epoch 143/161:  88%|████████▊ | 142/161 [1:45:17<05:16, 16.68s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 143/161:  89%|████████▉ | 143/161 [1:45:34<05:01, 16.76s/it, loss=717, v_num=1]Epoch 143/161:  89%|████████▉ | 143/161 [1:45:34<05:01, 16.76s/it, loss=716, v_num=1]Epoch 144/161:  89%|████████▉ | 143/161 [1:45:34<05:01, 16.76s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 144/161:  89%|████████▉ | 144/161 [1:45:50<04:43, 16.67s/it, loss=716, v_num=1]Epoch 144/161:  89%|████████▉ | 144/161 [1:45:50<04:43, 16.67s/it, loss=716, v_num=1]Epoch 145/161:  89%|████████▉ | 144/161 [1:45:50<04:43, 16.67s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 145/161:  90%|█████████ | 145/161 [1:46:07<04:26, 16.64s/it, loss=716, v_num=1]Epoch 145/161:  90%|█████████ | 145/161 [1:46:07<04:26, 16.64s/it, loss=713, v_num=1]Epoch 146/161:  90%|█████████ | 145/161 [1:46:07<04:26, 16.64s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 146/161:  91%|█████████ | 146/161 [1:46:24<04:12, 16.81s/it, loss=713, v_num=1]Epoch 146/161:  91%|█████████ | 146/161 [1:46:24<04:12, 16.81s/it, loss=715, v_num=1]Epoch 147/161:  91%|█████████ | 146/161 [1:46:24<04:12, 16.81s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 147/161:  91%|█████████▏| 147/161 [1:46:41<03:57, 16.93s/it, loss=715, v_num=1]Epoch 147/161:  91%|█████████▏| 147/161 [1:46:41<03:57, 16.93s/it, loss=716, v_num=1]Epoch 148/161:  91%|█████████▏| 147/161 [1:46:41<03:57, 16.93s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 148/161:  92%|█████████▏| 148/161 [1:46:58<03:39, 16.85s/it, loss=716, v_num=1]Epoch 148/161:  92%|█████████▏| 148/161 [1:46:58<03:39, 16.85s/it, loss=715, v_num=1]Epoch 149/161:  92%|█████████▏| 148/161 [1:46:58<03:39, 16.85s/it, loss=715, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 149/161:  93%|█████████▎| 149/161 [1:47:15<03:21, 16.77s/it, loss=715, v_num=1]Epoch 149/161:  93%|█████████▎| 149/161 [1:47:15<03:21, 16.77s/it, loss=716, v_num=1]Epoch 150/161:  93%|█████████▎| 149/161 [1:47:15<03:21, 16.77s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 150/161:  93%|█████████▎| 150/161 [1:47:31<03:03, 16.68s/it, loss=716, v_num=1]Epoch 150/161:  93%|█████████▎| 150/161 [1:47:31<03:03, 16.68s/it, loss=714, v_num=1]Epoch 151/161:  93%|█████████▎| 150/161 [1:47:31<03:03, 16.68s/it, loss=714, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 151/161:  94%|█████████▍| 151/161 [1:47:49<02:51, 17.14s/it, loss=714, v_num=1]Epoch 151/161:  94%|█████████▍| 151/161 [1:47:49<02:51, 17.14s/it, loss=716, v_num=1]Epoch 152/161:  94%|█████████▍| 151/161 [1:47:49<02:51, 17.14s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 152/161:  94%|█████████▍| 152/161 [1:48:21<03:12, 21.36s/it, loss=716, v_num=1]Epoch 152/161:  94%|█████████▍| 152/161 [1:48:21<03:12, 21.36s/it, loss=717, v_num=1]Epoch 153/161:  94%|█████████▍| 152/161 [1:48:21<03:12, 21.36s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 153/161:  95%|█████████▌| 153/161 [1:48:44<02:56, 22.10s/it, loss=717, v_num=1]Epoch 153/161:  95%|█████████▌| 153/161 [1:48:44<02:56, 22.10s/it, loss=716, v_num=1]Epoch 154/161:  95%|█████████▌| 153/161 [1:48:44<02:56, 22.10s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 154/161:  96%|█████████▌| 154/161 [1:49:04<02:28, 21.26s/it, loss=716, v_num=1]Epoch 154/161:  96%|█████████▌| 154/161 [1:49:04<02:28, 21.26s/it, loss=717, v_num=1]Epoch 155/161:  96%|█████████▌| 154/161 [1:49:04<02:28, 21.26s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 155/161:  96%|█████████▋| 155/161 [1:49:25<02:07, 21.32s/it, loss=717, v_num=1]Epoch 155/161:  96%|█████████▋| 155/161 [1:49:25<02:07, 21.32s/it, loss=717, v_num=1]Epoch 156/161:  96%|█████████▋| 155/161 [1:49:25<02:07, 21.32s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 156/161:  97%|█████████▋| 156/161 [1:49:44<01:42, 20.49s/it, loss=717, v_num=1]Epoch 156/161:  97%|█████████▋| 156/161 [1:49:44<01:42, 20.49s/it, loss=716, v_num=1]Epoch 157/161:  97%|█████████▋| 156/161 [1:49:44<01:42, 20.49s/it, loss=716, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 157/161:  98%|█████████▊| 157/161 [1:50:03<01:20, 20.11s/it, loss=716, v_num=1]Epoch 157/161:  98%|█████████▊| 157/161 [1:50:03<01:20, 20.11s/it, loss=717, v_num=1]Epoch 158/161:  98%|█████████▊| 157/161 [1:50:03<01:20, 20.11s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 158/161:  98%|█████████▊| 158/161 [1:50:22<00:59, 19.67s/it, loss=717, v_num=1]Epoch 158/161:  98%|█████████▊| 158/161 [1:50:22<00:59, 19.67s/it, loss=718, v_num=1]Epoch 159/161:  98%|█████████▊| 158/161 [1:50:22<00:59, 19.67s/it, loss=718, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 159/161:  99%|█████████▉| 159/161 [1:50:39<00:38, 19.07s/it, loss=718, v_num=1]Epoch 159/161:  99%|█████████▉| 159/161 [1:50:39<00:38, 19.07s/it, loss=717, v_num=1]Epoch 160/161:  99%|█████████▉| 159/161 [1:50:39<00:38, 19.07s/it, loss=717, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 160/161:  99%|█████████▉| 160/161 [1:50:56<00:18, 18.43s/it, loss=717, v_num=1]Epoch 160/161:  99%|█████████▉| 160/161 [1:50:56<00:18, 18.43s/it, loss=713, v_num=1]Epoch 161/161:  99%|█████████▉| 160/161 [1:50:56<00:18, 18.43s/it, loss=713, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 161/161: 100%|██████████| 161/161 [1:51:12<00:00, 17.77s/it, loss=713, v_num=1]Epoch 161/161: 100%|██████████| 161/161 [1:51:12<00:00, 17.77s/it, loss=718, v_num=1]`Trainer.fit` stopped: `max_epochs=161` reached.
+Epoch 161/161: 100%|██████████| 161/161 [1:51:12<00:00, 41.45s/it, loss=718, v_num=1]
+2025-11-12 13:43:08 - pipeline - INFO - Training scANVI model
+/u/scratch/r/rgorzek/foundation-cross/src/models/scvi/model.py:90: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  self.merged_data.obs['celltype_scanvi'][reference_mask] = self.merged_data.obs['celltype_id'][reference_mask].values
+/u/scratch/r/rgorzek/foundation-cross/src/models/scvi/model.py:90: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.merged_data.obs['celltype_scanvi'][reference_mask] = self.merged_data.obs['celltype_id'][reference_mask].values
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/data/fields/_layer_field.py:90: UserWarning: adata.layers[counts] does not contain unnormalized count data. Are you sure this is what you want?
+  warnings.warn(
+[34mINFO    [0m Training for [1;36m20[0m epochs.                                                
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+Training:   0%|          | 0/20 [00:00<?, ?it/s]Epoch 1/20:   0%|          | 0/20 [00:00<?, ?it/s]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 1/20:   5%|▌         | 1/20 [00:26<08:28, 26.75s/it]Epoch 1/20:   5%|▌         | 1/20 [00:26<08:28, 26.75s/it, loss=810, v_num=1]Epoch 2/20:   5%|▌         | 1/20 [00:26<08:28, 26.75s/it, loss=810, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 2/20:  10%|█         | 2/20 [00:52<07:47, 26.00s/it, loss=810, v_num=1]Epoch 2/20:  10%|█         | 2/20 [00:52<07:47, 26.00s/it, loss=805, v_num=1]Epoch 3/20:  10%|█         | 2/20 [00:52<07:47, 26.00s/it, loss=805, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 3/20:  15%|█▌        | 3/20 [01:18<07:21, 25.99s/it, loss=805, v_num=1]Epoch 3/20:  15%|█▌        | 3/20 [01:18<07:21, 25.99s/it, loss=803, v_num=1]Epoch 4/20:  15%|█▌        | 3/20 [01:18<07:21, 25.99s/it, loss=803, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 4/20:  20%|██        | 4/20 [01:44<06:54, 25.93s/it, loss=803, v_num=1]Epoch 4/20:  20%|██        | 4/20 [01:44<06:54, 25.93s/it, loss=802, v_num=1]Epoch 5/20:  20%|██        | 4/20 [01:44<06:54, 25.93s/it, loss=802, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 5/20:  25%|██▌       | 5/20 [02:09<06:24, 25.66s/it, loss=802, v_num=1]Epoch 5/20:  25%|██▌       | 5/20 [02:09<06:24, 25.66s/it, loss=804, v_num=1]Epoch 6/20:  25%|██▌       | 5/20 [02:09<06:24, 25.66s/it, loss=804, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 6/20:  30%|███       | 6/20 [02:35<06:03, 25.95s/it, loss=804, v_num=1]Epoch 6/20:  30%|███       | 6/20 [02:35<06:03, 25.95s/it, loss=802, v_num=1]Epoch 7/20:  30%|███       | 6/20 [02:35<06:03, 25.95s/it, loss=802, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 7/20:  35%|███▌      | 7/20 [03:01<05:35, 25.79s/it, loss=802, v_num=1]Epoch 7/20:  35%|███▌      | 7/20 [03:01<05:35, 25.79s/it, loss=799, v_num=1]Epoch 8/20:  35%|███▌      | 7/20 [03:01<05:35, 25.79s/it, loss=799, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 8/20:  40%|████      | 8/20 [03:27<05:09, 25.80s/it, loss=799, v_num=1]Epoch 8/20:  40%|████      | 8/20 [03:27<05:09, 25.80s/it, loss=801, v_num=1]Epoch 9/20:  40%|████      | 8/20 [03:27<05:09, 25.80s/it, loss=801, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 9/20:  45%|████▌     | 9/20 [03:52<04:44, 25.83s/it, loss=801, v_num=1]Epoch 9/20:  45%|████▌     | 9/20 [03:52<04:44, 25.83s/it, loss=802, v_num=1]Epoch 10/20:  45%|████▌     | 9/20 [03:52<04:44, 25.83s/it, loss=802, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 10/20:  50%|█████     | 10/20 [04:19<04:20, 26.07s/it, loss=802, v_num=1]Epoch 10/20:  50%|█████     | 10/20 [04:19<04:20, 26.07s/it, loss=803, v_num=1]Epoch 11/20:  50%|█████     | 10/20 [04:19<04:20, 26.07s/it, loss=803, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 11/20:  55%|█████▌    | 11/20 [04:46<03:56, 26.31s/it, loss=803, v_num=1]Epoch 11/20:  55%|█████▌    | 11/20 [04:46<03:56, 26.31s/it, loss=803, v_num=1]Epoch 12/20:  55%|█████▌    | 11/20 [04:46<03:56, 26.31s/it, loss=803, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 12/20:  60%|██████    | 12/20 [05:12<03:30, 26.36s/it, loss=803, v_num=1]Epoch 12/20:  60%|██████    | 12/20 [05:12<03:30, 26.36s/it, loss=796, v_num=1]Epoch 13/20:  60%|██████    | 12/20 [05:12<03:30, 26.36s/it, loss=796, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 13/20:  65%|██████▌   | 13/20 [05:38<03:02, 26.14s/it, loss=796, v_num=1]Epoch 13/20:  65%|██████▌   | 13/20 [05:38<03:02, 26.14s/it, loss=800, v_num=1]Epoch 14/20:  65%|██████▌   | 13/20 [05:38<03:02, 26.14s/it, loss=800, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 14/20:  70%|███████   | 14/20 [06:04<02:36, 26.13s/it, loss=800, v_num=1]Epoch 14/20:  70%|███████   | 14/20 [06:04<02:36, 26.13s/it, loss=799, v_num=1]Epoch 15/20:  70%|███████   | 14/20 [06:04<02:36, 26.13s/it, loss=799, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 15/20:  75%|███████▌  | 15/20 [06:30<02:10, 26.05s/it, loss=799, v_num=1]Epoch 15/20:  75%|███████▌  | 15/20 [06:30<02:10, 26.05s/it, loss=800, v_num=1]Epoch 16/20:  75%|███████▌  | 15/20 [06:30<02:10, 26.05s/it, loss=800, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 16/20:  80%|████████  | 16/20 [06:56<01:43, 25.91s/it, loss=800, v_num=1]Epoch 16/20:  80%|████████  | 16/20 [06:56<01:43, 25.91s/it, loss=802, v_num=1]Epoch 17/20:  80%|████████  | 16/20 [06:56<01:43, 25.91s/it, loss=802, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 17/20:  85%|████████▌ | 17/20 [07:21<01:17, 25.80s/it, loss=802, v_num=1]Epoch 17/20:  85%|████████▌ | 17/20 [07:21<01:17, 25.80s/it, loss=799, v_num=1]Epoch 18/20:  85%|████████▌ | 17/20 [07:21<01:17, 25.80s/it, loss=799, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 18/20:  90%|█████████ | 18/20 [07:47<00:51, 25.69s/it, loss=799, v_num=1]Epoch 18/20:  90%|█████████ | 18/20 [07:47<00:51, 25.69s/it, loss=800, v_num=1]Epoch 19/20:  90%|█████████ | 18/20 [07:47<00:51, 25.69s/it, loss=800, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 19/20:  95%|█████████▌| 19/20 [08:12<00:25, 25.49s/it, loss=800, v_num=1]Epoch 19/20:  95%|█████████▌| 19/20 [08:12<00:25, 25.49s/it, loss=803, v_num=1]Epoch 20/20:  95%|█████████▌| 19/20 [08:12<00:25, 25.49s/it, loss=803, v_num=1]/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scvi/distributions/_negative_binomial.py:476: UserWarning: The value argument must be within the support of the distribution
+  warnings.warn(
+Epoch 20/20: 100%|██████████| 20/20 [08:36<00:00, 25.27s/it, loss=803, v_num=1]Epoch 20/20: 100%|██████████| 20/20 [08:36<00:00, 25.27s/it, loss=799, v_num=1]`Trainer.fit` stopped: `max_epochs=20` reached.
+Epoch 20/20: 100%|██████████| 20/20 [08:36<00:00, 25.84s/it, loss=799, v_num=1]
+2025-11-12 13:51:45 - pipeline - INFO - Training complete
+2025-11-12 13:51:45 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 13:51:45 - pipeline - INFO - STEP 6: Evaluating Model
+2025-11-12 13:51:45 - pipeline - INFO - =========================================================================================
+2025-11-12 13:51:45 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2025-11-12 13:51:45 - pipeline - INFO - Evaluating on opossum
+2025-11-12 13:51:45 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2025-11-12 13:51:45 - pipeline - INFO - Predicting labels for query data
+2025-11-12 13:51:47 - pipeline - INFO - Generated predictions for 32764 cells
+2025-11-12 13:51:47 - pipeline - INFO - Results (18305 cells with valid labels):
+2025-11-12 13:51:47 - pipeline - INFO -   Accuracy: 0.9447
+2025-11-12 13:51:47 - pipeline - INFO -   Precision (macro): 0.6314
+2025-11-12 13:51:47 - pipeline - INFO -   Recall (macro): 0.6473
+2025-11-12 13:51:47 - pipeline - INFO -   F1 (macro): 0.6168
+2025-11-12 13:51:47 - pipeline - INFO - Predictions saved to results/mouse_opossum/scvi_Nov12-11-44/predictions_opossum.csv
+2025-11-12 13:51:47 - pipeline - INFO - Metrics saved to results/mouse_opossum/scvi_Nov12-11-44/metrics_opossum.json
+2025-11-12 13:51:47 - pipeline - INFO - Generating visualizations...
+====== Confusion Matrix ======
+           L2/3        L4      L5IT  ...       OPC      Endo      VLMC
+IT_A   0.714358  0.155040  0.001622  ...  0.000101  0.000203  0.000101
+IT_B   0.000000  0.993048  0.003476  ...  0.000000  0.000579  0.000000
+IT_C   0.003203  0.018815  0.696958  ...  0.000000  0.000000  0.000000
+L5NP   0.001355  0.008130  0.000000  ...  0.000000  0.000000  0.000000
+IT_D   0.016086  0.005362  0.000000  ...  0.000000  0.000000  0.000000
+L5PT   0.011609  0.001658  0.000829  ...  0.000000  0.000000  0.000000
+L6CT   0.011820  0.002474  0.000275  ...  0.001649  0.000825  0.000000
+L6b    0.000000  0.000000  0.000000  ...  0.000000  0.000000  0.000000
+Pvalb  0.000000  0.000000  0.000000  ...  0.002799  0.000000  0.000000
+Sst    0.000000  0.000000  0.000000  ...  0.000978  0.000000  0.000000
+Vip    0.000000  0.000000  0.000000  ...  0.000000  0.000000  0.000000
+Lamp5  0.000000  0.000000  0.000000  ...  0.002703  0.000000  0.000000
+Frem1  0.000000  0.000000  0.000000  ...  0.003279  0.000000  0.000000
+Astro  0.000000  0.000000  0.000000  ...  0.000479  0.000479  0.001436
+Micro  0.000000  0.000000  0.000000  ...  0.008299  0.000000  0.000000
+OD     0.000000  0.000000  0.000000  ...  0.002471  0.000000  0.000247
+OPC    0.000000  0.000000  0.000000  ...  0.988831  0.000000  0.000000
+Endo   0.000000  0.000000  0.000000  ...  0.015385  0.984615  0.000000
+
+[18 rows x 20 columns]
+==============================
+2025-11-12 13:51:49 - pipeline - INFO - Confusion matrix saved to results/mouse_opossum/scvi_Nov12-11-44/confusion_matrix_opossum.png
+/u/scratch/r/rgorzek/foundation-cross/src/analysis/visualization.py:245: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `y` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.barplot(data=df, x='F1', y='Class', palette='viridis')
+2025-11-12 13:51:49 - pipeline - INFO - Per-class F1 plot saved to results/mouse_opossum/scvi_Nov12-11-44/per_class_f1_opossum.png
+2025-11-12 13:51:49 - pipeline - INFO - 
+=========================================================================================
+2025-11-12 13:51:49 - pipeline - INFO - PIPELINE COMPLETE
+2025-11-12 13:51:49 - pipeline - INFO - =========================================================================================
+2025-11-12 13:51:49 - pipeline - INFO - Total time: 7638.96 seconds
+
+Experiment complete! Results saved to: results/mouse_opossum/scvi_Nov12-11-44
+==========================================
+Job 11389705 ended on:    n1154
+Job 11389705 ended on:    Wed Nov 12 13:51:52 PST 2025
+ 
+==========================================

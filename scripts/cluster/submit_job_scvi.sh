@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -o jobs/joblog.$JOB_ID
 #$ -j y
-#$ -l h_data=32G,h_rt=5:00:00
+#$ -l h_data=32G,h_rt=3:00:00
 #$ -N cross_species_transfer
 #$ -M rgorzek@ucla.edu
 #$ -m bea
