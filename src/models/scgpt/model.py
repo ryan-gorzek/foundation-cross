@@ -161,7 +161,7 @@ class ScGPTModel(BaseLabelTransferModel):
         preprocessor(adata, batch_key=None)
         return adata
     
-    def train(self, reference_data: ad.AnnData, **kwargs) -> None:
+    def train(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None, **kwargs) -> None:
         """
         Train scGPT model on reference data.
         

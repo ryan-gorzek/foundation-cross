@@ -46,6 +46,7 @@ class BaseLabelTransferModel(ABC):
     def train(
         self,
         reference_data: ad.AnnData,
+        query_data: Optional[ad.AnnData] = None,
         **kwargs
     ) -> None:
         """
@@ -55,6 +56,8 @@ class BaseLabelTransferModel(ABC):
         ----------
         reference_data : AnnData
             Reference dataset with 'celltype_id' in obs
+        query_data : Optional[AnnData]
+            Query dataset (only used by models that integrate first)
         **kwargs
             Additional model-specific arguments
         """

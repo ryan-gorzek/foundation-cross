@@ -29,7 +29,10 @@ class ScVIModel(BaseLabelTransferModel):
         self.max_epochs = self.scanvi_config.get('max_epochs', 20)
         self.n_samples_per_label = self.scanvi_config.get('n_samples_per_label', 100)
 
-    def train(self, reference_data: ad.AnnData, **kwargs) -> None:
+        # Store reference categories for prediction mapping
+        self.reference_categories = None
+
+    def train(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None, **kwargs) -> None:
         """
         Prepare reference data and train scVI/scANVI integration and label transfer models.
         
@@ -37,6 +40,8 @@ class ScVIModel(BaseLabelTransferModel):
         ----------
         reference_data : AnnData
             Reference dataset with 'celltype' in obs
+        query_data : AnnData
+            Query dataset with 'celltype' in obs
         """
         pass
     

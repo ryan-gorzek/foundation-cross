@@ -83,7 +83,7 @@ class SeuratMapQuery(BaseLabelTransferModel):
         self.log_info(f"Conversion complete: {rds_path}")
         return rds_path
     
-    def train(self, reference_data: ad.AnnData, **kwargs) -> None:
+    def train(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None, **kwargs) -> None:
         """
         Prepare reference data for Seurat MapQuery.
         

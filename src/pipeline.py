@@ -262,9 +262,13 @@ class CrossSpeciesLabelTransferPipeline:
         set_seed(seed)
         self.logger.info(f"Random seed: {seed}")
         
+        # Pass query data (will be ignored by models that don't need it)
+        query_data = self.query_datasets[0]['data'] if self.query_datasets else None
+
         # Train
         self.model.train(
             self.reference_data,
+            query_data=query_data,
             **training_config
         )
         
