@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import anndata as ad
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import scanpy as sc
 import scvi
 import torch
@@ -62,11 +62,11 @@ class ScVIModel(BaseLabelTransferModel):
         # Merge and process objects
         reference_data.obs['dataset'] = 'reference'
         query_data.obs['dataset'] = 'query'
-        self.merged_data = anndata.concat([reference_data, query_data])
-        self.merged_data.layers['counts'] = adata.X.copy()
+        self.merged_data = ad.concat([reference_data, query_data])
+        self.merged_data.layers['counts'] = self.merged_data.X.copy()
         sc.pp.normalize_total(self.merged_data, target_sum=1e4)
         sc.pp.log1p(self.merged_data)
-        adata.raw = self.merged_data  # keep full dimension safe
+        self.merged_data.raw = self.merged_data  # keep full dimension safe
         sc.pp.highly_variable_genes(
             self.merged_data,
             flavor='seurat_v3',
@@ -86,8 +86,8 @@ class ScVIModel(BaseLabelTransferModel):
         # Prepare and train the scANVI model, store the embeddings
         self.log_info("Training scANVI model")
         self.merged_data.obs['celltype_scanvi'] = -1
-        query_mask = self.merged_data.obs['dataset'] == 'query'
-        self.merged_data.obs['celltype_scanvi'][ss2_mask] = self.merged_data.obs['celltype_id'][query_mask].values
+        reference_mask = self.merged_data.obs['dataset'] == 'reference'
+        self.merged_data.obs['celltype_scanvi'][reference_mask] = self.merged_data.obs['celltype_id'][reference_mask].values
         self.scanvi_model = scvi.model.SCANVI.from_scvi_model(
             self.scvi_model,
             adata=self.merged_data,
@@ -114,10 +114,10 @@ class ScVIModel(BaseLabelTransferModel):
         self.log_info("Predicting labels for query data")
         
         # Predict labels with scANVI
-        self.merge_data.obsm['X_scANVI'] = scanvi_model.get_latent_representation(self.merge_data)
-        self.merge_data.obs['C_scANVI'] = scanvi_model.predict(self.merge_data)
+        self.merged_data.obsm['X_scANVI'] = self.scanvi_model.get_latent_representation(self.merged_data)
+        self.merged_data.obs['C_scANVI'] = self.scanvi_model.predict(self.merged_data)
         query_mask = self.merged_data.obs['dataset'] == 'query'
-        predictions = np.array(self.merge_data.obs['C_scANVI'][query_mask]).astype(int)
+        predictions = np.array(self.merged_data.obs['C_scANVI'][query_mask]).astype(int)
         # IMPORTANT: Verify query cells match input, in case something happened internally
         query_cells_merged = self.merged_data.obs_names[query_mask]
         query_cells_input = query_data.obs_names
