@@ -35,10 +35,10 @@ def train_epoch(
         acc = _acc(logits, labels)
 
         optimizer.zero_grad()
-        criterion.backward()
+        loss.backward()
         optimizer.step()
 
-        batch_size = y.size(0)
+        batch_size = labels.size(0)
         total_loss += loss.item() * batch_size
         total_acc += acc * batch_size
         total_num += batch_size
@@ -50,7 +50,8 @@ def evaluate(
     model: nn.Module,
     loader: DataLoader,
     criterion: nn.Module,
-    device: torch.device
+    device: torch.device,
+    return_raw=False
     ):
     """
     Evaluate a neural network classifier.
@@ -59,6 +60,7 @@ def evaluate(
     total_loss = 0.0
     total_acc = 0.0
     total_num = 0
+    predictions = []
 
     for inputs, labels in loader:
         inputs = inputs.to(device)
@@ -68,9 +70,16 @@ def evaluate(
         loss = criterion(logits, labels)
         acc = _acc(logits, labels)
 
-        batch_size = y.size(0)
+        batch_size = labels.size(0)
         total_loss += loss.item() * batch_size
         total_acc += acc * batch_size
         total_num += batch_size
     
+        # Store predictions
+        preds = logits.argmax(1).cpu().numpy()
+        predictions.append(preds)
+
+    if return_raw:
+        return np.concatenate(predictions, axis=0)
+
     return total_loss / total_num, total_acc / total_num

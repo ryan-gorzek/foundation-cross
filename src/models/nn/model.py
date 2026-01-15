@@ -9,14 +9,14 @@ import numpy as np
 import torch
 import torch.nn as nn
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import anndata as ad
 from scipy.sparse import issparse
 from torch.utils.data import DataLoader
 
 from ..base import BaseLabelTransferModel
 from .architecture import MLPClassifier
-from .utils import make_dataloaders_group_split
+from .utils import make_dataloaders_group_split, make_dataloader
 from .train import train_epoch, evaluate
 
 class NNModel(BaseLabelTransferModel):
@@ -33,7 +33,7 @@ class NNModel(BaseLabelTransferModel):
     def _initialize_model(self, reference_data: ad.AnnData) -> nn.Module:
         
         # Inputs
-        if 'higly_variable' in reference_data.var.columns:
+        if 'highly_variable' in reference_data.var.columns:
             n_inputs = int(reference_data.var["highly_variable"].sum())
             self.log_info(f"Using {n_inputs} genes")
         else:
@@ -59,6 +59,9 @@ class NNModel(BaseLabelTransferModel):
         """
         self.log_info("Training neural network model")
 
+        gene_idx = reference_data.var['highly_variable']
+        self.training_genes = reference_data.var.loc[gene_idx].index.to_numpy()
+
         # Make the train and validation DataLoaders
         (
             train_loader, 
@@ -76,28 +79,90 @@ class NNModel(BaseLabelTransferModel):
             batch_size = kwargs.get('batch_size', 512)
         )
 
-        self.log_info(f"Training samples: {len(train_data)}")
-        self.log_info(f"Validation samples: {len(valid_data)}")
+        self.log_info(f"Training samples: {len(train_idx)}")
+        self.log_info(f"Validation samples: {len(val_idx)}")
 
-        criterion = nn.CrossEntropyLoss(weights=class_weights.to(self.device))
+        criterion = nn.CrossEntropyLoss(weight=class_weights.to(self.device))
         lr = kwargs.get('learning_rate', 3e-4)
         wd = kwargs.get('weight_decay', 1e-4)
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=lr, weight_decay=wd)
 
         # Training loop
         num_epochs = kwargs.get('num_epochs', 25)
-        model.train()
-        for ep in num_epochs:
+        self.model.train()
+        for ep in range(1, num_epochs + 1):
             
-            train_loss, train_acc = train_epoch(model, train_loader, criterion, optimizer, device)
-            val_loss, val_acc = evaluate(model, val_loader, criterion, device)
+            train_loss, train_acc = train_epoch(self.model, train_loader, criterion, optimizer, self.device)
+            val_loss, val_acc = evaluate(self.model, val_loader, criterion, self.device)
 
             self.log_info(
-                    f"Epoch {epoch:3d} | train loss {train_loss:5.4f} | "
+                    f"Epoch {ep:3d} | train loss {train_loss:5.4f} | "
                     f"valid loss {val_loss:5.4f} | valid accuracy {val_acc:5.4f}"
                 )
 
         self.log_info("Training complete")
 
-    def predict(self):
-        pass
+    @torch.no_grad()
+    def predict(self, query_data: ad.AnnData, **kwargs):
+        """
+        Predict labels for query data.
+        
+        Parameters
+        ----------
+        query_data : AnnData
+            Query dataset
+            
+        Returns
+        -------
+        predictions : np.ndarray
+            Predicted cell type IDs
+        """
+        self.log_info("Predicting labels for query data")
+        
+        # CRITICAL: Ensure query has exact same genes as training (in same order)
+        if hasattr(self, 'training_genes'):
+            training_gene_set = set(self.training_genes)
+            query_genes = query_data.var["gene_name"].values
+            
+            # Find common genes (intersection)
+            common_genes = [g for g in self.training_genes if g in query_genes]
+            n_common = len(common_genes)
+            n_missing = len(self.training_genes) - n_common
+            
+            if n_missing > 0:
+                self.log_warning(f"Query missing {n_missing}/{len(self.training_genes)} training genes")
+            
+            if n_common == 0:
+                raise ValueError("No common genes between training and query")
+            
+            # Subset query to common genes and reorder to match training
+            query_data.var["__backup_var_names"] = query_data.var_names
+            query_data.var_names = query_data.var["gene_name"].astype(str).str.upper()
+            query_data = query_data[:, common_genes].copy()
+            query_data.var_names = query_data.var["__backup_var_names"]
+            query_data.var.drop(columns="__backup_var_names", inplace=True)
+            query_data.var['prediction_genes'] = True # Mark all genes for make_dataloader
+            
+            self.log_info(f"Using {n_common} common genes for prediction")
+        
+        query_loader = make_dataloader(
+            query_data,
+            var_col='prediction_genes',
+            obs_col='celltype_id',
+            make_dense=False,
+            batch_size = kwargs.get('batch_size', 512)
+            )
+
+        self.model.eval()
+        criterion = nn.CrossEntropyLoss()
+        predictions = evaluate(self.model, query_loader, criterion, self.device, return_raw=True)
+        
+        self.log_info(f"Generated predictions for {len(predictions)} cells")
+        return predictions
+
+    def save_model(self):
+        """Save model weights."""
+        if self.model is not None:
+            model_path = self.model_outputs_dir / "best_model.pt"
+            torch.save(self.model.state_dict(), model_path)
+            self.log_info(f"Saved model weights to {model_path}")

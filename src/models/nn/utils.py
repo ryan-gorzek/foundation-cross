@@ -38,8 +38,32 @@ class SingleCellDataset(Dataset):
         y = self.y[idx]
         return x, y
 
+def make_dataloader(
+    data: ad.AnnData,
+    var_col: str = 'highly_variable',
+    obs_col: str = 'celltype_id',
+    make_dense: bool = False,
+    batch_size: int = 512,
+    seed: int = 7,
+    num_workers: int = 0,
+    pin_memory: bool = True
+    ):
+    """
+    Generic dataloader creation for AnnData.
+    """
+
+    ds = SingleCellDataset(data, var_col=var_col, obs_col=obs_col, make_dense=make_dense)
+    loader = DataLoader(
+        ds,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+        drop_last=False,
+        )
+    return loader
+
 def make_dataloaders_group_split(
-    self, 
     data: ad.AnnData,
     var_col: str = 'highly_variable',
     obs_col: str = 'celltype_id',
@@ -72,7 +96,7 @@ def make_dataloaders_group_split(
     class_counts = np.bincount(y_train)
     class_counts = np.maximum(class_counts, 1) # avoid div by zero
 
-    class_weights = torch.tensor(1.0 / class_counts, dtype=float32)
+    class_weights = torch.tensor(1.0 / class_counts, dtype=torch.float32)
     sample_weights = class_weights[y_train]
 
     if use_weighted_sampler:
