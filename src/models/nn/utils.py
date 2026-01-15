@@ -17,7 +17,8 @@ class SingleCellDataset(Dataset):
         make_dense: bool = False
         ):
         
-        X = data.X[:, data.var[var_col]]
+        mask = data.var[var_col].to_numpy()
+        X = data.X[:, mask]
         if make_dense:
             X = torch.tensor(X.todense(), dtype=torch.float32)
         y = data.obs[obs_col]
@@ -59,7 +60,7 @@ def make_dataloader(
     loader = DataLoader(
         ds,
         batch_size=batch_size,
-        shuffle=True,
+        shuffle=False,
         num_workers=num_workers,
         pin_memory=pin_memory,
         drop_last=False,

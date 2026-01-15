@@ -1,0 +1,207 @@
+==========================================
+Job started on g14 at Thu Jan 15 15:22:25 PST 2026
+Job ID: 12140389
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+PyTorch version:
+2.1.2+cu121
+
+CUDA available:
+True
+GPU device:
+NVIDIA RTX A6000
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum_mlp.yaml
+
+Starting experiment...
+==========================================
+Starting experiment from config: configs/experiments/mouse_to_opossum_mlp.yaml
+2026-01-15 15:22:39 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:22:39 - pipeline - INFO - Cross-Species Label Transfer Pipeline
+2026-01-15 15:22:39 - pipeline - INFO - =========================================================================================
+2026-01-15 15:22:39 - pipeline - INFO - Experiment: mouse_opossum_transfer
+2026-01-15 15:22:39 - pipeline - INFO - Output directory: results/mouse_opossum/nn_Jan15-15-22
+2026-01-15 15:22:39 - pipeline - INFO - Configuration saved to results/mouse_opossum/nn_Jan15-15-22/config.yaml
+2026-01-15 15:22:39 - pipeline - INFO - Git commit: 11880ad6610c68755eaaf3b99c9bd4216a14e460
+2026-01-15 15:22:39 - pipeline - WARNING - Git repository has uncommitted changes
+2026-01-15 15:22:39 - pipeline - INFO - Python version: 3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]
+2026-01-15 15:22:39 - pipeline - INFO - PyTorch version: 2.1.2+cu121
+2026-01-15 15:22:39 - pipeline - INFO - CUDA available: True
+2026-01-15 15:22:39 - pipeline - INFO - Config hash: 303f0cdd
+2026-01-15 15:22:39 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:22:39 - pipeline - INFO - STEP 1: Loading Datasets
+2026-01-15 15:22:39 - pipeline - INFO - =========================================================================================
+2026-01-15 15:22:39 - pipeline - INFO - Loading mouse data from data/raw/Mouse_V1_P38_All.h5ad
+2026-01-15 15:23:36 - pipeline - INFO -   16997 cells, 24372 genes
+2026-01-15 15:23:36 - pipeline - WARNING - Reference has 57 genes with zero expression
+2026-01-15 15:23:36 - pipeline - INFO - Loading opossum data from data/raw/Opossum_V1_All.h5ad
+2026-01-15 15:23:49 - pipeline - INFO -   32764 cells, 30800 genes
+2026-01-15 15:23:49 - pipeline - WARNING - Query 0 has 1412 genes with zero expression
+2026-01-15 15:23:49 - pipeline - INFO - 
+Finding common genes across datasets...
+2026-01-15 15:23:49 - pipeline - INFO - Found 11730 common genes across all datasets
+2026-01-15 15:23:54 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:23:54 - pipeline - INFO - STEP 2: Preprocessing Datasets
+2026-01-15 15:23:54 - pipeline - INFO - =========================================================================================
+2026-01-15 15:23:54 - pipeline - INFO - Filtering reference data...
+2026-01-15 15:23:58 - pipeline - INFO - 
+Filtering query data: opossum...
+2026-01-15 15:24:02 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:24:02 - pipeline - INFO - STEP 3: Preparing Data for Training
+2026-01-15 15:24:02 - pipeline - INFO - =========================================================================================
+2026-01-15 15:24:02 - pipeline - INFO - Label matching summary:
+2026-01-15 15:24:02 - pipeline - INFO -   18305 query cells have labels matching reference categories
+2026-01-15 15:24:02 - pipeline - INFO -   14459 query cells have labels NOT in reference
+2026-01-15 15:24:02 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:24:02 - pipeline - INFO - STEP 4: Initializing Model
+2026-01-15 15:24:02 - pipeline - INFO - =========================================================================================
+2026-01-15 15:24:02 - pipeline - INFO - Initialized mlp model
+2026-01-15 15:24:02 - pipeline - INFO -   Output directory: results/mouse_opossum/nn_Jan15-15-22
+2026-01-15 15:24:02 - pipeline - INFO - Using device: cuda
+2026-01-15 15:24:02 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:24:02 - pipeline - INFO - STEP 5: Training Model
+2026-01-15 15:24:02 - pipeline - INFO - =========================================================================================
+2026-01-15 15:24:02 - pipeline - INFO - Random seed: 0
+2026-01-15 15:24:02 - pipeline - INFO - Training neural network model
+2026-01-15 15:24:09 - pipeline - INFO - Found 3000 HVGs out of 11730 common genes
+2026-01-15 15:24:09 - pipeline - INFO - Using 3000 genes
+2026-01-15 15:24:09 - pipeline - INFO - Using 20 reference categories
+/u/scratch/r/rgorzek/foundation-cross/src/models/nn/utils.py:28: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  self.y = torch.tensor(y, dtype=torch.long)
+2026-01-15 15:24:09 - pipeline - INFO - Training samples: 10639
+2026-01-15 15:24:09 - pipeline - INFO - Validation samples: 6358
+2026-01-15 15:24:10 - pipeline - INFO - Epoch   1 | train loss 1.3326 | valid loss 1.1739 | valid accuracy 0.9556
+2026-01-15 15:24:11 - pipeline - INFO - Epoch   2 | train loss 0.3312 | valid loss 0.1937 | valid accuracy 0.9816
+2026-01-15 15:24:11 - pipeline - INFO - Epoch   3 | train loss 0.1510 | valid loss 0.1033 | valid accuracy 0.9860
+2026-01-15 15:24:12 - pipeline - INFO - Epoch   4 | train loss 0.0931 | valid loss 0.0765 | valid accuracy 0.9871
+2026-01-15 15:24:12 - pipeline - INFO - Epoch   5 | train loss 0.0619 | valid loss 0.0613 | valid accuracy 0.9895
+2026-01-15 15:24:13 - pipeline - INFO - Epoch   6 | train loss 0.0453 | valid loss 0.0519 | valid accuracy 0.9899
+2026-01-15 15:24:13 - pipeline - INFO - Epoch   7 | train loss 0.0356 | valid loss 0.0451 | valid accuracy 0.9898
+2026-01-15 15:24:14 - pipeline - INFO - Epoch   8 | train loss 0.0286 | valid loss 0.0400 | valid accuracy 0.9910
+2026-01-15 15:24:14 - pipeline - INFO - Epoch   9 | train loss 0.0226 | valid loss 0.0366 | valid accuracy 0.9909
+2026-01-15 15:24:15 - pipeline - INFO - Epoch  10 | train loss 0.0189 | valid loss 0.0340 | valid accuracy 0.9909
+2026-01-15 15:24:15 - pipeline - INFO - Epoch  11 | train loss 0.0162 | valid loss 0.0323 | valid accuracy 0.9918
+2026-01-15 15:24:16 - pipeline - INFO - Epoch  12 | train loss 0.0135 | valid loss 0.0315 | valid accuracy 0.9909
+2026-01-15 15:24:16 - pipeline - INFO - Epoch  13 | train loss 0.0117 | valid loss 0.0301 | valid accuracy 0.9915
+2026-01-15 15:24:17 - pipeline - INFO - Epoch  14 | train loss 0.0101 | valid loss 0.0295 | valid accuracy 0.9912
+2026-01-15 15:24:18 - pipeline - INFO - Epoch  15 | train loss 0.0091 | valid loss 0.0285 | valid accuracy 0.9913
+2026-01-15 15:24:18 - pipeline - INFO - Epoch  16 | train loss 0.0081 | valid loss 0.0284 | valid accuracy 0.9909
+2026-01-15 15:24:19 - pipeline - INFO - Epoch  17 | train loss 0.0072 | valid loss 0.0274 | valid accuracy 0.9907
+2026-01-15 15:24:19 - pipeline - INFO - Epoch  18 | train loss 0.0063 | valid loss 0.0272 | valid accuracy 0.9907
+2026-01-15 15:24:20 - pipeline - INFO - Epoch  19 | train loss 0.0062 | valid loss 0.0268 | valid accuracy 0.9907
+2026-01-15 15:24:20 - pipeline - INFO - Epoch  20 | train loss 0.0053 | valid loss 0.0260 | valid accuracy 0.9906
+2026-01-15 15:24:21 - pipeline - INFO - Epoch  21 | train loss 0.0048 | valid loss 0.0263 | valid accuracy 0.9909
+2026-01-15 15:24:21 - pipeline - INFO - Epoch  22 | train loss 0.0045 | valid loss 0.0267 | valid accuracy 0.9910
+2026-01-15 15:24:22 - pipeline - INFO - Epoch  23 | train loss 0.0042 | valid loss 0.0261 | valid accuracy 0.9904
+2026-01-15 15:24:22 - pipeline - INFO - Epoch  24 | train loss 0.0037 | valid loss 0.0257 | valid accuracy 0.9907
+2026-01-15 15:24:23 - pipeline - INFO - Epoch  25 | train loss 0.0037 | valid loss 0.0254 | valid accuracy 0.9907
+2026-01-15 15:24:23 - pipeline - INFO - Epoch  26 | train loss 0.0034 | valid loss 0.0252 | valid accuracy 0.9909
+2026-01-15 15:24:24 - pipeline - INFO - Epoch  27 | train loss 0.0031 | valid loss 0.0253 | valid accuracy 0.9909
+2026-01-15 15:24:24 - pipeline - INFO - Epoch  28 | train loss 0.0029 | valid loss 0.0251 | valid accuracy 0.9910
+2026-01-15 15:24:25 - pipeline - INFO - Epoch  29 | train loss 0.0028 | valid loss 0.0250 | valid accuracy 0.9912
+2026-01-15 15:24:25 - pipeline - INFO - Epoch  30 | train loss 0.0026 | valid loss 0.0251 | valid accuracy 0.9907
+2026-01-15 15:24:26 - pipeline - INFO - Epoch  31 | train loss 0.0025 | valid loss 0.0258 | valid accuracy 0.9907
+2026-01-15 15:24:26 - pipeline - INFO - Epoch  32 | train loss 0.0023 | valid loss 0.0251 | valid accuracy 0.9910
+2026-01-15 15:24:27 - pipeline - INFO - Epoch  33 | train loss 0.0022 | valid loss 0.0251 | valid accuracy 0.9913
+2026-01-15 15:24:27 - pipeline - INFO - Epoch  34 | train loss 0.0020 | valid loss 0.0246 | valid accuracy 0.9913
+2026-01-15 15:24:28 - pipeline - INFO - Epoch  35 | train loss 0.0020 | valid loss 0.0247 | valid accuracy 0.9913
+2026-01-15 15:24:28 - pipeline - INFO - Epoch  36 | train loss 0.0018 | valid loss 0.0249 | valid accuracy 0.9909
+2026-01-15 15:24:29 - pipeline - INFO - Epoch  37 | train loss 0.0018 | valid loss 0.0254 | valid accuracy 0.9906
+2026-01-15 15:24:30 - pipeline - INFO - Epoch  38 | train loss 0.0017 | valid loss 0.0253 | valid accuracy 0.9909
+2026-01-15 15:24:30 - pipeline - INFO - Epoch  39 | train loss 0.0016 | valid loss 0.0253 | valid accuracy 0.9913
+2026-01-15 15:24:31 - pipeline - INFO - Epoch  40 | train loss 0.0015 | valid loss 0.0255 | valid accuracy 0.9912
+2026-01-15 15:24:31 - pipeline - INFO - Epoch  41 | train loss 0.0015 | valid loss 0.0252 | valid accuracy 0.9910
+2026-01-15 15:24:32 - pipeline - INFO - Epoch  42 | train loss 0.0014 | valid loss 0.0252 | valid accuracy 0.9909
+2026-01-15 15:24:32 - pipeline - INFO - Epoch  43 | train loss 0.0013 | valid loss 0.0256 | valid accuracy 0.9904
+2026-01-15 15:24:33 - pipeline - INFO - Epoch  44 | train loss 0.0013 | valid loss 0.0253 | valid accuracy 0.9909
+2026-01-15 15:24:33 - pipeline - INFO - Epoch  45 | train loss 0.0012 | valid loss 0.0253 | valid accuracy 0.9902
+2026-01-15 15:24:34 - pipeline - INFO - Epoch  46 | train loss 0.0012 | valid loss 0.0256 | valid accuracy 0.9915
+2026-01-15 15:24:34 - pipeline - INFO - Epoch  47 | train loss 0.0012 | valid loss 0.0243 | valid accuracy 0.9915
+2026-01-15 15:24:35 - pipeline - INFO - Epoch  48 | train loss 0.0011 | valid loss 0.0251 | valid accuracy 0.9912
+2026-01-15 15:24:35 - pipeline - INFO - Epoch  49 | train loss 0.0011 | valid loss 0.0250 | valid accuracy 0.9909
+2026-01-15 15:24:36 - pipeline - INFO - Epoch  50 | train loss 0.0010 | valid loss 0.0248 | valid accuracy 0.9902
+2026-01-15 15:24:36 - pipeline - INFO - Training complete
+2026-01-15 15:24:36 - pipeline - INFO - Saved model weights to results/mouse_opossum/nn_Jan15-15-22/model_outputs/best_model.pt
+2026-01-15 15:24:36 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 15:24:36 - pipeline - INFO - STEP 6: Evaluating Model
+2026-01-15 15:24:36 - pipeline - INFO - =========================================================================================
+2026-01-15 15:24:36 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2026-01-15 15:24:36 - pipeline - INFO - Evaluating on opossum
+2026-01-15 15:24:36 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2026-01-15 15:24:36 - pipeline - INFO - Predicting labels for query data
+2026-01-15 15:24:37 - pipeline - INFO - Using 3000 common genes for prediction
+/u/scratch/r/rgorzek/foundation-cross/src/models/nn/utils.py:28: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  self.y = torch.tensor(y, dtype=torch.long)
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [1,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [2,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [6,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [7,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [9,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [11,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [19,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [20,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [21,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [23,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [24,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [25,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [29,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [30,0,0] Assertion `t >= 0 && t < n_classes` failed.
+../aten/src/ATen/native/cuda/Loss.cu:250: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [31,0,0] Assertion `t >= 0 && t < n_classes` failed.
+2026-01-15 15:24:37 - pipeline - ERROR - Pipeline failed: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Traceback (most recent call last):
+  File "/u/scratch/r/rgorzek/foundation-cross/scripts/run_experiment.py", line 65, in <module>
+    main()
+  File "/u/scratch/r/rgorzek/foundation-cross/scripts/run_experiment.py", line 59, in main
+    pipeline.run()
+  File "/u/scratch/r/rgorzek/foundation-cross/src/pipeline.py", line 423, in run
+    results = self.evaluate_model()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/pipeline.py", line 292, in evaluate_model
+    predictions = self.model.predict(query_data, **self.config.get('training', {}))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/nn/model.py", line 176, in predict
+    predictions = evaluate(self.model, query_loader, criterion, self.device, return_raw=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/nn/train.py", line 71, in evaluate
+    acc = _acc(logits, labels)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/nn/train.py", line 12, in _acc
+    return (logits.argmax(1) == y).float().mean().item()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+==========================================
+Job 12140389 ended on:    g14
+Job 12140389 ended on:    Thu Jan 15 15:24:38 PST 2026
+ 
+==========================================
