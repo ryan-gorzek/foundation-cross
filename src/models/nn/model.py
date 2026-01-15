@@ -158,11 +158,7 @@ class NNModel(BaseLabelTransferModel):
                 raise ValueError("No common genes between training and query")
             
             # Subset query to common genes and reorder to match training
-            query_data.var["__backup_var_names"] = query_data.var_names
-            query_data.var_names = query_data.var["gene_name"].astype(str).str.upper()
             query_data = query_data[:, common_genes].copy()
-            query_data.var_names = query_data.var["__backup_var_names"]
-            query_data.var.drop(columns="__backup_var_names", inplace=True)
             query_data.var['prediction_genes'] = True # Mark all genes for make_dataloader
             
             self.log_info(f"Using {n_common} common genes for prediction")
