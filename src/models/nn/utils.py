@@ -33,7 +33,10 @@ class SingleCellDataset(Dataset):
     def __getitem__(self, idx):
         x = self.X[idx]
         if not self.make_dense:
-            x = x.toarray().ravel()
+            if hasattr(x, 'toarray'):
+                x = x.toarray().ravel()
+            else:
+                x = np.asarray(x).ravel()
             x = torch.tensor(x, dtype=torch.float32)
         y = self.y[idx]
         return x, y

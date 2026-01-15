@@ -47,7 +47,7 @@ class NNModel(BaseLabelTransferModel):
         else:
             raise ValueError("Reference data must have 'celltype' column")
         # Model
-        self.model = MLPClassifier(n_inputs, n_outputs)
+        self.model = MLPClassifier(n_inputs, n_outputs).to(self.device)
 
     def _preprocess_data(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None):
         """
@@ -63,7 +63,7 @@ class NNModel(BaseLabelTransferModel):
         # Get HVGs
         sc.pp.highly_variable_genes(reference_data, n_top_genes=3000)
         n_hvgs = reference_data.var['highly_variable'].sum()
-        self.log_info(f"Found {n_hvgs} HVGs out of {len(reference_data.shape[1])} common genes")
+        self.log_info(f"Found {n_hvgs} HVGs out of {reference_data.shape[1]} common genes")
 
         return reference_data
 
@@ -107,7 +107,7 @@ class NNModel(BaseLabelTransferModel):
         criterion = nn.CrossEntropyLoss(weight=class_weights.to(self.device))
         lr = kwargs.get('learning_rate', 3e-4)
         wd = kwargs.get('weight_decay', 1e-4)
-        optimizer = torch.optim.AdamW(self.model.parameters(), lr=lr, weight_decay=wd)
+        optimizer = torch.optim.AdamW(self.model.parameters(), lr=float(lr), weight_decay=float(wd))
 
         # Training loop
         num_epochs = kwargs.get('num_epochs', 25)

@@ -1,0 +1,134 @@
+==========================================
+Job started on g14 at Thu Jan 15 12:57:52 PST 2026
+Job ID: 12139303
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+PyTorch version:
+2.1.2+cu121
+
+CUDA available:
+True
+GPU device:
+NVIDIA RTX A6000
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum_mlp.yaml
+
+Starting experiment...
+==========================================
+Starting experiment from config: configs/experiments/mouse_to_opossum_mlp.yaml
+2026-01-15 12:58:04 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 12:58:04 - pipeline - INFO - Cross-Species Label Transfer Pipeline
+2026-01-15 12:58:04 - pipeline - INFO - =========================================================================================
+2026-01-15 12:58:04 - pipeline - INFO - Experiment: mouse_opossum_transfer
+2026-01-15 12:58:04 - pipeline - INFO - Output directory: results/mouse_opossum/nn_Jan15-12-58
+2026-01-15 12:58:04 - pipeline - INFO - Configuration saved to results/mouse_opossum/nn_Jan15-12-58/config.yaml
+2026-01-15 12:58:04 - pipeline - INFO - Git commit: 2f920b647d2b06b588a62715b1504423a17df640
+2026-01-15 12:58:04 - pipeline - WARNING - Git repository has uncommitted changes
+2026-01-15 12:58:04 - pipeline - INFO - Python version: 3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]
+2026-01-15 12:58:04 - pipeline - INFO - PyTorch version: 2.1.2+cu121
+2026-01-15 12:58:04 - pipeline - INFO - CUDA available: True
+2026-01-15 12:58:04 - pipeline - INFO - Config hash: 303f0cdd
+2026-01-15 12:58:04 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 12:58:04 - pipeline - INFO - STEP 1: Loading Datasets
+2026-01-15 12:58:04 - pipeline - INFO - =========================================================================================
+2026-01-15 12:58:04 - pipeline - INFO - Loading mouse data from data/raw/Mouse_V1_P38_All.h5ad
+2026-01-15 12:59:02 - pipeline - INFO -   16997 cells, 24372 genes
+2026-01-15 12:59:02 - pipeline - WARNING - Reference has 57 genes with zero expression
+2026-01-15 12:59:02 - pipeline - INFO - Loading opossum data from data/raw/Opossum_V1_All.h5ad
+2026-01-15 12:59:14 - pipeline - INFO -   32764 cells, 30800 genes
+2026-01-15 12:59:14 - pipeline - WARNING - Query 0 has 1412 genes with zero expression
+2026-01-15 12:59:14 - pipeline - INFO - 
+Finding common genes across datasets...
+2026-01-15 12:59:14 - pipeline - INFO - Found 11730 common genes across all datasets
+2026-01-15 12:59:20 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 12:59:20 - pipeline - INFO - STEP 2: Preprocessing Datasets
+2026-01-15 12:59:20 - pipeline - INFO - =========================================================================================
+2026-01-15 12:59:20 - pipeline - INFO - Filtering reference data...
+2026-01-15 12:59:24 - pipeline - INFO - 
+Filtering query data: opossum...
+2026-01-15 12:59:28 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 12:59:28 - pipeline - INFO - STEP 3: Preparing Data for Training
+2026-01-15 12:59:28 - pipeline - INFO - =========================================================================================
+2026-01-15 12:59:28 - pipeline - INFO - Label matching summary:
+2026-01-15 12:59:28 - pipeline - INFO -   18305 query cells have labels matching reference categories
+2026-01-15 12:59:28 - pipeline - INFO -   14459 query cells have labels NOT in reference
+2026-01-15 12:59:28 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 12:59:28 - pipeline - INFO - STEP 4: Initializing Model
+2026-01-15 12:59:28 - pipeline - INFO - =========================================================================================
+2026-01-15 12:59:28 - pipeline - INFO - Initialized mlp model
+2026-01-15 12:59:28 - pipeline - INFO -   Output directory: results/mouse_opossum/nn_Jan15-12-58
+2026-01-15 12:59:28 - pipeline - INFO - Using device: cuda
+2026-01-15 12:59:28 - pipeline - INFO - 
+=========================================================================================
+2026-01-15 12:59:28 - pipeline - INFO - STEP 5: Training Model
+2026-01-15 12:59:28 - pipeline - INFO - =========================================================================================
+2026-01-15 12:59:28 - pipeline - INFO - Random seed: 0
+2026-01-15 12:59:28 - pipeline - INFO - Training neural network model
+2026-01-15 12:59:35 - pipeline - INFO - Found 3000 HVGs out of 11730 common genes
+2026-01-15 12:59:35 - pipeline - INFO - Using 3000 genes
+2026-01-15 12:59:35 - pipeline - INFO - Using 20 reference categories
+/u/scratch/r/rgorzek/foundation-cross/src/models/nn/utils.py:27: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  self.y = torch.tensor(y, dtype=torch.long)
+2026-01-15 12:59:35 - pipeline - INFO - Training samples: 10639
+2026-01-15 12:59:35 - pipeline - INFO - Validation samples: 6358
+2026-01-15 12:59:36 - pipeline - ERROR - Pipeline failed: Expected all tensors to be on the same device, but found at least two devices, cpu and cuda:0! (when checking argument for argument mat1 in method wrapper_CUDA_addmm)
+Traceback (most recent call last):
+  File "/u/scratch/r/rgorzek/foundation-cross/scripts/run_experiment.py", line 65, in <module>
+    main()
+  File "/u/scratch/r/rgorzek/foundation-cross/scripts/run_experiment.py", line 59, in main
+    pipeline.run()
+  File "/u/scratch/r/rgorzek/foundation-cross/src/pipeline.py", line 422, in run
+    self.train_model()
+  File "/u/scratch/r/rgorzek/foundation-cross/src/pipeline.py", line 269, in train_model
+    self.model.train(
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/nn/model.py", line 117, in train
+    train_loss, train_acc = train_epoch(self.model, train_loader, criterion, optimizer, self.device)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/nn/train.py", line 33, in train_epoch
+    logits = model(inputs).squeeze(-1)
+             ^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/scratch/r/rgorzek/foundation-cross/src/models/nn/architecture.py", line 26, in forward
+    return self.model(x)
+           ^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cpu and cuda:0! (when checking argument for argument mat1 in method wrapper_CUDA_addmm)
+==========================================
+Job 12139303 ended on:    g14
+Job 12139303 ended on:    Thu Jan 15 12:59:36 PST 2026
+ 
+==========================================
