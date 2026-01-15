@@ -7,7 +7,8 @@ from .base import BaseLabelTransferModel
 MODEL_REGISTRY = {
     'scgpt': 'scgpt',
     'seurat_mapquery': 'seurat',
-    'scvi': 'scvi'
+    'scvi': 'scvi',
+    'nn': 'nn'
 }
 
 
@@ -47,6 +48,9 @@ def get_model(model_name: str, config: dict, save_dir, logger=None):
     elif model_name == 'scvi':
         from .scvi import ScVIModel
         return ScVIModel(config, save_dir, logger)
+    elif model_name == 'nn':
+        from .nn import NNModel
+        return NNModel(config, save_dir, logger)
     else:
         raise ValueError(f"Unknown model: {model_name}")
 
