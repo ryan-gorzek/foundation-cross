@@ -47,7 +47,7 @@ def make_dataloaders_group_split(
     sample_col: str = 'sample',
     val_frac: float = 0.2,
     batch_size: int = 512,
-    seed: int = 0,
+    seed: int = 7,
     num_workers: int = 0,
     pin_memory: bool = True,
     use_weighted_sampler: bool = False
@@ -67,14 +67,16 @@ def make_dataloaders_group_split(
     train_ds = Subset(ds, train_idx)
     val_ds = Subset(ds, val_idx)
 
-    if use_weighted_sampler:
-        # Weights computed on train labels only
-        y_train = ds.y[train_idx].cpu().numpy()
-        class_counts = np.bincount(y_train)
-        class_counts = np.maximum(class_counts, 1) # avoid div by zero
+    # Class weights computed on train labels (only)
+    y_train = ds.y[train_idx].cpu().numpy()
+    class_counts = np.bincount(y_train)
+    class_counts = np.maximum(class_counts, 1) # avoid div by zero
 
-        class_weights = 1.0 / class_counts
-        sample_weights = class_weights[y_train]
+    class_weights = torch.tensor(1.0 / class_counts, dtype=float32)
+    sample_weights = class_weights[y_train]
+
+    if use_weighted_sampler:
+        # Apply weighted sampling to address class imbalance
         sampler = WeightedRandomSampler(
             weights=torch.tensor(sample_weights, dtype=torch.double),
             num_samples=len(sample_weights),
@@ -108,4 +110,4 @@ def make_dataloaders_group_split(
         drop_last=False,
     )
 
-    return train_loader, val_loader, train_idx, val_idx
+    return train_loader, val_loader, train_idx, val_idx, class_weights
