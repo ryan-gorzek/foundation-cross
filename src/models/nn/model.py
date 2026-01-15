@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 from pathlib import Path
 from typing import Dict, Any, Optional
+import scanpy as sc
 import anndata as ad
 from scipy.sparse import issparse
 from torch.utils.data import DataLoader
@@ -48,6 +49,24 @@ class NNModel(BaseLabelTransferModel):
         # Model
         self.model = MLPClassifier(n_inputs, n_outputs)
 
+    def _preprocess_data(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None):
+        """
+        Compute HVGs for reference data within common gene space.
+        """
+        reference_genes = reference_data.var["gene_name"].values
+        query_genes = query_data.var["gene_name"].values
+            
+        # Find common genes (intersection)
+        common_genes = [g for g in reference_genes if g in query_genes]
+        reference_data = reference_data[:, common_genes].copy()
+        
+        # Get HVGs
+        sc.pp.highly_variable_genes(reference_data, n_top_genes=3000)
+        n_hvgs = reference_data.var['highly_variable'].sum()
+        self.log_info(f"Found {n_hvgs} HVGs out of {len(reference_data.shape[1])} common genes")
+
+        return reference_data
+
     def train(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None, **kwargs):
         """
         Train neural network model on reference data.
@@ -58,6 +77,9 @@ class NNModel(BaseLabelTransferModel):
             Reference dataset with 'celltype_id' in obs
         """
         self.log_info("Training neural network model")
+
+        reference_data = self._preprocess_data(reference_data, query_data)
+        self._initialize_model(reference_data)
 
         gene_idx = reference_data.var['highly_variable']
         self.training_genes = reference_data.var.loc[gene_idx].index.to_numpy()
