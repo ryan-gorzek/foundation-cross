@@ -67,13 +67,14 @@ def evaluate(
         labels = labels.to(device)
 
         logits = model(inputs).squeeze(-1)
-        loss = criterion(logits, labels)
-        acc = _acc(logits, labels)
+        if return_raw is False:
+            loss = criterion(logits, labels)
+            acc = _acc(logits, labels)
 
-        batch_size = labels.size(0)
-        total_loss += loss.item() * batch_size
-        total_acc += acc * batch_size
-        total_num += batch_size
+            batch_size = labels.size(0)
+            total_loss += loss.item() * batch_size
+            total_acc += acc * batch_size
+            total_num += batch_size
     
         # Store predictions
         preds = logits.argmax(1).cpu().numpy()
