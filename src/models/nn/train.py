@@ -67,7 +67,7 @@ def evaluate(
         labels = labels.to(device)
 
         logits = model(inputs).squeeze(-1)
-        if return_raw is False:
+        if not return_raw:
             loss = criterion(logits, labels)
             acc = _acc(logits, labels)
 

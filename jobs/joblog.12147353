@@ -1,0 +1,199 @@
+==========================================
+Job started on g14 at Fri Jan 16 20:15:07 PST 2026
+Job ID: 12147353
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+PyTorch version:
+2.1.2+cu121
+
+CUDA available:
+True
+GPU device:
+NVIDIA RTX A6000
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum_mlp.yaml
+
+Starting experiment...
+==========================================
+Starting experiment from config: configs/experiments/mouse_to_opossum_mlp.yaml
+2026-01-16 20:15:20 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:15:20 - pipeline - INFO - Cross-Species Label Transfer Pipeline
+2026-01-16 20:15:20 - pipeline - INFO - =========================================================================================
+2026-01-16 20:15:20 - pipeline - INFO - Experiment: mouse_opossum_transfer
+2026-01-16 20:15:20 - pipeline - INFO - Output directory: results/mouse_opossum/nn_Jan16-20-15
+2026-01-16 20:15:20 - pipeline - INFO - Configuration saved to results/mouse_opossum/nn_Jan16-20-15/config.yaml
+2026-01-16 20:15:20 - pipeline - INFO - Git commit: 171862f1192bad7ddc86a05b8767516614121ddd
+2026-01-16 20:15:20 - pipeline - WARNING - Git repository has uncommitted changes
+2026-01-16 20:15:20 - pipeline - INFO - Python version: 3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]
+2026-01-16 20:15:20 - pipeline - INFO - PyTorch version: 2.1.2+cu121
+2026-01-16 20:15:20 - pipeline - INFO - CUDA available: True
+2026-01-16 20:15:20 - pipeline - INFO - Config hash: 303f0cdd
+2026-01-16 20:15:20 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:15:20 - pipeline - INFO - STEP 1: Loading Datasets
+2026-01-16 20:15:20 - pipeline - INFO - =========================================================================================
+2026-01-16 20:15:20 - pipeline - INFO - Loading mouse data from data/raw/Mouse_V1_P38_All.h5ad
+2026-01-16 20:16:18 - pipeline - INFO -   16997 cells, 24372 genes
+2026-01-16 20:16:18 - pipeline - WARNING - Reference has 57 genes with zero expression
+2026-01-16 20:16:18 - pipeline - INFO - Loading opossum data from data/raw/Opossum_V1_All.h5ad
+2026-01-16 20:16:30 - pipeline - INFO -   32764 cells, 30800 genes
+2026-01-16 20:16:30 - pipeline - WARNING - Query 0 has 1412 genes with zero expression
+2026-01-16 20:16:30 - pipeline - INFO - 
+Finding common genes across datasets...
+2026-01-16 20:16:30 - pipeline - INFO - Found 11730 common genes across all datasets
+2026-01-16 20:16:35 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:16:35 - pipeline - INFO - STEP 2: Preprocessing Datasets
+2026-01-16 20:16:35 - pipeline - INFO - =========================================================================================
+2026-01-16 20:16:35 - pipeline - INFO - Filtering reference data...
+2026-01-16 20:16:39 - pipeline - INFO - 
+Filtering query data: opossum...
+2026-01-16 20:16:43 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:16:43 - pipeline - INFO - STEP 3: Preparing Data for Training
+2026-01-16 20:16:43 - pipeline - INFO - =========================================================================================
+2026-01-16 20:16:43 - pipeline - INFO - Label matching summary:
+2026-01-16 20:16:43 - pipeline - INFO -   18305 query cells have labels matching reference categories
+2026-01-16 20:16:43 - pipeline - INFO -   14459 query cells have labels NOT in reference
+2026-01-16 20:16:43 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:16:43 - pipeline - INFO - STEP 4: Initializing Model
+2026-01-16 20:16:43 - pipeline - INFO - =========================================================================================
+2026-01-16 20:16:43 - pipeline - INFO - Initialized mlp model
+2026-01-16 20:16:43 - pipeline - INFO -   Output directory: results/mouse_opossum/nn_Jan16-20-15
+2026-01-16 20:16:43 - pipeline - INFO - Using device: cuda
+2026-01-16 20:16:43 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:16:43 - pipeline - INFO - STEP 5: Training Model
+2026-01-16 20:16:43 - pipeline - INFO - =========================================================================================
+2026-01-16 20:16:43 - pipeline - INFO - Random seed: 0
+2026-01-16 20:16:43 - pipeline - INFO - Training neural network model
+2026-01-16 20:16:50 - pipeline - INFO - Found 3000 HVGs out of 11730 common genes
+2026-01-16 20:16:50 - pipeline - INFO - Using 3000 genes
+2026-01-16 20:16:50 - pipeline - INFO - Using 20 reference categories
+/u/scratch/r/rgorzek/foundation-cross/src/models/nn/utils.py:28: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  self.y = torch.tensor(y, dtype=torch.long)
+2026-01-16 20:16:50 - pipeline - INFO - Training samples: 10639
+2026-01-16 20:16:50 - pipeline - INFO - Validation samples: 6358
+2026-01-16 20:16:51 - pipeline - INFO - Epoch   1 | train loss 1.3326 | valid loss 1.1739 | valid accuracy 0.9556
+2026-01-16 20:16:52 - pipeline - INFO - Epoch   2 | train loss 0.3312 | valid loss 0.1937 | valid accuracy 0.9816
+2026-01-16 20:16:52 - pipeline - INFO - Epoch   3 | train loss 0.1510 | valid loss 0.1033 | valid accuracy 0.9860
+2026-01-16 20:16:53 - pipeline - INFO - Epoch   4 | train loss 0.0931 | valid loss 0.0765 | valid accuracy 0.9871
+2026-01-16 20:16:53 - pipeline - INFO - Epoch   5 | train loss 0.0619 | valid loss 0.0613 | valid accuracy 0.9895
+2026-01-16 20:16:54 - pipeline - INFO - Epoch   6 | train loss 0.0453 | valid loss 0.0519 | valid accuracy 0.9899
+2026-01-16 20:16:55 - pipeline - INFO - Epoch   7 | train loss 0.0356 | valid loss 0.0451 | valid accuracy 0.9898
+2026-01-16 20:16:55 - pipeline - INFO - Epoch   8 | train loss 0.0286 | valid loss 0.0400 | valid accuracy 0.9910
+2026-01-16 20:16:56 - pipeline - INFO - Epoch   9 | train loss 0.0226 | valid loss 0.0366 | valid accuracy 0.9909
+2026-01-16 20:16:56 - pipeline - INFO - Epoch  10 | train loss 0.0189 | valid loss 0.0340 | valid accuracy 0.9909
+2026-01-16 20:16:57 - pipeline - INFO - Epoch  11 | train loss 0.0162 | valid loss 0.0323 | valid accuracy 0.9918
+2026-01-16 20:16:57 - pipeline - INFO - Epoch  12 | train loss 0.0135 | valid loss 0.0315 | valid accuracy 0.9909
+2026-01-16 20:16:58 - pipeline - INFO - Epoch  13 | train loss 0.0117 | valid loss 0.0301 | valid accuracy 0.9915
+2026-01-16 20:16:58 - pipeline - INFO - Epoch  14 | train loss 0.0101 | valid loss 0.0295 | valid accuracy 0.9912
+2026-01-16 20:16:59 - pipeline - INFO - Epoch  15 | train loss 0.0091 | valid loss 0.0285 | valid accuracy 0.9913
+2026-01-16 20:16:59 - pipeline - INFO - Epoch  16 | train loss 0.0081 | valid loss 0.0284 | valid accuracy 0.9909
+2026-01-16 20:17:00 - pipeline - INFO - Epoch  17 | train loss 0.0072 | valid loss 0.0274 | valid accuracy 0.9907
+2026-01-16 20:17:00 - pipeline - INFO - Epoch  18 | train loss 0.0063 | valid loss 0.0272 | valid accuracy 0.9907
+2026-01-16 20:17:01 - pipeline - INFO - Epoch  19 | train loss 0.0062 | valid loss 0.0268 | valid accuracy 0.9907
+2026-01-16 20:17:02 - pipeline - INFO - Epoch  20 | train loss 0.0053 | valid loss 0.0260 | valid accuracy 0.9906
+2026-01-16 20:17:02 - pipeline - INFO - Epoch  21 | train loss 0.0048 | valid loss 0.0263 | valid accuracy 0.9909
+2026-01-16 20:17:03 - pipeline - INFO - Epoch  22 | train loss 0.0045 | valid loss 0.0267 | valid accuracy 0.9910
+2026-01-16 20:17:03 - pipeline - INFO - Epoch  23 | train loss 0.0042 | valid loss 0.0261 | valid accuracy 0.9904
+2026-01-16 20:17:04 - pipeline - INFO - Epoch  24 | train loss 0.0037 | valid loss 0.0257 | valid accuracy 0.9907
+2026-01-16 20:17:04 - pipeline - INFO - Epoch  25 | train loss 0.0037 | valid loss 0.0254 | valid accuracy 0.9907
+2026-01-16 20:17:05 - pipeline - INFO - Epoch  26 | train loss 0.0034 | valid loss 0.0252 | valid accuracy 0.9909
+2026-01-16 20:17:05 - pipeline - INFO - Epoch  27 | train loss 0.0031 | valid loss 0.0253 | valid accuracy 0.9909
+2026-01-16 20:17:06 - pipeline - INFO - Epoch  28 | train loss 0.0029 | valid loss 0.0251 | valid accuracy 0.9910
+2026-01-16 20:17:06 - pipeline - INFO - Epoch  29 | train loss 0.0028 | valid loss 0.0250 | valid accuracy 0.9912
+2026-01-16 20:17:07 - pipeline - INFO - Epoch  30 | train loss 0.0026 | valid loss 0.0251 | valid accuracy 0.9907
+2026-01-16 20:17:07 - pipeline - INFO - Epoch  31 | train loss 0.0025 | valid loss 0.0258 | valid accuracy 0.9907
+2026-01-16 20:17:08 - pipeline - INFO - Epoch  32 | train loss 0.0023 | valid loss 0.0251 | valid accuracy 0.9910
+2026-01-16 20:17:08 - pipeline - INFO - Epoch  33 | train loss 0.0022 | valid loss 0.0251 | valid accuracy 0.9913
+2026-01-16 20:17:09 - pipeline - INFO - Epoch  34 | train loss 0.0020 | valid loss 0.0246 | valid accuracy 0.9913
+2026-01-16 20:17:10 - pipeline - INFO - Epoch  35 | train loss 0.0020 | valid loss 0.0247 | valid accuracy 0.9913
+2026-01-16 20:17:10 - pipeline - INFO - Epoch  36 | train loss 0.0018 | valid loss 0.0249 | valid accuracy 0.9909
+2026-01-16 20:17:11 - pipeline - INFO - Epoch  37 | train loss 0.0018 | valid loss 0.0254 | valid accuracy 0.9906
+2026-01-16 20:17:11 - pipeline - INFO - Epoch  38 | train loss 0.0017 | valid loss 0.0253 | valid accuracy 0.9909
+2026-01-16 20:17:12 - pipeline - INFO - Epoch  39 | train loss 0.0016 | valid loss 0.0253 | valid accuracy 0.9913
+2026-01-16 20:17:12 - pipeline - INFO - Epoch  40 | train loss 0.0015 | valid loss 0.0255 | valid accuracy 0.9912
+2026-01-16 20:17:13 - pipeline - INFO - Epoch  41 | train loss 0.0015 | valid loss 0.0252 | valid accuracy 0.9910
+2026-01-16 20:17:13 - pipeline - INFO - Epoch  42 | train loss 0.0014 | valid loss 0.0252 | valid accuracy 0.9909
+2026-01-16 20:17:14 - pipeline - INFO - Epoch  43 | train loss 0.0013 | valid loss 0.0256 | valid accuracy 0.9904
+2026-01-16 20:17:14 - pipeline - INFO - Epoch  44 | train loss 0.0013 | valid loss 0.0253 | valid accuracy 0.9909
+2026-01-16 20:17:15 - pipeline - INFO - Epoch  45 | train loss 0.0012 | valid loss 0.0253 | valid accuracy 0.9902
+2026-01-16 20:17:15 - pipeline - INFO - Epoch  46 | train loss 0.0012 | valid loss 0.0256 | valid accuracy 0.9915
+2026-01-16 20:17:16 - pipeline - INFO - Epoch  47 | train loss 0.0012 | valid loss 0.0243 | valid accuracy 0.9915
+2026-01-16 20:17:17 - pipeline - INFO - Epoch  48 | train loss 0.0011 | valid loss 0.0251 | valid accuracy 0.9912
+2026-01-16 20:17:17 - pipeline - INFO - Epoch  49 | train loss 0.0011 | valid loss 0.0250 | valid accuracy 0.9909
+2026-01-16 20:17:18 - pipeline - INFO - Epoch  50 | train loss 0.0010 | valid loss 0.0248 | valid accuracy 0.9902
+2026-01-16 20:17:18 - pipeline - INFO - Training complete
+2026-01-16 20:17:18 - pipeline - INFO - Saved model weights to results/mouse_opossum/nn_Jan16-20-15/model_outputs/best_model.pt
+2026-01-16 20:17:18 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:17:18 - pipeline - INFO - STEP 6: Evaluating Model
+2026-01-16 20:17:18 - pipeline - INFO - =========================================================================================
+2026-01-16 20:17:18 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2026-01-16 20:17:18 - pipeline - INFO - Evaluating on opossum
+2026-01-16 20:17:18 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2026-01-16 20:17:18 - pipeline - INFO - Predicting labels for query data
+2026-01-16 20:17:18 - pipeline - INFO - Using 3000 common genes for prediction
+/u/scratch/r/rgorzek/foundation-cross/src/models/nn/utils.py:28: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  self.y = torch.tensor(y, dtype=torch.long)
+2026-01-16 20:17:20 - pipeline - INFO - Generated predictions for 32764 cells
+2026-01-16 20:17:20 - pipeline - INFO - Results (18305 cells with valid labels):
+2026-01-16 20:17:20 - pipeline - INFO -   Accuracy: 0.8786
+2026-01-16 20:17:20 - pipeline - INFO -   Precision (macro): 0.6602
+2026-01-16 20:17:20 - pipeline - INFO -   Recall (macro): 0.5548
+2026-01-16 20:17:20 - pipeline - INFO -   F1 (macro): 0.5628
+2026-01-16 20:17:21 - pipeline - INFO - Predictions saved to results/mouse_opossum/nn_Jan16-20-15/predictions_opossum.csv
+2026-01-16 20:17:21 - pipeline - INFO - Metrics saved to results/mouse_opossum/nn_Jan16-20-15/metrics_opossum.json
+2026-01-16 20:17:21 - pipeline - INFO - Generating visualizations...
+====== Confusion Matrix ======
+           L2/3        L4      L5IT  ...       OPC      Endo  VLMC
+IT_A   0.881363  0.065808  0.001014  ...  0.000000  0.000203   0.0
+IT_B   0.341251  0.639629  0.000579  ...  0.000000  0.000000   0.0
+IT_C   0.351481  0.210568  0.235388  ...  0.000000  0.001601   0.0
+L5NP   0.039295  0.131436  0.008130  ...  0.000000  0.000000   0.0
+IT_D   0.726542  0.008043  0.000000  ...  0.000000  0.000000   0.0
+L5PT   0.172471  0.004146  0.009121  ...  0.000000  0.000000   0.0
+L6CT   0.016767  0.002199  0.000000  ...  0.000550  0.000275   0.0
+L6b    0.000000  0.000000  0.000000  ...  0.000000  0.000000   0.0
+Pvalb  0.000000  0.000466  0.000000  ...  0.000000  0.000000   0.0
+Sst    0.000000  0.001957  0.000000  ...  0.000000  0.000000   0.0
+Vip    0.067194  0.019763  0.000000  ...  0.000000  0.000000   0.0
+Lamp5  0.110811  0.018919  0.000000  ...  0.000000  0.005405   0.0
+Frem1  0.052459  0.029508  0.000000  ...  0.000000  0.003279   0.0
+Astro  0.000957  0.000000  0.000000  ...  0.000000  0.000479   0.0
+Micro  0.000000  0.000000  0.000000  ...  0.005533  0.000000   0.0
+OD     0.000988  0.000000  0.000000  ...  0.000247  0.000494   0.0
+OPC    0.014147  0.000000  0.000000  ...  0.950112  0.000000   0.0
+Endo   0.015385  0.000000  0.000000  ...  0.015385  0.969231   0.0
+
+[18 rows x 20 columns]
+==============================
+2026-01-16 20:17:22 - pipeline - INFO - Confusion matrix saved to results/mouse_opossum/nn_Jan16-20-15/confusion_matrix_opossum.png
+/u/scratch/r/rgorzek/foundation-cross/src/analysis/visualization.py:245: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `y` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.barplot(data=df, x='F1', y='Class', palette='viridis')
+2026-01-16 20:17:22 - pipeline - INFO - Per-class F1 plot saved to results/mouse_opossum/nn_Jan16-20-15/per_class_f1_opossum.png
+2026-01-16 20:17:22 - pipeline - INFO - 
+=========================================================================================
+2026-01-16 20:17:22 - pipeline - INFO - PIPELINE COMPLETE
+2026-01-16 20:17:22 - pipeline - INFO - =========================================================================================
+2026-01-16 20:17:22 - pipeline - INFO - Total time: 122.00 seconds
+
+Experiment complete! Results saved to: results/mouse_opossum/nn_Jan16-20-15
+==========================================
+Job 12147353 ended on:    g14
+Job 12147353 ended on:    Fri Jan 16 20:17:23 PST 2026
+ 
+==========================================
