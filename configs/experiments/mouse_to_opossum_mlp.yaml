@@ -58,11 +58,13 @@ output:
       - VLMC
 
 training:
+  batch_col: sample
   val_frac: 0.2
   batch_size: 512
   learning_rate: 3e-4
   weight_decay: 1e-4
-  num_epochs: 50
+  num_epochs: 25
+  use_weighted_sampler: False
 
 reproducibility:
   git_commit: auto

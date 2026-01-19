@@ -1,11 +1,10 @@
 name: mlp
 type: neural_network
 
-# architecture
+genes:
+  var_col: 'highly_variable'
+  num: 3000
 
-training:
-  val_frac: 0.2
-  batch_size: 512
-  learning_rate: 3e-4
-  weight_decay: 1e-4
-  num_epochs: 50
+architecture:
+  hidden: [512, 512, 256]
+  dropout: 0.2

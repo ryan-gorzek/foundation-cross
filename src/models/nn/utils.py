@@ -12,8 +12,8 @@ class SingleCellDataset(Dataset):
     def __init__(
         self,
         data: ad.AnnData,
-        var_col: str = 'highly_variable',
-        obs_col: str = 'celltype_id',
+        var_col: str = "highly_variable",
+        obs_col: str = "celltype_id",
         make_dense: bool = False
         ):
         
@@ -22,7 +22,7 @@ class SingleCellDataset(Dataset):
         if make_dense:
             X = torch.tensor(X.todense(), dtype=torch.float32)
         y = data.obs[obs_col]
-        if hasattr(y, 'cat'):
+        if hasattr(y, "cat"):
             y = y.cat.codes
         self.X = X
         self.y = torch.tensor(y, dtype=torch.long)
@@ -34,7 +34,7 @@ class SingleCellDataset(Dataset):
     def __getitem__(self, idx):
         x = self.X[idx]
         if not self.make_dense:
-            if hasattr(x, 'toarray'):
+            if hasattr(x, "toarray"):
                 x = x.toarray().ravel()
             else:
                 x = np.asarray(x).ravel()
@@ -44,8 +44,8 @@ class SingleCellDataset(Dataset):
 
 def make_dataloader(
     data: ad.AnnData,
-    var_col: str = 'highly_variable',
-    obs_col: str = 'celltype_id',
+    var_col: str = "highly_variable",
+    obs_col: str = "celltype_id",
     make_dense: bool = False,
     batch_size: int = 512,
     seed: int = 7,
@@ -69,16 +69,16 @@ def make_dataloader(
 
 def make_dataloaders_group_split(
     data: ad.AnnData,
-    var_col: str = 'highly_variable',
-    obs_col: str = 'celltype_id',
+    var_col: str = "highly_variable",
+    obs_col: str = "celltype_id",
     make_dense: bool = False,
-    sample_col: str = 'sample',
+    batch_col: str = "sample",
     val_frac: float = 0.2,
     batch_size: int = 512,
+    use_weighted_sampler: bool = False,
     seed: int = 7,
     num_workers: int = 0,
-    pin_memory: bool = True,
-    use_weighted_sampler: bool = False
+    pin_memory: bool = True
     ):
     """
     Group split by sample_col (no sample leakage between train/val).
@@ -88,10 +88,10 @@ def make_dataloaders_group_split(
     ds = SingleCellDataset(data, var_col=var_col, obs_col=obs_col, make_dense=make_dense)
     X = ds.X
     y = ds.y
-    sample_ids = data.obs[sample_col].cat.codes
+    batch_ids = data.obs[batch_col].cat.codes
 
     splitter = GroupShuffleSplit(n_splits=1, test_size=val_frac, random_state=seed)
-    train_idx, val_idx = next(splitter.split(X, y, groups=sample_ids))
+    train_idx, val_idx = next(splitter.split(X, y, groups=batch_ids))
     train_ds = Subset(ds, train_idx)
     val_ds = Subset(ds, val_idx)
 

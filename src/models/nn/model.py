@@ -29,25 +29,36 @@ class NNModel(BaseLabelTransferModel):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.log_info(f"Using device: {self.device}")
 
+        # Extract config values
+        self.genes = config.get('pretrained', {})
+        self.architecture = config.get('architecture', {})
+        # Store model
         self.model = None
 
     def _initialize_model(self, reference_data: ad.AnnData) -> nn.Module:
         
         # Inputs
-        if 'highly_variable' in reference_data.var.columns:
-            n_inputs = int(reference_data.var["highly_variable"].sum())
+        var_col = self.genes.get("var_col", "highly_variable")
+        if var_col in reference_data.var.columns:
+            n_inputs = int(reference_data.var[var_col].sum())
             self.log_info(f"Using {n_inputs} genes")
         else:
-            raise ValueError("Reference data must have highly variable genes")
+            raise ValueError(f"Reference data lacks {var_col} in var")
+
         # Outputs
         if 'celltype' in reference_data.obs.columns:
             self.reference_categories = reference_data.obs['celltype'].cat.categories.tolist()
             n_outputs = len(self.reference_categories)
             self.log_info(f"Using {len(self.reference_categories)} reference categories")
         else:
-            raise ValueError("Reference data must have 'celltype' column")
+            raise ValueError("Reference data must have 'celltype' column in obs")
         # Model
-        self.model = MLPClassifier(n_inputs, n_outputs).to(self.device)
+        hidden = self.architecture.get("hidden", (512, 512, 256))
+        dropout = self.architecture.get("dropout", 0.2)
+        self.model = MLPClassifier(n_inputs,
+                                   n_outputs,
+                                   hidden=layers,
+                                   dropout = dropout).to(self.device)
 
     def _preprocess_data(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None):
         """
@@ -55,13 +66,13 @@ class NNModel(BaseLabelTransferModel):
         """
         reference_genes = reference_data.var["gene_name"].values
         query_genes = query_data.var["gene_name"].values
-            
+        
         # Find common genes (intersection)
         common_genes = [g for g in reference_genes if g in query_genes]
         reference_data = reference_data[:, common_genes].copy()
         
         # Get HVGs
-        sc.pp.highly_variable_genes(reference_data, n_top_genes=3000)
+        sc.pp.highly_variable_genes(reference_data, n_top_genes=self.genes.get("num", 3000))
         n_hvgs = reference_data.var['highly_variable'].sum()
         self.log_info(f"Found {n_hvgs} HVGs out of {reference_data.shape[1]} common genes")
 
@@ -78,10 +89,13 @@ class NNModel(BaseLabelTransferModel):
         """
         self.log_info("Training neural network model")
 
-        reference_data = self._preprocess_data(reference_data, query_data)
+        var_col = self.genes.get("var_col", "highly_variable")
+        if var_col == "highly_variable":
+            reference_data = self._preprocess_data(reference_data, query_data)
         self._initialize_model(reference_data)
 
-        gene_idx = reference_data.var['highly_variable']
+        # Store the training gene names for indexing query
+        gene_idx = reference_data.var[var_col]
         self.training_genes = reference_data.var.loc[gene_idx].index.to_numpy()
 
         # Make the train and validation DataLoaders
@@ -93,24 +107,25 @@ class NNModel(BaseLabelTransferModel):
             class_weights
         ) = make_dataloaders_group_split(
             reference_data,
-            var_col='highly_variable',
-            obs_col='celltype_id',
+            var_col=var_col,
+            obs_col="celltype_id",
             make_dense=False,
-            sample_col='sample',
-            val_frac=kwargs.get('val_frac', 0.2),
-            batch_size = kwargs.get('batch_size', 512)
+            batch_col=kwargs.get("batch_col", "sample"),
+            val_frac=kwargs.get("val_frac", 0.2),
+            batch_size = kwargs.get("batch_size", 512),
+            use_weighted_sampler=kwargs.get("use_weighted_sampler", False),
         )
 
         self.log_info(f"Training samples: {len(train_idx)}")
         self.log_info(f"Validation samples: {len(val_idx)}")
 
         criterion = nn.CrossEntropyLoss(weight=class_weights.to(self.device))
-        lr = kwargs.get('learning_rate', 3e-4)
-        wd = kwargs.get('weight_decay', 1e-4)
+        lr = kwargs.get("learning_rate", 3e-4)
+        wd = kwargs.get("weight_decay", 1e-4)
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=float(lr), weight_decay=float(wd))
 
         # Training loop
-        num_epochs = kwargs.get('num_epochs', 25)
+        num_epochs = kwargs.get("num_epochs", 25)
         self.model.train()
         for ep in range(1, num_epochs + 1):
             
@@ -141,7 +156,7 @@ class NNModel(BaseLabelTransferModel):
         """
         self.log_info("Predicting labels for query data")
         
-        # CRITICAL: Ensure query has exact same genes as training (in same order)
+        # Ensure query has exact same genes as training (in same order)
         if hasattr(self, 'training_genes'):
             training_gene_set = set(self.training_genes)
             query_genes = query_data.var["gene_name"].values
