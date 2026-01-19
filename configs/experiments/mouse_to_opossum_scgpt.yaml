@@ -59,6 +59,10 @@ output:
 
 training:
   seed: 0
+  learning_rate: 1e-4
+  schedule_ratio: 0.9
+  amp: true
+  fast_transformer: true
   epochs: 25
   batch_size: 16
   validation_split: 0.1

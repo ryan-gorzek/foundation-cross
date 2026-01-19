@@ -45,7 +45,6 @@ class ScGPTModel(BaseLabelTransferModel):
         # Extract config values
         self.pretrained_path = config.get('pretrained', {}).get('path', None)
         self.architecture = config.get('architecture', {})
-        self.training_config = config.get('training', {})
         self.tokenization = config.get('tokenization', {})
         
     def _load_pretrained_vocab(self) -> GeneVocab:
@@ -276,8 +275,8 @@ class ScGPTModel(BaseLabelTransferModel):
         
         # Training setup
         criterion_cls = nn.CrossEntropyLoss()
-        lr = self.training_config.get('learning_rate', 1e-4)
-        amp = self.training_config.get('amp', True)
+        lr = kwargs.get('learning_rate', 1e-4)
+        amp = kwargs.get('amp', True)
         
         optimizer = torch.optim.Adam(
             self.model.parameters(),
@@ -287,7 +286,7 @@ class ScGPTModel(BaseLabelTransferModel):
         scheduler = torch.optim.lr_scheduler.StepLR(
             optimizer,
             step_size=1,
-            gamma=self.training_config.get('schedule_ratio', 0.9)
+            gamma=kwargs.get('schedule_ratio', 0.9)
         )
         scaler = torch.cuda.amp.GradScaler(enabled=amp)
         
@@ -332,7 +331,7 @@ class ScGPTModel(BaseLabelTransferModel):
         nlayers = self.architecture.get('n_layers', 4)
         dropout = self.architecture.get('dropout', 0.2)
         n_bins = self.architecture.get('n_bins', 51)
-        fast_transformer = self.training_config.get('fast_transformer', True)
+        fast_transformer = kwargs.get('fast_transformer', True)
 
         # Load architecture from pretrained args.json if available
         if self.pretrained_path:
@@ -363,7 +362,7 @@ class ScGPTModel(BaseLabelTransferModel):
         
         dropout = self.architecture.get('dropout', 0.2)
         n_bins = self.architecture.get('n_bins', 51)
-        fast_transformer = self.training_config.get('fast_transformer', True)
+        fast_transformer = kwargs.get('fast_transformer', True)
         
         self.model = TransformerModel(
             len(self.vocab),
@@ -506,7 +505,7 @@ class ScGPTModel(BaseLabelTransferModel):
         
         # Get predictions
         criterion_cls = nn.CrossEntropyLoss()
-        amp = self.training_config.get('amp', True)
+        amp = kwargs.get('amp', True)
         predictions = evaluate(
             self.model, test_loader, criterion_cls, self.device,
             self.vocab, self.pad_token, amp, False, return_raw=True

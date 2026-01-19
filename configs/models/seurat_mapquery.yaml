@@ -8,4 +8,4 @@ seurat:
   k_filter: 200
   k_weight: 50
 
-# No training parameters needed (non-parametric method)
+# No training parameters needed

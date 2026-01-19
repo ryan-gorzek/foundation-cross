@@ -15,12 +15,6 @@ architecture:
   n_bins: 51
   freeze_encoder: false
 
-training:
-  learning_rate: 1e-4
-  schedule_ratio: 0.9
-  amp: true
-  fast_transformer: true
-
 tokenization:
   include_zero_gene: false
   mask_ratio: 0.0
