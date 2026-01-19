@@ -10,4 +10,5 @@ preprocessing:
   log1p: false
   n_bins: 51
 
+# Optional: specify available labels (null = use all)
 available_labels: null
