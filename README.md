@@ -1,6 +1,6 @@
 # foundation-cross
 
-This repository provides a modular framework for benchmarking label transfer methods across species (easily adapted for cross-modality experiments). It currently compares a transformer-based foundation model (scGPT) with a traditional reference mapping approach (Seurat's MapQuery) for transferring cell type annotations between mouse and opossum primary visual cortex.
+This repository provides a modular framework for benchmarking label transfer methods across species (easily adapted for cross-modality experiments). It currently compares a transformer-based foundation model (scGPT) with traditional reference mapping approaches (scVI/scANVI, Seurat's MapQuery) for transferring cell type annotations between mouse and opossum primary visual cortex.
 
 ## Overview
 
@@ -13,7 +13,8 @@ This pipeline enables systematic comparison of different label transfer approach
 ### Current Supported Models
 
 1. **scGPT** - Pretrained transformer model for single-cell transcriptomics
-2. **MapQuery (Seurat)** - Reference-based label transfer using CCA anchors
+2. **scVI/scANVI** - Reference-based label transfer via shared VAE latent space
+3. **MapQuery (Seurat)** - Reference-based label transfer via CCA anchors
 
 ## Repository Structure
 
