@@ -9,7 +9,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import anndata as ad
 from scipy.sparse import issparse
 from torch.utils.data import DataLoader
