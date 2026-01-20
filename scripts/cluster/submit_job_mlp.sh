@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -o jobs/joblog.$JOB_ID
 #$ -j y
-#$ -l gpu,A6000,cuda=1,h_data=32G,h_rt=00:30:00
+#$ -l gpu,A6000,cuda=1,h_data=32G,h_rt=00:10:00
 #$ -N cross_species_transfer
 #$ -M rgorzek@ucla.edu
 #$ -m bea

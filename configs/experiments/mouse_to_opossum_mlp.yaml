@@ -64,7 +64,7 @@ training:
   learning_rate: 3e-4
   weight_decay: 1e-4
   num_epochs: 25
-  use_weighted_sampler: False
+  use_weighted_sampler: True
 
 reproducibility:
   git_commit: auto
