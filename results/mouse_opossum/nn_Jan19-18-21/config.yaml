@@ -55,11 +55,13 @@ output:
     - Endo
     - VLMC
 training:
+  batch_col: sample
   val_frac: 0.2
   batch_size: 512
   learning_rate: 3e-4
   weight_decay: 1e-4
-  num_epochs: 50
+  num_epochs: 25
+  use_weighted_sampler: false
 reproducibility:
   git_commit: auto
   config_hash: auto
@@ -90,9 +92,12 @@ _query_dataset_configs:
 _model_config:
   name: mlp
   type: neural_network
-  training:
-    val_frac: 0.2
-    batch_size: 512
-    learning_rate: 3e-4
-    weight_decay: 1e-4
-    num_epochs: 50
+  genes:
+    var_col: highly_variable
+    num: 3000
+  architecture:
+    hidden:
+    - 512
+    - 512
+    - 256
+    dropout: 0.2

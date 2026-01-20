@@ -57,7 +57,7 @@ class NNModel(BaseLabelTransferModel):
         dropout = self.architecture.get("dropout", 0.2)
         self.model = MLPClassifier(n_inputs,
                                    n_outputs,
-                                   hidden=layers,
+                                   hidden=hidden,
                                    dropout = dropout).to(self.device)
 
     def _preprocess_data(self, reference_data: ad.AnnData, query_data: Optional[ad.AnnData] = None):
