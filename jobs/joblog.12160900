@@ -1,0 +1,273 @@
+==========================================
+Job started on g14 at Mon Jan 19 21:13:26 PST 2026
+Job ID: 12160900
+Working directory: /u/scratch/r/rgorzek/foundation-cross
+==========================================
+
+Environment Information:
+----------------------------------------
+Python version:
+Python 3.11.13
+
+PyTorch version:
+2.1.2+cu121
+
+CUDA available:
+True
+GPU device:
+NVIDIA RTX A6000
+----------------------------------------
+
+Configuration file: configs/experiments/mouse_to_opossum_scgpt.yaml
+
+Starting experiment...
+==========================================
+Starting experiment from config: configs/experiments/mouse_to_opossum_scgpt.yaml
+2026-01-19 21:13:40 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 21:13:40 - pipeline - INFO - Cross-Species Label Transfer Pipeline
+2026-01-19 21:13:40 - pipeline - INFO - =========================================================================================
+2026-01-19 21:13:40 - pipeline - INFO - Experiment: mouse_opossum_transfer
+2026-01-19 21:13:40 - pipeline - INFO - Output directory: results/mouse_opossum/scgpt_Jan19-21-13
+2026-01-19 21:13:40 - pipeline - INFO - Configuration saved to results/mouse_opossum/scgpt_Jan19-21-13/config.yaml
+2026-01-19 21:13:40 - pipeline - INFO - Git commit: 26e10d185cf27d16208f9414107cb72797ac5e50
+2026-01-19 21:13:40 - pipeline - WARNING - Git repository has uncommitted changes
+2026-01-19 21:13:40 - pipeline - INFO - Python version: 3.11.13 (main, Jun  5 2025, 13:12:00) [GCC 11.2.0]
+2026-01-19 21:13:40 - pipeline - INFO - PyTorch version: 2.1.2+cu121
+2026-01-19 21:13:40 - pipeline - INFO - CUDA available: True
+2026-01-19 21:13:40 - pipeline - INFO - Config hash: f8420a4c
+2026-01-19 21:13:40 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 21:13:40 - pipeline - INFO - STEP 1: Loading Datasets
+2026-01-19 21:13:40 - pipeline - INFO - =========================================================================================
+2026-01-19 21:13:40 - pipeline - INFO - Loading mouse data from data/raw/Mouse_V1_P38_All.h5ad
+2026-01-19 21:14:37 - pipeline - INFO -   16997 cells, 24372 genes
+2026-01-19 21:14:38 - pipeline - WARNING - Reference has 57 genes with zero expression
+2026-01-19 21:14:38 - pipeline - INFO - Loading opossum data from data/raw/Opossum_V1_All.h5ad
+2026-01-19 21:14:50 - pipeline - INFO -   32764 cells, 30800 genes
+2026-01-19 21:14:50 - pipeline - WARNING - Query 0 has 1412 genes with zero expression
+2026-01-19 21:14:50 - pipeline - INFO - 
+Finding common genes across datasets...
+2026-01-19 21:14:50 - pipeline - INFO - Found 11730 common genes across all datasets
+2026-01-19 21:14:55 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 21:14:55 - pipeline - INFO - STEP 2: Preprocessing Datasets
+2026-01-19 21:14:55 - pipeline - INFO - =========================================================================================
+2026-01-19 21:14:55 - pipeline - INFO - Filtering reference data...
+2026-01-19 21:14:59 - pipeline - INFO - 
+Filtering query data: opossum...
+2026-01-19 21:15:03 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 21:15:03 - pipeline - INFO - STEP 3: Preparing Data for Training
+2026-01-19 21:15:03 - pipeline - INFO - =========================================================================================
+2026-01-19 21:15:03 - pipeline - INFO - Label matching summary:
+2026-01-19 21:15:03 - pipeline - INFO -   18305 query cells have labels matching reference categories
+2026-01-19 21:15:03 - pipeline - INFO -   14459 query cells have labels NOT in reference
+2026-01-19 21:15:03 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 21:15:03 - pipeline - INFO - STEP 4: Initializing Model
+2026-01-19 21:15:03 - pipeline - INFO - =========================================================================================
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scgpt/model/model.py:21: UserWarning: flash_attn is not installed
+  warnings.warn("flash_attn is not installed")
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scgpt/model/multiomic_model.py:19: UserWarning: flash_attn is not installed
+  warnings.warn("flash_attn is not installed")
+2026-01-19 21:15:06 - pipeline - INFO - Initialized scgpt model
+2026-01-19 21:15:06 - pipeline - INFO -   Output directory: results/mouse_opossum/scgpt_Jan19-21-13
+2026-01-19 21:15:06 - pipeline - INFO - Using device: cuda
+2026-01-19 21:15:06 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 21:15:06 - pipeline - INFO - STEP 5: Training Model
+2026-01-19 21:15:06 - pipeline - INFO - =========================================================================================
+2026-01-19 21:15:06 - pipeline - INFO - Random seed: 0
+2026-01-19 21:15:06 - pipeline - INFO - Training scGPT model
+2026-01-19 21:15:06 - pipeline - INFO - Loaded pre-trained vocabulary from models/scgpt/whole-human/vocab.json
+2026-01-19 21:15:06 - pipeline - INFO - Converting gene names to uppercase to match vocabulary
+2026-01-19 21:15:06 - pipeline - INFO - Matched 11204/11730 genes in vocabulary of size 60697
+scGPT - INFO - Filtering cells by counts ...
+scGPT - INFO - Normalizing total counts ...
+scGPT - INFO - Binning data ...
+2026-01-19 21:15:20 - pipeline - INFO - Training samples: 15297
+2026-01-19 21:15:20 - pipeline - INFO - Validation samples: 1700
+2026-01-19 21:15:22 - pipeline - INFO - Loaded pretrained architecture: embsize=512, nhead=8, d_hid=512, nlayers=12
+2026-01-19 21:15:22 - pipeline - INFO - Loaded architecture from pretrained args.json
+/u/home/r/rgorzek/.conda/envs/scgpt_env/lib/python3.11/site-packages/scgpt/model/model.py:77: UserWarning: flash-attn is not installed, using pytorch transformer instead. Set use_fast_transformer=False to avoid this warning. Installing flash-attn is highly recommended.
+  warnings.warn(
+2026-01-19 21:15:24 - pipeline - WARNING - Failed to load all weights. Loading compatible weights only.
+2026-01-19 21:15:24 - pipeline - INFO - Loaded 143 compatible weight tensors
+2026-01-19 21:15:24 - pipeline - INFO - Trainable parameters: 51,341,845 / 51,341,845
+2026-01-19 21:16:55 - pipeline - INFO - | epoch   1 | 100/957 batches | lr 0.0001 | ms/batch 909.37 | loss 2.6705 | err 0.8397
+2026-01-19 21:18:28 - pipeline - INFO - | epoch   1 | 200/957 batches | lr 0.0001 | ms/batch 921.39 | loss 2.5597 | err 0.8137
+2026-01-19 21:20:00 - pipeline - INFO - | epoch   1 | 300/957 batches | lr 0.0001 | ms/batch 919.41 | loss 2.3861 | err 0.7755
+2026-01-19 21:21:31 - pipeline - INFO - | epoch   1 | 400/957 batches | lr 0.0001 | ms/batch 917.65 | loss 2.2347 | err 0.7431
+2026-01-19 21:23:03 - pipeline - INFO - | epoch   1 | 500/957 batches | lr 0.0001 | ms/batch 920.80 | loss 2.0816 | err 0.7058
+2026-01-19 21:24:36 - pipeline - INFO - | epoch   1 | 600/957 batches | lr 0.0001 | ms/batch 922.67 | loss 1.9440 | err 0.6689
+2026-01-19 21:26:08 - pipeline - INFO - | epoch   1 | 700/957 batches | lr 0.0001 | ms/batch 922.32 | loss 1.8062 | err 0.6292
+2026-01-19 21:27:40 - pipeline - INFO - | epoch   1 | 800/957 batches | lr 0.0001 | ms/batch 922.71 | loss 1.6615 | err 0.5780
+2026-01-19 21:29:12 - pipeline - INFO - | epoch   1 | 900/957 batches | lr 0.0001 | ms/batch 922.87 | loss 1.5295 | err 0.5302
+2026-01-19 21:30:32 - pipeline - INFO - Epoch   1 | train loss 1.4663 | valid loss 0.5108 | valid error 0.1600
+2026-01-19 21:30:32 - pipeline - INFO - New best model at epoch 1
+2026-01-19 21:32:05 - pipeline - INFO - | epoch   2 | 100/957 batches | lr 0.0001 | ms/batch 937.05 | loss 0.4245 | err 0.1281
+2026-01-19 21:33:38 - pipeline - INFO - | epoch   2 | 200/957 batches | lr 0.0001 | ms/batch 920.68 | loss 0.4056 | err 0.1284
+2026-01-19 21:35:10 - pipeline - INFO - | epoch   2 | 300/957 batches | lr 0.0001 | ms/batch 921.42 | loss 0.3713 | err 0.1157
+2026-01-19 21:36:42 - pipeline - INFO - | epoch   2 | 400/957 batches | lr 0.0001 | ms/batch 921.38 | loss 0.3420 | err 0.1050
+2026-01-19 21:38:14 - pipeline - INFO - | epoch   2 | 500/957 batches | lr 0.0001 | ms/batch 921.68 | loss 0.3273 | err 0.0989
+2026-01-19 21:39:46 - pipeline - INFO - | epoch   2 | 600/957 batches | lr 0.0001 | ms/batch 921.72 | loss 0.3145 | err 0.0950
+2026-01-19 21:41:18 - pipeline - INFO - | epoch   2 | 700/957 batches | lr 0.0001 | ms/batch 922.04 | loss 0.3076 | err 0.0917
+2026-01-19 21:42:51 - pipeline - INFO - | epoch   2 | 800/957 batches | lr 0.0001 | ms/batch 921.55 | loss 0.3039 | err 0.0897
+2026-01-19 21:44:23 - pipeline - INFO - | epoch   2 | 900/957 batches | lr 0.0001 | ms/batch 921.58 | loss 0.2977 | err 0.0877
+2026-01-19 21:45:42 - pipeline - INFO - Epoch   2 | train loss 0.2947 | valid loss 0.1814 | valid error 0.0494
+2026-01-19 21:45:42 - pipeline - INFO - New best model at epoch 2
+2026-01-19 21:47:16 - pipeline - INFO - | epoch   3 | 100/957 batches | lr 0.0001 | ms/batch 936.92 | loss 0.1890 | err 0.0520
+2026-01-19 21:48:48 - pipeline - INFO - | epoch   3 | 200/957 batches | lr 0.0001 | ms/batch 920.00 | loss 0.1777 | err 0.0470
+2026-01-19 21:50:20 - pipeline - INFO - | epoch   3 | 300/957 batches | lr 0.0001 | ms/batch 920.29 | loss 0.1806 | err 0.0467
+2026-01-19 21:51:52 - pipeline - INFO - | epoch   3 | 400/957 batches | lr 0.0001 | ms/batch 920.93 | loss 0.1734 | err 0.0443
+2026-01-19 21:53:24 - pipeline - INFO - | epoch   3 | 500/957 batches | lr 0.0001 | ms/batch 921.22 | loss 0.1764 | err 0.0459
+2026-01-19 21:54:56 - pipeline - INFO - | epoch   3 | 600/957 batches | lr 0.0001 | ms/batch 921.54 | loss 0.1736 | err 0.0457
+2026-01-19 21:56:28 - pipeline - INFO - | epoch   3 | 700/957 batches | lr 0.0001 | ms/batch 921.65 | loss 0.1807 | err 0.0478
+2026-01-19 21:58:00 - pipeline - INFO - | epoch   3 | 800/957 batches | lr 0.0001 | ms/batch 921.49 | loss 0.1762 | err 0.0463
+2026-01-19 21:59:32 - pipeline - INFO - | epoch   3 | 900/957 batches | lr 0.0001 | ms/batch 921.05 | loss 0.1732 | err 0.0450
+2026-01-19 22:00:52 - pipeline - INFO - Epoch   3 | train loss 0.1752 | valid loss 0.1604 | valid error 0.0447
+2026-01-19 22:00:52 - pipeline - INFO - New best model at epoch 3
+2026-01-19 22:02:25 - pipeline - INFO - | epoch   4 | 100/957 batches | lr 0.0001 | ms/batch 936.79 | loss 0.1294 | err 0.0365
+2026-01-19 22:03:57 - pipeline - INFO - | epoch   4 | 200/957 batches | lr 0.0001 | ms/batch 920.33 | loss 0.1383 | err 0.0389
+2026-01-19 22:05:29 - pipeline - INFO - | epoch   4 | 300/957 batches | lr 0.0001 | ms/batch 920.35 | loss 0.1262 | err 0.0336
+2026-01-19 22:07:01 - pipeline - INFO - | epoch   4 | 400/957 batches | lr 0.0001 | ms/batch 920.55 | loss 0.1279 | err 0.0341
+2026-01-19 22:08:34 - pipeline - INFO - | epoch   4 | 500/957 batches | lr 0.0001 | ms/batch 921.22 | loss 0.1346 | err 0.0366
+2026-01-19 22:10:06 - pipeline - INFO - | epoch   4 | 600/957 batches | lr 0.0001 | ms/batch 921.59 | loss 0.1409 | err 0.0379
+2026-01-19 22:11:38 - pipeline - INFO - | epoch   4 | 700/957 batches | lr 0.0001 | ms/batch 921.37 | loss 0.1378 | err 0.0369
+2026-01-19 22:13:10 - pipeline - INFO - | epoch   4 | 800/957 batches | lr 0.0001 | ms/batch 920.74 | loss 0.1383 | err 0.0366
+2026-01-19 22:14:42 - pipeline - INFO - | epoch   4 | 900/957 batches | lr 0.0001 | ms/batch 921.31 | loss 0.1339 | err 0.0356
+2026-01-19 22:16:01 - pipeline - INFO - Epoch   4 | train loss 0.1318 | valid loss 0.1116 | valid error 0.0271
+2026-01-19 22:16:01 - pipeline - INFO - New best model at epoch 4
+2026-01-19 22:17:35 - pipeline - INFO - | epoch   5 | 100/957 batches | lr 0.0001 | ms/batch 936.28 | loss 0.1040 | err 0.0248
+2026-01-19 22:19:07 - pipeline - INFO - | epoch   5 | 200/957 batches | lr 0.0001 | ms/batch 920.28 | loss 0.1081 | err 0.0274
+2026-01-19 22:20:39 - pipeline - INFO - | epoch   5 | 300/957 batches | lr 0.0001 | ms/batch 920.60 | loss 0.1108 | err 0.0287
+2026-01-19 22:22:11 - pipeline - INFO - | epoch   5 | 400/957 batches | lr 0.0001 | ms/batch 920.34 | loss 0.1041 | err 0.0268
+2026-01-19 22:23:43 - pipeline - INFO - | epoch   5 | 500/957 batches | lr 0.0001 | ms/batch 920.93 | loss 0.1065 | err 0.0263
+2026-01-19 22:25:15 - pipeline - INFO - | epoch   5 | 600/957 batches | lr 0.0001 | ms/batch 920.73 | loss 0.1038 | err 0.0260
+2026-01-19 22:26:47 - pipeline - INFO - | epoch   5 | 700/957 batches | lr 0.0001 | ms/batch 921.24 | loss 0.1089 | err 0.0269
+2026-01-19 22:28:19 - pipeline - INFO - | epoch   5 | 800/957 batches | lr 0.0001 | ms/batch 920.13 | loss 0.1091 | err 0.0269
+2026-01-19 22:29:51 - pipeline - INFO - | epoch   5 | 900/957 batches | lr 0.0001 | ms/batch 920.49 | loss 0.1086 | err 0.0268
+2026-01-19 22:31:11 - pipeline - INFO - Epoch   5 | train loss 0.1092 | valid loss 0.1114 | valid error 0.0247
+2026-01-19 22:31:11 - pipeline - INFO - New best model at epoch 5
+2026-01-19 22:32:44 - pipeline - INFO - | epoch   6 | 100/957 batches | lr 0.0001 | ms/batch 935.51 | loss 0.0864 | err 0.0217
+2026-01-19 22:34:16 - pipeline - INFO - | epoch   6 | 200/957 batches | lr 0.0001 | ms/batch 919.75 | loss 0.1000 | err 0.0261
+2026-01-19 22:35:48 - pipeline - INFO - | epoch   6 | 300/957 batches | lr 0.0001 | ms/batch 919.91 | loss 0.0884 | err 0.0226
+2026-01-19 22:37:20 - pipeline - INFO - | epoch   6 | 400/957 batches | lr 0.0001 | ms/batch 920.41 | loss 0.0871 | err 0.0217
+2026-01-19 22:38:52 - pipeline - INFO - | epoch   6 | 500/957 batches | lr 0.0001 | ms/batch 920.12 | loss 0.0877 | err 0.0212
+2026-01-19 22:40:24 - pipeline - INFO - | epoch   6 | 600/957 batches | lr 0.0001 | ms/batch 919.89 | loss 0.0856 | err 0.0205
+2026-01-19 22:41:56 - pipeline - INFO - | epoch   6 | 700/957 batches | lr 0.0001 | ms/batch 920.12 | loss 0.0847 | err 0.0203
+2026-01-19 22:43:28 - pipeline - INFO - | epoch   6 | 800/957 batches | lr 0.0001 | ms/batch 920.18 | loss 0.0823 | err 0.0200
+2026-01-19 22:45:00 - pipeline - INFO - | epoch   6 | 900/957 batches | lr 0.0001 | ms/batch 920.13 | loss 0.0847 | err 0.0202
+2026-01-19 22:46:19 - pipeline - INFO - Epoch   6 | train loss 0.0853 | valid loss 0.2210 | valid error 0.0518
+2026-01-19 22:47:53 - pipeline - INFO - | epoch   7 | 100/957 batches | lr 0.0001 | ms/batch 935.36 | loss 0.0601 | err 0.0161
+2026-01-19 22:49:25 - pipeline - INFO - | epoch   7 | 200/957 batches | lr 0.0001 | ms/batch 919.93 | loss 0.0702 | err 0.0174
+2026-01-19 22:50:57 - pipeline - INFO - | epoch   7 | 300/957 batches | lr 0.0001 | ms/batch 919.89 | loss 0.0757 | err 0.0189
+2026-01-19 22:52:29 - pipeline - INFO - | epoch   7 | 400/957 batches | lr 0.0001 | ms/batch 920.15 | loss 0.0727 | err 0.0178
+2026-01-19 22:54:01 - pipeline - INFO - | epoch   7 | 500/957 batches | lr 0.0001 | ms/batch 920.19 | loss 0.0716 | err 0.0181
+2026-01-19 22:55:33 - pipeline - INFO - | epoch   7 | 600/957 batches | lr 0.0001 | ms/batch 920.07 | loss 0.0712 | err 0.0181
+2026-01-19 22:57:05 - pipeline - INFO - | epoch   7 | 700/957 batches | lr 0.0001 | ms/batch 920.11 | loss 0.0722 | err 0.0178
+2026-01-19 22:58:37 - pipeline - INFO - | epoch   7 | 800/957 batches | lr 0.0001 | ms/batch 920.18 | loss 0.0716 | err 0.0175
+2026-01-19 23:00:09 - pipeline - INFO - | epoch   7 | 900/957 batches | lr 0.0001 | ms/batch 920.74 | loss 0.0723 | err 0.0176
+2026-01-19 23:01:28 - pipeline - INFO - Epoch   7 | train loss 0.0713 | valid loss 0.0917 | valid error 0.0194
+2026-01-19 23:01:28 - pipeline - INFO - New best model at epoch 7
+2026-01-19 23:03:02 - pipeline - INFO - | epoch   8 | 100/957 batches | lr 0.0000 | ms/batch 935.68 | loss 0.0678 | err 0.0149
+2026-01-19 23:04:34 - pipeline - INFO - | epoch   8 | 200/957 batches | lr 0.0000 | ms/batch 920.07 | loss 0.0533 | err 0.0118
+2026-01-19 23:06:06 - pipeline - INFO - | epoch   8 | 300/957 batches | lr 0.0000 | ms/batch 920.08 | loss 0.0554 | err 0.0120
+2026-01-19 23:07:38 - pipeline - INFO - | epoch   8 | 400/957 batches | lr 0.0000 | ms/batch 920.62 | loss 0.0584 | err 0.0126
+2026-01-19 23:09:10 - pipeline - INFO - | epoch   8 | 500/957 batches | lr 0.0000 | ms/batch 920.30 | loss 0.0559 | err 0.0126
+2026-01-19 23:10:42 - pipeline - INFO - | epoch   8 | 600/957 batches | lr 0.0000 | ms/batch 920.63 | loss 0.0586 | err 0.0134
+2026-01-19 23:12:14 - pipeline - INFO - | epoch   8 | 700/957 batches | lr 0.0000 | ms/batch 920.75 | loss 0.0617 | err 0.0144
+2026-01-19 23:13:46 - pipeline - INFO - | epoch   8 | 800/957 batches | lr 0.0000 | ms/batch 921.15 | loss 0.0611 | err 0.0149
+2026-01-19 23:15:18 - pipeline - INFO - | epoch   8 | 900/957 batches | lr 0.0000 | ms/batch 920.82 | loss 0.0619 | err 0.0150
+2026-01-19 23:16:38 - pipeline - INFO - Epoch   8 | train loss 0.0609 | valid loss 0.0912 | valid error 0.0176
+2026-01-19 23:16:38 - pipeline - INFO - New best model at epoch 8
+2026-01-19 23:18:11 - pipeline - INFO - | epoch   9 | 100/957 batches | lr 0.0000 | ms/batch 935.74 | loss 0.0397 | err 0.0105
+2026-01-19 23:19:43 - pipeline - INFO - | epoch   9 | 200/957 batches | lr 0.0000 | ms/batch 919.93 | loss 0.0427 | err 0.0100
+2026-01-19 23:21:15 - pipeline - INFO - | epoch   9 | 300/957 batches | lr 0.0000 | ms/batch 921.06 | loss 0.0488 | err 0.0118
+2026-01-19 23:22:47 - pipeline - INFO - | epoch   9 | 400/957 batches | lr 0.0000 | ms/batch 919.90 | loss 0.0485 | err 0.0120
+2026-01-19 23:24:19 - pipeline - INFO - | epoch   9 | 500/957 batches | lr 0.0000 | ms/batch 920.11 | loss 0.0465 | err 0.0120
+2026-01-19 23:25:51 - pipeline - INFO - | epoch   9 | 600/957 batches | lr 0.0000 | ms/batch 921.21 | loss 0.0519 | err 0.0128
+2026-01-19 23:27:23 - pipeline - INFO - | epoch   9 | 700/957 batches | lr 0.0000 | ms/batch 920.66 | loss 0.0517 | err 0.0130
+2026-01-19 23:28:55 - pipeline - INFO - | epoch   9 | 800/957 batches | lr 0.0000 | ms/batch 920.75 | loss 0.0507 | err 0.0129
+2026-01-19 23:30:28 - pipeline - INFO - | epoch   9 | 900/957 batches | lr 0.0000 | ms/batch 920.73 | loss 0.0502 | err 0.0128
+2026-01-19 23:31:47 - pipeline - INFO - Epoch   9 | train loss 0.0502 | valid loss 0.0753 | valid error 0.0171
+2026-01-19 23:31:47 - pipeline - INFO - New best model at epoch 9
+2026-01-19 23:33:20 - pipeline - INFO - | epoch  10 | 100/957 batches | lr 0.0000 | ms/batch 936.76 | loss 0.0405 | err 0.0111
+2026-01-19 23:34:52 - pipeline - INFO - | epoch  10 | 200/957 batches | lr 0.0000 | ms/batch 920.01 | loss 0.0438 | err 0.0118
+2026-01-19 23:36:24 - pipeline - INFO - | epoch  10 | 300/957 batches | lr 0.0000 | ms/batch 919.95 | loss 0.0379 | err 0.0102
+2026-01-19 23:37:57 - pipeline - INFO - | epoch  10 | 400/957 batches | lr 0.0000 | ms/batch 920.72 | loss 0.0385 | err 0.0103
+2026-01-19 23:39:29 - pipeline - INFO - | epoch  10 | 500/957 batches | lr 0.0000 | ms/batch 920.50 | loss 0.0407 | err 0.0109
+2026-01-19 23:41:01 - pipeline - INFO - | epoch  10 | 600/957 batches | lr 0.0000 | ms/batch 919.81 | loss 0.0398 | err 0.0106
+2026-01-19 23:42:33 - pipeline - INFO - | epoch  10 | 700/957 batches | lr 0.0000 | ms/batch 920.80 | loss 0.0409 | err 0.0108
+2026-01-19 23:44:05 - pipeline - INFO - | epoch  10 | 800/957 batches | lr 0.0000 | ms/batch 920.57 | loss 0.0423 | err 0.0112
+2026-01-19 23:45:37 - pipeline - INFO - | epoch  10 | 900/957 batches | lr 0.0000 | ms/batch 919.94 | loss 0.0412 | err 0.0108
+2026-01-19 23:46:56 - pipeline - INFO - Epoch  10 | train loss 0.0423 | valid loss 0.0925 | valid error 0.0188
+2026-01-19 23:46:56 - pipeline - INFO - Training complete
+2026-01-19 23:46:58 - pipeline - INFO - Saved model weights to results/mouse_opossum/scgpt_Jan19-21-13/model_outputs/best_model.pt
+2026-01-19 23:46:58 - pipeline - INFO - Saved vocabulary to results/mouse_opossum/scgpt_Jan19-21-13/model_outputs/vocab.json
+2026-01-19 23:46:58 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 23:46:58 - pipeline - INFO - STEP 6: Evaluating Model
+2026-01-19 23:46:58 - pipeline - INFO - =========================================================================================
+2026-01-19 23:46:58 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2026-01-19 23:46:58 - pipeline - INFO - Evaluating on opossum
+2026-01-19 23:46:58 - pipeline - INFO - -----------------------------------------------------------------------------------------
+2026-01-19 23:46:58 - pipeline - INFO - Predicting labels for query data
+2026-01-19 23:46:58 - pipeline - INFO - Converting gene names to uppercase to match vocabulary
+2026-01-19 23:46:58 - pipeline - INFO - Matched 11204/11730 genes in vocabulary of size 60697
+scGPT - INFO - Filtering cells by counts ...
+scGPT - INFO - Normalizing total counts ...
+scGPT - INFO - Binning data ...
+2026-01-19 23:47:17 - pipeline - INFO - Using 11204 common genes for prediction
+2026-01-19 23:56:35 - pipeline - INFO - Generated predictions for 32764 cells
+2026-01-19 23:56:35 - pipeline - INFO - Results (18305 cells with valid labels):
+2026-01-19 23:56:35 - pipeline - INFO -   Accuracy: 0.8162
+2026-01-19 23:56:35 - pipeline - INFO -   Precision (macro): 0.5379
+2026-01-19 23:56:35 - pipeline - INFO -   Recall (macro): 0.5219
+2026-01-19 23:56:35 - pipeline - INFO -   F1 (macro): 0.5181
+2026-01-19 23:56:36 - pipeline - INFO - Predictions saved to results/mouse_opossum/scgpt_Jan19-21-13/predictions_opossum.csv
+2026-01-19 23:56:36 - pipeline - INFO - Metrics saved to results/mouse_opossum/scgpt_Jan19-21-13/metrics_opossum.json
+2026-01-19 23:56:36 - pipeline - INFO - Generating visualizations...
+====== Confusion Matrix ======
+           L2/3        L4      L5IT  ...       OPC      Endo      VLMC
+IT_A   0.776719  0.045325  0.009836  ...  0.000101  0.000710  0.000000
+IT_B   0.265353  0.555620  0.052723  ...  0.001159  0.000000  0.000579
+IT_C   0.043635  0.056045  0.366693  ...  0.000000  0.001201  0.000000
+L5NP   0.002710  0.020325  0.143631  ...  0.001355  0.000000  0.000000
+IT_D   0.300268  0.034853  0.005362  ...  0.000000  0.010724  0.000000
+L5PT   0.085406  0.009950  0.058043  ...  0.000000  0.000000  0.000000
+L6CT   0.001100  0.001374  0.033260  ...  0.001374  0.000000  0.010995
+L6b    0.000000  0.000000  0.018349  ...  0.000000  0.000000  0.000000
+Pvalb  0.000000  0.001399  0.000466  ...  0.001399  0.000000  0.000000
+Sst    0.000000  0.003914  0.005871  ...  0.000000  0.000000  0.000000
+Vip    0.000000  0.035573  0.003953  ...  0.001976  0.000000  0.003953
+Lamp5  0.000000  0.002703  0.000000  ...  0.005405  0.002703  0.002703
+Frem1  0.003279  0.072131  0.003279  ...  0.009836  0.000000  0.000000
+Astro  0.001436  0.000000  0.000000  ...  0.000479  0.002393  0.003351
+Micro  0.000000  0.000000  0.000000  ...  0.005533  0.000000  0.009682
+OD     0.000000  0.000000  0.000000  ...  0.000494  0.000000  0.000000
+OPC    0.000000  0.000000  0.000000  ...  0.909159  0.000000  0.000745
+Endo   0.000000  0.000000  0.000000  ...  0.000000  0.984615  0.015385
+
+[18 rows x 20 columns]
+==============================
+2026-01-19 23:56:37 - pipeline - INFO - Confusion matrix saved to results/mouse_opossum/scgpt_Jan19-21-13/confusion_matrix_opossum.png
+/u/scratch/r/rgorzek/foundation-cross/src/analysis/visualization.py:245: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `y` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.barplot(data=df, x='F1', y='Class', palette='viridis')
+2026-01-19 23:56:37 - pipeline - INFO - Per-class F1 plot saved to results/mouse_opossum/scgpt_Jan19-21-13/per_class_f1_opossum.png
+2026-01-19 23:56:37 - pipeline - INFO - 
+=========================================================================================
+2026-01-19 23:56:37 - pipeline - INFO - PIPELINE COMPLETE
+2026-01-19 23:56:37 - pipeline - INFO - =========================================================================================
+2026-01-19 23:56:37 - pipeline - INFO - Total time: 9777.28 seconds
+
+Experiment complete! Results saved to: results/mouse_opossum/scgpt_Jan19-21-13
+==========================================
+Job 12160900 ended on:    g14
+Job 12160900 ended on:    Mon Jan 19 23:56:38 PST 2026
+ 
+==========================================
